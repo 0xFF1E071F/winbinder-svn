@@ -1,0 +1,6 @@
+; List of files to be included in the release
+
+Changelog.txt
+csource\core\*.*
+csource\h_exec\*.*
+csource\c_binding\*.*

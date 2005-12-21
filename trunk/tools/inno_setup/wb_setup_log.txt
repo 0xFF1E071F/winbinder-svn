@@ -1,0 +1,310 @@
+Compilation started: Sun Dec 18 13:55:23 2005
+Running pre-compile steps
+
+Compiling script using Inno Setup 5.1.6
+Parsing [Setup] section, line 45
+Parsing [Setup] section, line 46
+Parsing [Setup] section, line 47
+Parsing [Setup] section, line 48
+Parsing [Setup] section, line 49
+Parsing [Setup] section, line 50
+Parsing [Setup] section, line 51
+Parsing [Setup] section, line 52
+Parsing [Setup] section, line 53
+Parsing [Setup] section, line 54
+Parsing [Setup] section, line 55
+Parsing [Setup] section, line 56
+Parsing [Setup] section, line 57
+Parsing [Setup] section, line 58
+Parsing [Setup] section, line 59
+Parsing [Setup] section, line 60
+Parsing [Setup] section, line 61
+Parsing [Setup] section, line 62
+Parsing [Setup] section, line 63
+Parsing [Setup] section, line 64
+Parsing [Setup] section, line 65
+Parsing [Setup] section, line 66
+Parsing [Setup] section, line 67
+Parsing [Setup] section, line 68
+Parsing [Setup] section, line 69
+Parsing [Setup] section, line 70
+Parsing [Setup] section, line 71
+Parsing [Setup] section, line 73
+Parsing [Setup] section, line 74
+Parsing [Setup] section, line 75
+Parsing [Setup] section, line 76
+Parsing [Setup] section, line 77
+Parsing [Setup] section, line 78
+Parsing [Setup] section, line 79
+Parsing [Setup] section, line 80
+Parsing [Setup] section, line 81
+Reading file (LicenseFile)
+Reading file (WizardImageFile)
+   File: C:\Program Files\Inno Setup\WIZMODERNIMAGE.BMP
+Reading file (WizardSmallImageFile)
+   File: C:\Program Files\Inno Setup\WIZMODERNSMALLIMAGE.BMP
+Reading default messages from Default.isl
+Parsing [LangOptions], [Messages], and [CustomMessages] sections
+   File: C:\Program Files\Inno Setup\Default.isl
+   Messages in script file
+Reading [Code] section
+Parsing [Types] section, line 100
+Parsing [Types] section, line 101
+Parsing [Types] section, line 102
+Parsing [Types] section, line 103
+Parsing [Types] section, line 104
+Parsing [Components] section, line 89
+Parsing [Components] section, line 90
+Parsing [Components] section, line 91
+Parsing [Components] section, line 92
+Parsing [Components] section, line 93
+Parsing [Components] section, line 94
+Parsing [Components] section, line 95
+Parsing [Components] section, line 96
+Parsing [Components] section, line 97
+Parsing [Icons] section, line 31
+Parsing [Icons] section, line 32
+Parsing [Icons] section, line 33
+Parsing [Icons] section, line 34
+Parsing [Icons] section, line 35
+Parsing [Icons] section, line 36
+Parsing [Icons] section, line 37
+Parsing [Icons] section, line 38
+Parsing [Icons] section, line 39
+Parsing [Icons] section, line 40
+Parsing [Icons] section, line 41
+Parsing [Icons] section, line 42
+Parsing [Registry] section, line 107
+Parsing [Registry] section, line 108
+Parsing [Registry] section, line 109
+Parsing [Registry] section, line 110
+Parsing [Registry] section, line 111
+Parsing [Registry] section, line 112
+Parsing [Registry] section, line 113
+Parsing [Registry] section, line 114
+Parsing [Registry] section, line 115
+Parsing [UninstallDelete] section, line 129
+Parsing [Run] section, line 84
+Parsing [Run] section, line 85
+Parsing [Run] section, line 86
+Parsing [Files] section, line 13
+Parsing [Files] section, line 14
+Parsing [Files] section, line 15
+Parsing [Files] section, line 16
+   Reading version info: C:\@desenv\WinBinder\binaries\php4\php-win.exe
+   Reading version info: C:\@desenv\WinBinder\binaries\php4\php-win.exe.manifest
+   Reading version info: C:\@desenv\WinBinder\binaries\php4\php.exe
+   Reading version info: C:\@desenv\WinBinder\binaries\php4\php.exe.manifest
+   Reading version info: C:\@desenv\WinBinder\binaries\php4\php.ini
+   Reading version info: C:\@desenv\WinBinder\binaries\php4\php_dist.ini
+Parsing [Files] section, line 17
+   Reading version info: C:\@desenv\WinBinder\binaries\php4\php4ts.dll
+Parsing [Files] section, line 18
+   Reading version info: C:\@desenv\WinBinder\binaries\php4\ext\php_winbinder.dll
+Parsing [Files] section, line 19
+   Reading version info: C:\@desenv\WinBinder\binaries\php4\ext\php_sqlite.dll
+Parsing [Files] section, line 20
+   Reading version info: C:\@desenv\WinBinder\binaries\php4\ext\freeimage.dll
+Parsing [Files] section, line 21
+   Reading version info: C:\@desenv\WinBinder\binaries\php50\php-win.exe.manifest
+   Reading version info: C:\@desenv\WinBinder\binaries\php50\php.exe.manifest
+   Reading version info: C:\@desenv\WinBinder\binaries\php50\php.ini
+   Reading version info: C:\@desenv\WinBinder\binaries\php50\php_dist.ini
+Parsing [Files] section, line 22
+   Reading version info: C:\@desenv\WinBinder\binaries\php50\ext\php_winbinder.dll
+Parsing [Files] section, line 23
+Parsing [Files] section, line 24
+   Reading version info: C:\@desenv\WinBinder\binaries\php51\php-win.exe.manifest
+   Reading version info: C:\@desenv\WinBinder\binaries\php51\php.exe.manifest
+   Reading version info: C:\@desenv\WinBinder\binaries\php51\php.ini
+   Reading version info: C:\@desenv\WinBinder\binaries\php51\php_dist.ini
+Parsing [Files] section, line 25
+   Reading version info: C:\@desenv\WinBinder\binaries\php51\ext\php_winbinder.dll
+Parsing [Files] section, line 26
+Parsing [Files] section, line 27
+   Reading version info: C:\@desenv\WinBinder\..\..\Util\Info-Zip\unzip\unzip.exe
+Parsing [Files] section, line 28
+   Reading version info: C:\@desenv\WinBinder\..\..\Util\Download DLL\isxdl.dll
+Compiling [Code] section
+Creating setup files
+   Compressing: C:\@desenv\WinBinder\readme.txt
+   Compressing: C:\@desenv\WinBinder\docs\changelog.txt
+   Compressing: C:\@desenv\WinBinder\docs\license-freeimage.txt
+   Compressing: C:\@desenv\WinBinder\docs\license-infozip.txt
+   Compressing: C:\@desenv\WinBinder\docs\license-innosetup.txt
+   Compressing: C:\@desenv\WinBinder\docs\license-php.txt
+   Compressing: C:\@desenv\WinBinder\docs\license.txt
+   Compressing: C:\@desenv\WinBinder\docs\release_notes.txt
+   Compressing: C:\@desenv\WinBinder\docs\winbinder.chm
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\accel.phpw
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\borderless.phpw
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\calc.phpw
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\calc.rc
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\calendar.phpw
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\combo_list_boxes.phpw
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\console2window.phpw
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\customdraw.phpw
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\customdraw_test.phpw
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\dblclick.phpw
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\digiclock.phpw
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\dll_functions.phpw
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\editbox.phpw
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\focus.phpw
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\foreign_function_tutorial.phpw
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\hello.phpw
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\hello_oo.phpw
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\html_control.phpw
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\hyperlink.phpw
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\images.phpw
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\invisible.phpw
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\leaks.phpw
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\lines_and_shapes.phpw
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\listview.phpw
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\manytests.wap
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\manytests_listview.inc.php
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\manytests_listview.rc
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\manytests_lowlevel.inc.php
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\manytests_lowlevel.rc
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\manytests_main.phpw
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\manytests_main.rc
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\manytests_main.rc.php
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\manytests_static.inc.php
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\manytests_static.rc
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\manytests_tabs.rc.php
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\manytests_values.inc.php
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\manytests_values.rc
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\minimal.phpw
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\mouse.phpw
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\move_control.phpw
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\no_main_loop.phpw
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\php_errors.txt
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\radio_groups.phpw
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\registry.phpw
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\resizable.phpw
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\rtfedit.phpw
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\serial.phpw
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\set_style.phpw
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\single_instance.phpw
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\sysinfo.phpw
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\tabcontrol.phpw
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\taskbar.phpw
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\tray_popup.phpw
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\treeview.phpw
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\ttfreader.phpw
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\wait.phpw
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\welcome.phpw
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\window_tutorial.phpw
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\db\db_test.phpw
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\db\sqlite_db_check.db
+   Compressing: C:\@desenv\WinBinder\phpcode\examples\fi\dib.phpw
+   Compressing: C:\@desenv\WinBinder\phpcode\include\wb_generic.inc.php
+   Compressing: C:\@desenv\WinBinder\phpcode\include\wb_resources.inc.php
+   Compressing: C:\@desenv\WinBinder\phpcode\include\wb_windows.inc.php
+   Compressing: C:\@desenv\WinBinder\phpcode\include\winbinder.php
+   Compressing: C:\@desenv\WinBinder\phpcode\include\db\changeLog_db.txt
+   Compressing: C:\@desenv\WinBinder\phpcode\include\db\db_common.inc.php
+   Compressing: C:\@desenv\WinBinder\phpcode\include\db\db_mysql.inc.php
+   Compressing: C:\@desenv\WinBinder\phpcode\include\db\db_sqlite.inc.php
+   Compressing: C:\@desenv\WinBinder\phpcode\include\fi\freeimage.inc.php
+   Compressing: C:\@desenv\WinBinder\phpcode\layout_editor\le_controls.inc.php
+   Compressing: C:\@desenv\WinBinder\phpcode\layout_editor\le_main.ini
+   Compressing: C:\@desenv\WinBinder\phpcode\layout_editor\le_main.phpw
+   Compressing: C:\@desenv\WinBinder\phpcode\layout_editor\le_main.rc
+   Compressing: C:\@desenv\WinBinder\phpcode\layout_editor\le_main.rc.php
+   Compressing: C:\@desenv\WinBinder\phpcode\layout_editor\le_main.wap
+   Compressing: C:\@desenv\WinBinder\phpcode\layout_editor\le_menu_editor.inc.php
+   Compressing: C:\@desenv\WinBinder\phpcode\layout_editor\le_menu_editor.rc
+   Compressing: C:\@desenv\WinBinder\phpcode\layout_editor\le_menu_editor.rc.php
+   Compressing: C:\@desenv\WinBinder\phpcode\layout_editor\resources\ctrl_checkbox.bmp
+   Compressing: C:\@desenv\WinBinder\phpcode\layout_editor\resources\ctrl_editbox.bmp
+   Compressing: C:\@desenv\WinBinder\phpcode\layout_editor\resources\ctrl_frame.bmp
+   Compressing: C:\@desenv\WinBinder\phpcode\layout_editor\resources\ctrl_pushbutton.bmp
+   Compressing: C:\@desenv\WinBinder\phpcode\layout_editor\resources\ctrl_radiobutton.bmp
+   Compressing: C:\@desenv\WinBinder\phpcode\layout_editor\resources\icon16.bmp
+   Compressing: C:\@desenv\WinBinder\phpcode\make_release\filelist.txt
+   Compressing: C:\@desenv\WinBinder\phpcode\make_release\make_release.ini
+   Compressing: C:\@desenv\WinBinder\phpcode\make_release\make_release.phpw
+   Compressing: C:\@desenv\WinBinder\phpcode\make_release\make_release.rc
+   Compressing: C:\@desenv\WinBinder\phpcode\make_release\make_release.rc.php
+   Compressing: C:\@desenv\WinBinder\phpcode\make_release\make_release.wap
+   Compressing: C:\@desenv\WinBinder\phpcode\make_release\pear10_template.xml
+   Compressing: C:\@desenv\WinBinder\phpcode\make_release\pear14_template.xml
+   Compressing: C:\@desenv\WinBinder\phpcode\make_release\php_errors.txt
+   Compressing: C:\@desenv\WinBinder\phpcode\resources\browser.bmp
+   Compressing: C:\@desenv\WinBinder\phpcode\resources\cancel.bmp
+   Compressing: C:\@desenv\WinBinder\phpcode\resources\cassini.jpg
+   Compressing: C:\@desenv\WinBinder\phpcode\resources\dn_arrow.bmp
+   Compressing: C:\@desenv\WinBinder\phpcode\resources\edit.bmp
+   Compressing: C:\@desenv\WinBinder\phpcode\resources\hyper.ico
+   Compressing: C:\@desenv\WinBinder\phpcode\resources\h_setup.ico
+   Compressing: C:\@desenv\WinBinder\phpcode\resources\icon2.png
+   Compressing: C:\@desenv\WinBinder\phpcode\resources\icon24.png
+   Compressing: C:\@desenv\WinBinder\phpcode\resources\icon4.png
+   Compressing: C:\@desenv\WinBinder\phpcode\resources\icon8t.gif
+   Compressing: C:\@desenv\WinBinder\phpcode\resources\icon8t.png
+   Compressing: C:\@desenv\WinBinder\phpcode\resources\menu_doc.bmp
+   Compressing: C:\@desenv\WinBinder\phpcode\resources\menu_edit.bmp
+   Compressing: C:\@desenv\WinBinder\phpcode\resources\menu_exit.bmp
+   Compressing: C:\@desenv\WinBinder\phpcode\resources\menu_help.bmp
+   Compressing: C:\@desenv\WinBinder\phpcode\resources\menu_new.bmp
+   Compressing: C:\@desenv\WinBinder\phpcode\resources\menu_open.bmp
+   Compressing: C:\@desenv\WinBinder\phpcode\resources\menu_print.bmp
+   Compressing: C:\@desenv\WinBinder\phpcode\resources\menu_save.bmp
+   Compressing: C:\@desenv\WinBinder\phpcode\resources\menu_send.bmp
+   Compressing: C:\@desenv\WinBinder\phpcode\resources\note.bmp
+   Compressing: C:\@desenv\WinBinder\phpcode\resources\ok.bmp
+   Compressing: C:\@desenv\WinBinder\phpcode\resources\states.bmp
+   Compressing: C:\@desenv\WinBinder\phpcode\resources\toolbar.bmp
+   Compressing: C:\@desenv\WinBinder\phpcode\resources\treeview.bmp
+   Compressing: C:\@desenv\WinBinder\phpcode\resources\ttf.ico
+   Compressing: C:\@desenv\WinBinder\phpcode\resources\up_arrow.bmp
+   Compressing: C:\@desenv\WinBinder\phpcode\resources\viewer.ico
+   Compressing: C:\@desenv\WinBinder\phpcode\todo\dlg_cat.rc
+   Compressing: C:\@desenv\WinBinder\phpcode\todo\dlg_cat.rc.php
+   Compressing: C:\@desenv\WinBinder\phpcode\todo\dlg_item.rc
+   Compressing: C:\@desenv\WinBinder\phpcode\todo\dlg_item.rc.php
+   Compressing: C:\@desenv\WinBinder\phpcode\todo\dlg_prior.rc
+   Compressing: C:\@desenv\WinBinder\phpcode\todo\dlg_prior.rc.php
+   Compressing: C:\@desenv\WinBinder\phpcode\todo\dlg_sever.rc
+   Compressing: C:\@desenv\WinBinder\phpcode\todo\dlg_sever.rc.php
+   Compressing: C:\@desenv\WinBinder\phpcode\todo\php_errors.txt
+   Compressing: C:\@desenv\WinBinder\phpcode\todo\sqlite_todo.db
+   Compressing: C:\@desenv\WinBinder\phpcode\todo\todo.ini
+   Compressing: C:\@desenv\WinBinder\phpcode\todo\todo.wap
+   Compressing: C:\@desenv\WinBinder\phpcode\todo\todo_dlg_cat.inc.php
+   Compressing: C:\@desenv\WinBinder\phpcode\todo\todo_dlg_item.inc.php
+   Compressing: C:\@desenv\WinBinder\phpcode\todo\todo_dlg_prior.inc.php
+   Compressing: C:\@desenv\WinBinder\phpcode\todo\todo_dlg_sever.inc.php
+   Compressing: C:\@desenv\WinBinder\phpcode\todo\todo_import_export.inc.php
+   Compressing: C:\@desenv\WinBinder\phpcode\todo\todo_main.phpw
+   Compressing: C:\@desenv\WinBinder\phpcode\todo\todo_main.rc
+   Compressing: C:\@desenv\WinBinder\phpcode\todo\todo_main.rc.php
+   Compressing: C:\@desenv\WinBinder\binaries\php4\php-win.exe   (4.3.10.10)
+   Compressing: C:\@desenv\WinBinder\binaries\php4\php-win.exe.manifest
+   Compressing: C:\@desenv\WinBinder\binaries\php4\php.exe   (4.4.1.1)
+   Compressing: C:\@desenv\WinBinder\binaries\php4\php.exe.manifest
+   Compressing: C:\@desenv\WinBinder\binaries\php4\php.ini
+   Compressing: C:\@desenv\WinBinder\binaries\php4\php_dist.ini
+   Compressing: C:\@desenv\WinBinder\binaries\php4\php4ts.dll   (4.4.1.1)
+   Compressing: C:\@desenv\WinBinder\binaries\php4\ext\php_winbinder.dll
+   Compressing: C:\@desenv\WinBinder\binaries\php4\ext\php_sqlite.dll
+   Compressing: C:\@desenv\WinBinder\binaries\php4\ext\freeimage.dll
+   Compressing: C:\@desenv\WinBinder\binaries\php50\php-win.exe.manifest
+   Compressing: C:\@desenv\WinBinder\binaries\php50\php.exe.manifest
+   Compressing: C:\@desenv\WinBinder\binaries\php50\php.ini
+   Compressing: C:\@desenv\WinBinder\binaries\php50\php_dist.ini
+   Compressing: C:\@desenv\WinBinder\binaries\php50\ext\php_winbinder.dll
+   Compressing: C:\@desenv\WinBinder\binaries\php51\php-win.exe.manifest
+   Compressing: C:\@desenv\WinBinder\binaries\php51\php.exe.manifest
+   Compressing: C:\@desenv\WinBinder\binaries\php51\php.ini
+   Compressing: C:\@desenv\WinBinder\binaries\php51\php_dist.ini
+   Compressing: C:\@desenv\WinBinder\binaries\php51\ext\php_winbinder.dll
+   Compressing: C:\@desenv\WinBinder\..\..\Util\Info-Zip\unzip\unzip.exe
+   Compressing: C:\@desenv\WinBinder\..\..\Util\Download DLL\isxdl.dll   (4.0.8.0)
+   Compressing Setup stub
+   Updating version info
+
+C:\@desenv\WinBinder\@Privado\Arquivo\winbinder_setup.exe
+
+Running post-compile steps
+Compilation ended: Sun Dec 18 13:55:27 2005

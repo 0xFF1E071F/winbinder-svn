@@ -1,0 +1,5 @@
+Included separate builds for PHP 4.0, PHP 5.0 and PHP 5.1
+Minor changes to some functions
+Some enhancements to PHP scripts
+Successfully tested binding WinBinder with C language
+Several other minor fixes and adjustments

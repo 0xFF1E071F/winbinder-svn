@@ -1,0 +1,50 @@
+; Wedit project file. Syntax: Name=value
+
+[h_exec]
+
+CompilerFlags=16777793
+ExtraCmsFilesCount=0
+FileOptions=0
+FortranFlags=0
+Frame=1 0 1023 724
+GetOptions=0
+LockOptions=1
+Name=h_exec
+NrOfFileProcessors=0
+NumberOfBreakpoints=0
+ProjectFlags=0
+ProjectTime=9975
+PutOptions=4
+StatusBar=0,0,0,0
+Useframework=0
+
+Includes=c:\util\lcc\include,C:\@desenv\winbinder\csource\h_exec
+Libraries=shell32.lib
+
+CmsDirectory=C:\@desenv\winbinder\csource\h_exec\CMS
+ProjectPath=C:\@desenv\winbinder\csource\h_exec
+SourcesDir=C:\@desenv\winbinder\csource\h_exec
+Exe=c:\@desenv\winbinder\binaries\h_exec\h_exec.exe
+DbgExeName=c:\@desenv\winbinder\csource\h_exec\h_exec.exe
+MakeDir=C:\@desenv\WinBinder\tools\lcc-win32\h_exec
+DbgDir=C:\@desenv\WinBinder\tools\lcc-win32\h_exec
+ErrorFile=C:\@desenv\winbinder\tools\lcc-win32\h_exec\h_exec.err
+MakeName=C:\util\lcc\bin\make.exe
+
+DebuggerArguments=
+Defines=
+LinkerArgs=
+UserCount=1
+User1=RUBEM
+UserName=RUBEM
+UsersOptions=1
+
+PrjFiles=3
+File1=h_exec.c
+File2=h_exec.rc
+File3=shell32.lib
+
+OpenFiles=2
+OpenFile1="C:\@desenv\winbinder\csource\h_exec\H_exec.c" 18 3 3 584 531
+OpenFile2="c:\util\lcc\include\winreg.h" 13 214 3 951 477
+CurrentFile=C:\@desenv\winbinder\csource\h_exec\H_exec.c
