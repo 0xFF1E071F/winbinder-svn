@@ -1,5 +1,5 @@
 ********************************************************************************
-
+*
 WINBINDER - A native Windows binding for PHP
 
 Copyright © 2004-2005 Hypervisual - see LICENSE.TXT for details
