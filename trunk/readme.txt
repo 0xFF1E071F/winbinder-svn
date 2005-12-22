@@ -154,7 +154,7 @@ information.
 CONTACTS AND ADDITIONAL INFORMATION
 --------------------------------------------------------------------------------
 
-You will find additional README files in various folders after installation.
+You will find additional README files in the various folders after installation.
 
 Additional information about WinBinder can be found at:
 
