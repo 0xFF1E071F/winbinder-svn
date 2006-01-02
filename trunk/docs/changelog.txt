@@ -11,27 +11,21 @@
 
 ------------------------------------------------------------------------------
 Version 0.44 (alpha) - build 172
-Date: Dec 18, 2005
+Date: Jan 2, 2006
 ------------------------------------------------------------------------------
 
-----> PEGAR DLLs DO HANS
-----> Upload php51_minimal.zip e php51_libs.zip
-----> Outras bibliotecas: info-zip
-- BerliOS
-- Compilar RC
-- Creditar Rodrigo e Tiago
-- Assinatura de envio de e-mails no fórum é só "pechansky@", poderia ser melhor
-- Added RC info to DLLs
-- Removed customdraw_test.phpw
-- More files in lowercase
-- Download DLL (isxdl.dll) moved from a subdirectory of Inno Setup installation directory to c:\util\Download DLL
-- Info-zip in c:\util\Info-Zip (if not already)
-- Setup:
+- Implemented SVN repository in BerliOS (http://developer.berlios.de/projects/winbinder/)
+- Added version information to WinBinder DLLs. These data can be seen in Windows Explorer
+- Remaining files ('Makefile's should be the only exception now) set to lowercase
+- In PHP.INI for version 5.0 and 5.1: added E_STRICT flag to error_reporting
+- Changes in setup:
+	- Small change in pear10_template.xml
+	- Many changes and corrections to wb_setup.iss (PHP 5.0 and 5.1, freeimage.dll, etc.)
+	- Download DLL (isxdl.dll) moved
 	- Separated the script section from wb.iss into wb_setup.pas. A separate file allows correct syntax highlighting in a code editor and allows testing script changes without leaving ISTool (Inno Setup UI)
 	- Renamed wb.iss to wb_setup.iss
-	- Many changes and corrections to wb_setup.iss (PHP 5.0 and 5.1, freeimage.dll, etc.)
-	- WB-formatted files wb_setup.iss, wb_setup.pas
-- make_release.phpw:
+	- Added WB-formatted comments to files wb_setup.iss, wb_setup.pas
+- Changes in make_release.phpw:
 	- Changed reference from wb.iss to wb_setup.iss
 	- Reviewed "tasks performed" comment
 	- Force DEBUG = False in wb_setup.pas
@@ -40,6 +34,8 @@ Date: Dec 18, 2005
 	- Slight adjustments in screen layout
 	- Other changes
 - Small change in welcome.phpw
+- Removed customdraw_test.phpw
+- Other very minor changes
 
 ------------------------------------------------------------------------------
 Version 0.44 (alpha) - build 171
