@@ -1,18 +1,12 @@
-Compilation started: Sun Dec 18 13:55:23 2005
+Compilation started: Mon Jan 02 20:07:14 2006
 Running pre-compile steps
 
-Compiling script using Inno Setup 5.1.6
-Parsing [Setup] section, line 45
-Parsing [Setup] section, line 46
-Parsing [Setup] section, line 47
-Parsing [Setup] section, line 48
-Parsing [Setup] section, line 49
-Parsing [Setup] section, line 50
-Parsing [Setup] section, line 51
-Parsing [Setup] section, line 52
-Parsing [Setup] section, line 53
-Parsing [Setup] section, line 54
-Parsing [Setup] section, line 55
+Compiling script using Inno Setup 5.1.6 (ISPP 5.1.2.0)
+[ISPP] Preprocessing.
+
+
+[ISPP] Preprocessed.
+
 Parsing [Setup] section, line 56
 Parsing [Setup] section, line 57
 Parsing [Setup] section, line 58
@@ -29,6 +23,7 @@ Parsing [Setup] section, line 68
 Parsing [Setup] section, line 69
 Parsing [Setup] section, line 70
 Parsing [Setup] section, line 71
+Parsing [Setup] section, line 72
 Parsing [Setup] section, line 73
 Parsing [Setup] section, line 74
 Parsing [Setup] section, line 75
@@ -38,92 +33,102 @@ Parsing [Setup] section, line 78
 Parsing [Setup] section, line 79
 Parsing [Setup] section, line 80
 Parsing [Setup] section, line 81
+Parsing [Setup] section, line 82
+Parsing [Setup] section, line 84
+Parsing [Setup] section, line 85
+Parsing [Setup] section, line 86
+Parsing [Setup] section, line 87
+Parsing [Setup] section, line 88
+Parsing [Setup] section, line 89
+Parsing [Setup] section, line 90
+Parsing [Setup] section, line 91
+Parsing [Setup] section, line 92
 Reading file (LicenseFile)
 Reading file (WizardImageFile)
-   File: C:\Program Files\Inno Setup\WIZMODERNIMAGE.BMP
+   File: C:\Arquivos de programas\Inno Setup\WIZMODERNIMAGE.BMP
 Reading file (WizardSmallImageFile)
-   File: C:\Program Files\Inno Setup\WIZMODERNSMALLIMAGE.BMP
+   File: C:\Arquivos de programas\Inno Setup\WIZMODERNSMALLIMAGE.BMP
 Reading default messages from Default.isl
 Parsing [LangOptions], [Messages], and [CustomMessages] sections
-   File: C:\Program Files\Inno Setup\Default.isl
+   File: C:\Arquivos de programas\Inno Setup\Default.isl
    Messages in script file
 Reading [Code] section
-Parsing [Types] section, line 100
-Parsing [Types] section, line 101
-Parsing [Types] section, line 102
-Parsing [Types] section, line 103
-Parsing [Types] section, line 104
-Parsing [Components] section, line 89
-Parsing [Components] section, line 90
-Parsing [Components] section, line 91
-Parsing [Components] section, line 92
-Parsing [Components] section, line 93
-Parsing [Components] section, line 94
-Parsing [Components] section, line 95
-Parsing [Components] section, line 96
-Parsing [Components] section, line 97
-Parsing [Icons] section, line 31
-Parsing [Icons] section, line 32
-Parsing [Icons] section, line 33
-Parsing [Icons] section, line 34
-Parsing [Icons] section, line 35
-Parsing [Icons] section, line 36
-Parsing [Icons] section, line 37
-Parsing [Icons] section, line 38
-Parsing [Icons] section, line 39
-Parsing [Icons] section, line 40
-Parsing [Icons] section, line 41
+Parsing [Types] section, line 111
+Parsing [Types] section, line 112
+Parsing [Types] section, line 113
+Parsing [Types] section, line 114
+Parsing [Types] section, line 115
+Parsing [Components] section, line 100
+Parsing [Components] section, line 101
+Parsing [Components] section, line 102
+Parsing [Components] section, line 103
+Parsing [Components] section, line 104
+Parsing [Components] section, line 105
+Parsing [Components] section, line 106
+Parsing [Components] section, line 107
+Parsing [Components] section, line 108
 Parsing [Icons] section, line 42
-Parsing [Registry] section, line 107
-Parsing [Registry] section, line 108
-Parsing [Registry] section, line 109
-Parsing [Registry] section, line 110
-Parsing [Registry] section, line 111
-Parsing [Registry] section, line 112
-Parsing [Registry] section, line 113
-Parsing [Registry] section, line 114
-Parsing [Registry] section, line 115
-Parsing [UninstallDelete] section, line 129
-Parsing [Run] section, line 84
-Parsing [Run] section, line 85
-Parsing [Run] section, line 86
-Parsing [Files] section, line 13
-Parsing [Files] section, line 14
-Parsing [Files] section, line 15
-Parsing [Files] section, line 16
+Parsing [Icons] section, line 43
+Parsing [Icons] section, line 44
+Parsing [Icons] section, line 45
+Parsing [Icons] section, line 46
+Parsing [Icons] section, line 47
+Parsing [Icons] section, line 48
+Parsing [Icons] section, line 49
+Parsing [Icons] section, line 50
+Parsing [Icons] section, line 51
+Parsing [Icons] section, line 52
+Parsing [Icons] section, line 53
+Parsing [Registry] section, line 118
+Parsing [Registry] section, line 119
+Parsing [Registry] section, line 120
+Parsing [Registry] section, line 121
+Parsing [Registry] section, line 122
+Parsing [Registry] section, line 123
+Parsing [Registry] section, line 124
+Parsing [Registry] section, line 125
+Parsing [Registry] section, line 126
+Parsing [UninstallDelete] section, line 140
+Parsing [Run] section, line 95
+Parsing [Run] section, line 96
+Parsing [Run] section, line 97
+Parsing [Files] section, line 24
+Parsing [Files] section, line 25
+Parsing [Files] section, line 26
+Parsing [Files] section, line 27
    Reading version info: C:\@desenv\WinBinder\binaries\php4\php-win.exe
    Reading version info: C:\@desenv\WinBinder\binaries\php4\php-win.exe.manifest
    Reading version info: C:\@desenv\WinBinder\binaries\php4\php.exe
    Reading version info: C:\@desenv\WinBinder\binaries\php4\php.exe.manifest
    Reading version info: C:\@desenv\WinBinder\binaries\php4\php.ini
    Reading version info: C:\@desenv\WinBinder\binaries\php4\php_dist.ini
-Parsing [Files] section, line 17
+Parsing [Files] section, line 28
    Reading version info: C:\@desenv\WinBinder\binaries\php4\php4ts.dll
-Parsing [Files] section, line 18
+Parsing [Files] section, line 29
    Reading version info: C:\@desenv\WinBinder\binaries\php4\ext\php_winbinder.dll
-Parsing [Files] section, line 19
+Parsing [Files] section, line 30
    Reading version info: C:\@desenv\WinBinder\binaries\php4\ext\php_sqlite.dll
-Parsing [Files] section, line 20
+Parsing [Files] section, line 31
    Reading version info: C:\@desenv\WinBinder\binaries\php4\ext\freeimage.dll
-Parsing [Files] section, line 21
+Parsing [Files] section, line 32
    Reading version info: C:\@desenv\WinBinder\binaries\php50\php-win.exe.manifest
    Reading version info: C:\@desenv\WinBinder\binaries\php50\php.exe.manifest
    Reading version info: C:\@desenv\WinBinder\binaries\php50\php.ini
    Reading version info: C:\@desenv\WinBinder\binaries\php50\php_dist.ini
-Parsing [Files] section, line 22
+Parsing [Files] section, line 33
    Reading version info: C:\@desenv\WinBinder\binaries\php50\ext\php_winbinder.dll
-Parsing [Files] section, line 23
-Parsing [Files] section, line 24
+Parsing [Files] section, line 34
+Parsing [Files] section, line 35
    Reading version info: C:\@desenv\WinBinder\binaries\php51\php-win.exe.manifest
    Reading version info: C:\@desenv\WinBinder\binaries\php51\php.exe.manifest
    Reading version info: C:\@desenv\WinBinder\binaries\php51\php.ini
    Reading version info: C:\@desenv\WinBinder\binaries\php51\php_dist.ini
-Parsing [Files] section, line 25
+Parsing [Files] section, line 36
    Reading version info: C:\@desenv\WinBinder\binaries\php51\ext\php_winbinder.dll
-Parsing [Files] section, line 26
-Parsing [Files] section, line 27
+Parsing [Files] section, line 37
+Parsing [Files] section, line 38
    Reading version info: C:\@desenv\WinBinder\..\..\Util\Info-Zip\unzip\unzip.exe
-Parsing [Files] section, line 28
+Parsing [Files] section, line 39
    Reading version info: C:\@desenv\WinBinder\..\..\Util\Download DLL\isxdl.dll
 Compiling [Code] section
 Creating setup files
@@ -144,7 +149,6 @@ Creating setup files
    Compressing: C:\@desenv\WinBinder\phpcode\examples\combo_list_boxes.phpw
    Compressing: C:\@desenv\WinBinder\phpcode\examples\console2window.phpw
    Compressing: C:\@desenv\WinBinder\phpcode\examples\customdraw.phpw
-   Compressing: C:\@desenv\WinBinder\phpcode\examples\customdraw_test.phpw
    Compressing: C:\@desenv\WinBinder\phpcode\examples\dblclick.phpw
    Compressing: C:\@desenv\WinBinder\phpcode\examples\digiclock.phpw
    Compressing: C:\@desenv\WinBinder\phpcode\examples\dll_functions.phpw
@@ -300,11 +304,11 @@ Creating setup files
    Compressing: C:\@desenv\WinBinder\binaries\php51\php_dist.ini
    Compressing: C:\@desenv\WinBinder\binaries\php51\ext\php_winbinder.dll
    Compressing: C:\@desenv\WinBinder\..\..\Util\Info-Zip\unzip\unzip.exe
-   Compressing: C:\@desenv\WinBinder\..\..\Util\Download DLL\isxdl.dll   (4.0.8.0)
+   Compressing: C:\@desenv\WinBinder\..\..\Util\Download DLL\isxdl.dll   (5.1.0.0)
    Compressing Setup stub
    Updating version info
 
 C:\@desenv\WinBinder\@Privado\Arquivo\winbinder_setup.exe
 
 Running post-compile steps
-Compilation ended: Sun Dec 18 13:55:27 2005
+Compilation ended: Mon Jan 02 20:07:24 2006

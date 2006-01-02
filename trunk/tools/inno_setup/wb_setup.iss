@@ -70,8 +70,8 @@ MergeDuplicateFiles=false
 SourceDir=C:\@desenv\WinBinder
 UseSetupLdr=true
 
-AppVerName=WinBinder version 0.44.171
-VersionInfoVersion=0.44.171
+AppVerName=WinBinder version 0.44.172
+VersionInfoVersion=0.44.172
 SolidCompression=true
 Compression=lzma/max
 InternalCompressLevel=normal

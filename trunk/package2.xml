@@ -16,11 +16,11 @@
   <email>stefano@rausch-e.net</email>
   <active>yes</active>
  </lead>
- <date>2005-12-18</date>
- <time>13:57:16</time>
+ <date>2006-01-02</date>
+ <time>20:03:48</time>
  <version>
-  <release>0.44.171</release>
-  <api>0.44.171</api>
+  <release>0.44.172</release>
+  <api>0.44.172</api>
  </version>
  <stability>
   <release>alpha</release>
@@ -28,16 +28,15 @@
  </stability>
  <license uri="http://hypervisual.com/winbinder/doc/license.txt">WinBinder License</license>
  <notes>
- Included separate builds for PHP 4.0, PHP 5.0 and PHP 5.1
-Minor changes to some functions
-Some enhancements to PHP scripts
-Successfully tested binding WinBinder with C language
-Several other minor fixes and adjustments
-
+ Implemented SVN repository in developer.berlios.de
+Changes in setup
+Changes in scripts
+More adjustments for PHP 5.1.1
+Other changes
  </notes>
  <contents>
  <dir name="/">
-  <file md5sum="87f46434e7e71393effb41be52eaeb77" name="package.xml" role="doc" />
+  <file md5sum="d7a823f51d31185b94b07617289373bf" name="package.xml" role="doc" />
   <file md5sum="0615a367b937df5a34aa447d8d69c155" name="readme.txt" role="doc" />
   <file md5sum="3dc69c8f6a900f479aa988616159d37d" name="csource\core\phpwb.h" role="src" />
   <file md5sum="ac04d69c024501381e2be20ee5eee61c" name="csource\core\phpwb_bitmap.c" role="src" />
@@ -71,13 +70,13 @@ Several other minor fixes and adjustments
   <file md5sum="77dd00a21cae14a733e4074635f3f47f" name="csource\core\wb\wb_generic.c" role="src" />
   <file md5sum="b55c1e6871804006bab3ab82b5bb3c5e" name="csource\core\wb\wb_lowlevel.c" role="src" />
   <file md5sum="5eaa5dbdf820e608cf077ed32c9f71a4" name="csource\core\wb\wb_sysdlg.c" role="src" />
-  <file md5sum="6328d29ba96cabd3dbc297eba09c6ec3" name="csource\core\wb\wb_version.h" role="src" />
+  <file md5sum="8cbd5637a78189c7d170c0b64fc05812" name="csource\core\wb\wb_version.h" role="src" />
   <file md5sum="43f336a0ff2154ed73d4b6940615ec86" name="csource\core\wb\wb_window.c" role="src" />
   <file md5sum="36a67d08df0a695779f22af00711992e" name="csource\core\wb\wb_winsys.c" role="src" />
   <file md5sum="aec62ba0fcc993bcc1d34c9459d060c6" name="csource\h_exec\h_exec.c" role="src" />
   <file md5sum="31add7530cadaad09f49f451fa943750" name="csource\h_exec\h_exec.rc" role="src" />
   <file md5sum="896b71bc051cbbe1f79708d1b60f469d" name="csource\h_exec\readme_h_exec.txt" role="doc" />
-  <file md5sum="21c983fabf2aad083b2cf0ac8f99388a" name="docs\changelog.txt" role="doc" />
+  <file md5sum="7098f0ddaa3fbac7a5e173c7609f7c1c" name="docs\changelog.txt" role="doc" />
   <file md5sum="8e1438cab62c8f655288588dc43daaf6" name="docs\license-freeimage.txt" role="doc" />
   <file md5sum="059eee1eb6e42d75315e7a7266cc6e0c" name="docs\license-infozip.txt" role="doc" />
   <file md5sum="32c5d1b92ccc97aa26438072c97eb283" name="docs\license-innosetup.txt" role="doc" />
@@ -256,8 +255,8 @@ Several other minor fixes and adjustments
   <file md5sum="174b2a66708b0c536dbd047d18a5e19b" name="docs\manual\scratchpad.html" role="doc" />
   <file md5sum="9b31295486127c8dd3af4172dbab92d0" name="docs\manual\tools\building.html" role="doc" />
   <file md5sum="5a82e6977b2d759d11e086b1da1a6aa7" name="docs\manual\what_is.html" role="doc" />
-  <file md5sum="249b8d7d908e18ac3c4faf0693965f3e" name="docs\release_notes.txt" role="doc" />
-  <file md5sum="208e8a2a694f452b5cf00ca8932bcb31" name="docs\winbinder.chm" role="doc" />
+  <file md5sum="ca740d53de755517c37ffb41412cfae9" name="docs\release_notes.txt" role="doc" />
+  <file md5sum="2806ef3be7b3b42944a75fc255409dbd" name="docs\winbinder.chm" role="doc" />
   <file md5sum="42fddf342aeb23b464013e71a87008d0" name="phpcode\examples\accel.phpw" role="php" />
   <file md5sum="fee30222e29614efd2d164245a406429" name="phpcode\examples\borderless.phpw" role="php" />
   <file md5sum="dd8c4e243f7f0592b5d4d68ae27e4906" name="phpcode\examples\calc.phpw" role="php" />
@@ -266,8 +265,7 @@ Several other minor fixes and adjustments
   <file md5sum="96a6147d9f38dde6e6b9873483e41a56" name="phpcode\examples\combo_list_boxes.phpw" role="php" />
   <file md5sum="57411ea82e6b7e35d05f380b55f82bc0" name="phpcode\examples\console2window.phpw" role="php" />
   <file md5sum="4f07c80ac9924068ba69a34e9be1e855" name="phpcode\examples\customdraw.phpw" role="php" />
-  <file md5sum="5c2209773f9b601ebd6bca3ce362803c" name="phpcode\examples\customdraw_test.phpw" role="php" />
-  <file md5sum="6bb2fbdf219b9825400fc39d00a844ba" name="phpcode\examples\db\db_test.phpw" role="php" />
+  <file md5sum="eecbf631cf17206f6e2dda4da697055f" name="phpcode\examples\db\db_test.phpw" role="php" />
   <file md5sum="97483d841162b2d569887698bae1416d" name="phpcode\examples\db\sqlite_db_check.db" role="unkwnown" />
   <file md5sum="064f22f01779a0a77e6385202976bb3d" name="phpcode\examples\dblclick.phpw" role="php" />
   <file md5sum="36187c111ecc71fe164026f039d09615" name="phpcode\examples\digiclock.phpw" role="php" />
@@ -344,12 +342,12 @@ Several other minor fixes and adjustments
   <file md5sum="dab5233726a45926015c577134f72563" name="phpcode\layout_editor\resources\ctrl_radiobutton.bmp" role="data" />
   <file md5sum="0abdf9d2c4c5a669d1e0b741766b6829" name="phpcode\layout_editor\resources\icon16.bmp" role="data" />
   <file md5sum="b1f2a879ce5e06b01d1ae278dc27d22c" name="phpcode\make_release\filelist.txt" role="doc" />
-  <file md5sum="b5a64f960058e8300e122ee011811d1a" name="phpcode\make_release\make_release.ini" role="doc" />
-  <file md5sum="a099a3a6945d0df30ca23f92f866c60d" name="phpcode\make_release\make_release.phpw" role="php" />
+  <file md5sum="101cbbb84aefce082d4a1843e914c92c" name="phpcode\make_release\make_release.ini" role="doc" />
+  <file md5sum="f5cd7864e39b9ae61b612ca1be4e21f2" name="phpcode\make_release\make_release.phpw" role="php" />
   <file md5sum="e927973db1b4ff78b0d5625604045e4a" name="phpcode\make_release\make_release.rc" role="src" />
   <file md5sum="5fd922ed1654aec4d359e9058f8e067b" name="phpcode\make_release\make_release.rc.php" role="php" />
   <file md5sum="df0abf00026c3ea15690f1ae689f5064" name="phpcode\make_release\make_release.wap" role="doc" />
-  <file md5sum="2bc348ec0ec2c5b34b0d1107647ace64" name="phpcode\make_release\pear10_template.xml" role="doc" />
+  <file md5sum="70be04210bf873ae2756e2cbbef6dc21" name="phpcode\make_release\pear10_template.xml" role="doc" />
   <file md5sum="d489f432020ec4fabdf40f962135e155" name="phpcode\make_release\pear14_template.xml" role="doc" />
   <file md5sum="fb4a4ea2cdd0736af8d42b1ded5489d0" name="phpcode\resources\browser.bmp" role="data" />
   <file md5sum="7621a9ce79fad249a70b58f7ce91bf36" name="phpcode\resources\cancel.bmp" role="data" />
@@ -431,7 +429,8 @@ Several other minor fixes and adjustments
   <file md5sum="c98f6a14d88756bcacba117b04a42d22" name="binaries\h_exec\h_exec.exe" role="unkwnown" />
   <file md5sum="35798cd555be47696c94fb6a17b90a50" name="binaries\h_exec\h_exec.ini" role="doc" />
   <file md5sum="5f0581581b9c5672ed1a6bdace883786" name="binaries\h_exec\h_exec_relative.ini" role="doc" />
-  <file md5sum="d2c330a2afeac9c614eb4b8e3c4fda98" name="binaries\php4\ext\php_winbinder.dll" role="unkwnown" />
+  <file md5sum="77a6c17e0a3eed7f2226b5b51fb8d0ef" name="binaries\php4\ext\php_winbinder.dll" role="unkwnown" />
+  <file md5sum="ca102363025d7a6b9d710545a256b176" name="binaries\php4\ext\php_winbinder.exp" role="unkwnown" />
   <file md5sum="a1ceed0a1867a9afea45fd4cfd297cd8" name="binaries\php4\php-win.exe" role="unkwnown" />
   <file md5sum="17bb776c0fbfd5ae89c6e1d0025e137c" name="binaries\php4\php-win.exe.manifest" role="unkwnown" />
   <file md5sum="e0d69a73f1244e59fde8949b2a2634f7" name="binaries\php4\php.exe" role="unkwnown" />

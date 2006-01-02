@@ -1,6 +1,6 @@
 ; Wedit project file. Syntax: Name = value
 
-[winbinder_php5]
+[winbinder_php50]
 
 CompilerFlags=20972289
 ExtraCmsFilesCount=0
@@ -24,8 +24,8 @@ Libraries=iehelper.lib php5ts.lib psapi.lib shell32.lib ole32.lib oleaut32.lib u
 CmsDirectory=C:\@desenv\WinBinder\CMS
 ProjectPath=C:\@desenv\winbinder\csource\core
 SourcesDir=C:\@desenv\winbinder\csource\core
-Exe=c:\@desenv\winbinder\binaries\php51\ext\php_winbinder.dll
-DbgExeName=c:\@desenv\winbinder\binaries\php51\ext\php_winbinder.dll
+Exe=c:\@desenv\winbinder\binaries\php50\ext\php_winbinder.dll
+DbgExeName=c:\@desenv\winbinder\binaries\php50\ext\php_winbinder.dll
 MakeDir=C:\@desenv\WinBinder\tools\lcc-win32\php5
 DbgDir=c:\@desenv\winbinder\tools\lcc-win32\php5
 ErrorFile=C:\@desenv\WinBinder\tools\lcc-win32\php5\winbinder_php5.err
@@ -83,7 +83,7 @@ OpenFile1="c:\@desenv\winbinder\csource\core\phpwb_export.c" 20 138 138 979 625
 OpenFile2="c:\@desenv\winbinder\csource\php5\main\win95nt.h" 46 230 230 1071 717
 OpenFile3="c:\@desenv\winbinder\csource\php5\zend\zend_config.w32.h" 39 37 206 878 693
 CurrentFile=c:\@desenv\winbinder\csource\core\phpwb_export.c
-OpenFile4="c:\@desenv\winbinder\csource\core\phpwb_lowlevel.c" 290 23 23 864 510
-OpenFile5="C:\@desenv\winbinder\csource\core\phpwb.h" 30 6 3 825 651
+OpenFile4="c:\@desenv\winbinder\csource\core\phpwb_lowlevel.c" 290 23 23 864 500
+OpenFile5="C:\@desenv\winbinder\csource\core\phpwb.h" 30 6 3 825 650
 OpenFile6="c:\util\lcc\include\mshtmlc.h" 4 122 131 956 493
 OpenFile7="c:\@desenv\winbinder\csource\core\wb\wb_control.c" 1278 84 189 608 378

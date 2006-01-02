@@ -15,27 +15,23 @@ Date: Jan 2, 2006
 ------------------------------------------------------------------------------
 
 - Implemented SVN repository in BerliOS (http://developer.berlios.de/projects/winbinder/)
-- Added version information to WinBinder DLLs. These data can be seen in Windows Explorer
-- Remaining files ('Makefile's should be the only exception now) set to lowercase
-- In PHP.INI for version 5.0 and 5.1: added E_STRICT flag to error_reporting
+- In PHP.INI for version 5.0 and 5.1: added E_STRICT flag to entry error_reporting
 - Changes in setup:
-	- Small change in pear10_template.xml
 	- Many changes and corrections to wb_setup.iss (PHP 5.0 and 5.1, freeimage.dll, etc.)
-	- Download DLL (isxdl.dll) moved
 	- Separated the script section from wb.iss into wb_setup.pas. A separate file allows correct syntax highlighting in a code editor and allows testing script changes without leaving ISTool (Inno Setup UI)
-	- Renamed wb.iss to wb_setup.iss
-	- Added WB-formatted comments to files wb_setup.iss, wb_setup.pas
-- Changes in make_release.phpw:
-	- Changed reference from wb.iss to wb_setup.iss
-	- Reviewed "tasks performed" comment
-	- Force DEBUG = False in wb_setup.pas
-	- Even less "USER PARAMETERS" to set up (7 strings only)
-	- New constants
-	- Slight adjustments in screen layout
 	- Other changes
-- Small change in welcome.phpw
+- Changes in make_release.phpw:
+	- Even less "USER PARAMETERS" to set up (7 strings only)
+	- Force DEBUG = False in wb_setup.pas
+	- Slight adjustments in screen layout
+	- More adjustments to include PHP 5.1.1 files
+	- Checks if zip file was actually generated
+	- Other changes
+- Created PHP 5.1.1 path and project files for lcc-win32
+- Remaining files set to lowercase. 'Makefile's should be the only exception now.
+- Small changes in welcome.phpw
 - Removed customdraw_test.phpw
-- Other very minor changes
+- Other minor changes
 
 ------------------------------------------------------------------------------
 Version 0.44 (alpha) - build 171

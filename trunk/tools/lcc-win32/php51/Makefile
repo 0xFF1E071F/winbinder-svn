@@ -38,10 +38,10 @@ OBJS=\
 	phpwb_bitmap.obj \
 
 LIBS=iehelper.lib php5ts.lib psapi.lib shell32.lib ole32.lib oleaut32.lib uuid.lib winmm.lib
-EXE=c:\@desenv\winbinder\binaries\php50\ext\php_winbinder.dll
+EXE=c:\@desenv\winbinder\binaries\php51\ext\php_winbinder.dll
 
 $(EXE):	$(OBJS) Makefile
-	$(LINKER)  -s -dll -nounderscores -o c:\@desenv\winbinder\binaries\php50\ext\php_winbinder.dll $(OBJS) $(LIBS)
+	$(LINKER)  -s -dll -nounderscores -o c:\@desenv\winbinder\binaries\php51\ext\php_winbinder.dll $(OBJS) $(LIBS)
 
 # Build wb_winsys.c
 WB_WINSYS_C=\
@@ -1634,7 +1634,7 @@ phpwb_bitmap.obj: $(PHPWB_BITMAP_C) $(SRCDIR)\phpwb_bitmap.c
 	$(CC) -c $(CFLAGS) $(SRCDIR)\phpwb_bitmap.c
 
 link:
-	$(LINKER)  -s -dll -nounderscores -o c:\@desenv\winbinder\binaries\php50\ext\php_winbinder.dll $(OBJS) $(LIBS)
+	$(LINKER)  -s -dll -nounderscores -o c:\@desenv\winbinder\binaries\php51\ext\php_winbinder.dll $(OBJS) $(LIBS)
 
 clean:
-	del $(OBJS) c:\@desenv\winbinder\binaries\php50\ext\php_winbinder.dll
+	del $(OBJS) c:\@desenv\winbinder\binaries\php51\ext\php_winbinder.dll
