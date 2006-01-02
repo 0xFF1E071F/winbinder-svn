@@ -10,6 +10,12 @@
          <email>pechansky@hypervisual.com</email>
          <role>lead</role>
       </maintainer>
+      <maintainer>
+         <user>sfrausch</user>
+         <name>Stefano F. Rausch</name>
+         <email>stefano@rausch-e.net</email>
+         <role>lead</role>
+      </maintainer>
    </maintainers>
    <release>
       <version>%version%</version>
