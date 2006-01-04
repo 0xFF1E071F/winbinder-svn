@@ -131,4 +131,32 @@ int wbTrim(LPTSTR pszStr)
 	return nBlank;
 }
 
+//------------------------------------------------------------- ANSI C FUNCTIONS
+
+#ifdef __LCC__
+
+int isinf(double d) {
+  union {
+    unsigned long long l;
+    double d;
+  } u;
+  u.d=d;
+  return (u.l==0x7FF0000000000000ll?1:u.l==0xFFF0000000000000ll?-1:0);
+}
+
+int isnan(double d) {
+  union {
+    unsigned long long l;
+    double d;
+  } u;
+  u.d=d;
+  return (u.l==0x7FF8000000000000ll || u.l==0x7FF0000000000000ll || u.l==0xfff8000000000000ll);
+}
+
+int _finite(double d) {
+  return isinf(d)==0 && isnan(d)==0;
+}
+
+#endif	// LCC
+
 //------------------------------------------------------------------ END OF FILE
