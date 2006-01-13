@@ -542,12 +542,8 @@ ZEND_MINIT_FUNCTION(winbinder)
 ZEND_MINFO_FUNCTION(winbinder)
 {
 	php_info_print_table_start();
-	php_info_print_table_header(2, "Property", "Value");
-	php_info_print_table_row(2, "winbinder", "enabled");
-	php_info_print_table_row(2, "Filename", "php_winbinder.dll");
-	php_info_print_table_row(2, "Author", "Rubem Pechansky");
+	php_info_print_table_row(2, "WinBinder", "enabled");
 	php_info_print_table_row(2, "Version", WINBINDER_VERSION);
-	php_info_print_table_row(2, "Date", __DATE__);
 	php_info_print_table_end();
 }
 
