@@ -11,8 +11,13 @@
 
 *******************************************************************************/
 
-if(PHP_VERSION < "4.3.0")
-	die("WinBinder needs at least PHP version 4.3.\n");
+$supported_php_version = preg_match(
+    '"^(' . '4\.(3\.(10|11)|4\..)' . '|' . '5\.(0\.[3-5]|1\..)' . ')$"', PHP_VERSION
+);
+
+if (!$supported_php_version)
+	die("WinBinder does only support the following PHP versions:\n"
+		. "- 4.3.10 up to excluding 5.0.0\n- 5.0.3  up to excluding 6.0.0\n");
 
 if(!extension_loaded('winbinder'))
 	if(!dl('php_winbinder.dll'))
