@@ -31,6 +31,7 @@
 WNDPROC lpfnFrameProcOld = NULL;
 WNDPROC lpfnEditProcOld = NULL;
 WNDPROC lpfnHyperLinkProcOld = NULL;
+WNDPROC lpfnInvisibleProcOld = NULL;
 
 // External
 
@@ -48,9 +49,11 @@ extern BOOL EmbedBrowserObject(PWBOBJ pwbo);
 // Private
 
 static BOOL SetTransparentBitmap(HWND hwnd, HBITMAP hbmBits, BOOL bStatic, COLORREF clTransp);
+static HWND CreateToolTip(PWBOBJ pwbo);
+
 static LRESULT CALLBACK FrameProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 static LRESULT CALLBACK EditProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-static HWND CreateToolTip(PWBOBJ pwbo);
+static LRESULT CALLBACK InvisibleProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 // External
 
@@ -196,6 +199,7 @@ PWBOBJ wbCreateControl(PWBOBJ pwboParent, UINT uWinBinderClass, LPCTSTR pszCapti
 			pszClass = "STATIC";
 			dwStyle = WS_CHILD | SS_NOTIFY | SS_SIMPLE | nVisible;
 			dwExStyle = WS_EX_TRANSPARENT;
+//			pwbo->lparam = (LPARAM)dwWBStyle;
 			break;
 
 		case CheckBox:
@@ -437,6 +441,10 @@ PWBOBJ wbCreateControl(PWBOBJ pwboParent, UINT uWinBinderClass, LPCTSTR pszCapti
 			SendMessage(pwbo->hwnd, WM_SETFONT, (WPARAM)hIconFont, 0);
 			if(!stricmp(pszClass, "BUTTON"))		// Only for group boxes!
 				lpfnFrameProcOld = (WNDPROC)SetWindowLong(pwbo->hwnd, GWL_WNDPROC, (LONG)FrameProc);
+			break;
+
+		case InvisibleArea:		// Subclasses InvisibleArea to process WM_MOUSEMOVE
+			lpfnInvisibleProcOld = (WNDPROC)SetWindowLong(pwbo->hwnd, GWL_WNDPROC, (LONG)InvisibleProc);
 			break;
 
 		case Spinner:
@@ -1732,6 +1740,36 @@ static LRESULT CALLBACK EditProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			break;
 	}
 	return CallWindowProc(lpfnEditProcOld, hwnd, msg, wParam, lParam);
+}
+
+// Processing routine for InvisibleAreas
+
+static LRESULT CALLBACK InvisibleProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	switch(msg) {
+
+		case WM_MOUSEMOVE:
+			{
+				PWBOBJ pwbobj = wbGetWBObj(hwnd);
+
+				if(!pwbobj)
+					break;
+
+				if(BITTEST(pwbobj->style, WBC_NOTIFY) &&
+					BITTEST(pwbobj->lparam, WBC_MOUSEMOVE)) {
+
+					DWORD dwAlt = (GetKeyState(VK_MENU) < 0) ? WBC_ALT : 0;
+
+					if(pwbobj && pwbobj->parent && pwbobj->parent->pszCallBackFn && *pwbobj->parent->pszCallBackFn) {
+//printf("%08X %s\n", pwbobj->lparam, pwbobj->parent->pszCallBackFn);
+						wbCallUserFunction(pwbobj->parent->pszCallBackFn, pwbobj->parent, pwbobj, pwbobj->id,
+						WBC_MOUSEMOVE | wParam | dwAlt, lParam, 0);
+					}
+				}
+			}
+			break;
+	}
+	return CallWindowProc(lpfnInvisibleProcOld, hwnd, msg, wParam, lParam);
 }
 
 static HWND CreateToolTip(PWBOBJ pwbo)
