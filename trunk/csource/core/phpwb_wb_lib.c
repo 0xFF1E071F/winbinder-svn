@@ -15,7 +15,7 @@
 
 //-------------------------------------------------------------------- CONSTANTS
 
-#define CALLBACK_ARGS	5	// Number of arguments of the callback function
+#define CALLBACK_ARGS	6	// Number of arguments of the callback function
 
 //----------------------------------------------------------- EXPORTED FUNCTIONS
 
@@ -61,12 +61,14 @@ BOOL wbError(LPCTSTR szFunction, int nType, LPCTSTR pszFmt, ...)
 	return FALSE;
 }
 
-BOOL wbCallUserFunction(LPCTSTR pszFunctionName, PWBOBJ pwboParent, PWBOBJ pctrl, UINT id, LPARAM lParam1, LPARAM lParam2)
+// *** The use of parameter pwboParent in wbCallUserFunction() is not clear
+
+BOOL wbCallUserFunction(LPCTSTR pszFunctionName, PWBOBJ pwboParent, PWBOBJ pctrl, UINT id, LPARAM lParam1, LPARAM lParam2, LPARAM lParam3)
 {
 	zval *fname;
 	zval *return_value = NULL;
 	zval **parms[CALLBACK_ARGS];
-	zval *z0, *z1, *z2, *z3, *z4;
+	zval *z0, *z1, *z2, *z3, *z4, *z5;
 	BOOL bRet;
 	char *pszFName;
 
@@ -93,6 +95,9 @@ BOOL wbCallUserFunction(LPCTSTR pszFunctionName, PWBOBJ pwboParent, PWBOBJ pctrl
 	if(!zend_is_callable(fname, 0, &pszFName)) {
 		zend_error(E_WARNING, "%s(): '%s' is not a function or cannot be called",
 		  get_active_function_name(TSRMLS_C), pszFName);
+		efree(pszFName);				// These two lines prevent a leakage
+		efree(fname->value.str.val);	// that occurred on every function call
+		efree(fname);
 		return FALSE;
 	}
 
@@ -116,6 +121,10 @@ BOOL wbCallUserFunction(LPCTSTR pszFunctionName, PWBOBJ pwboParent, PWBOBJ pctrl
 	ZVAL_LONG(z4, (LONG)lParam2);
 	parms[4] = &z4;
 
+	ALLOC_INIT_ZVAL(z5);							// lparam3
+	ZVAL_LONG(z5, (LONG)lParam3);
+	parms[5] = &z5;
+
 	// Call the user function
 
 	bRet = call_user_function_ex(
@@ -138,11 +147,14 @@ BOOL wbCallUserFunction(LPCTSTR pszFunctionName, PWBOBJ pwboParent, PWBOBJ pctrl
 
 	zval_ptr_dtor(&return_value);
 
+	efree(z5);
 	efree(z4);
 	efree(z3);
 	efree(z2);
 	efree(z1);
 	efree(z0);
+	efree(pszFName);				// These two lines prevent a leakage
+	efree(fname->value.str.val);	// that occurred on every function call
 	efree(fname);
 
 	return TRUE;

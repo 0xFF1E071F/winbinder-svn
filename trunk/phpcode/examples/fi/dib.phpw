@@ -105,13 +105,13 @@ function create_frame($window, $xpos, $ypos, $filename)
 			break;
 	}
 
-	// Load bitmap file
+	// Load image file
 
 	$dib = FreeImage_Load($fmt, $filename, 0);
 	$width = FreeImage_GetWidth($dib);
 	$height = FreeImage_GetHeight($dib);
 
-	// Create a WinBinder (Windows) handle to it
+	// Create a WinBinder (Windows) bitmap
 
 	$bmp = wb_create_image($width, $height,
 		FreeImage_GetInfoHeader($dib),

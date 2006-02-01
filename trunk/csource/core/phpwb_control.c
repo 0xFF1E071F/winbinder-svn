@@ -523,7 +523,7 @@ ZEND_FUNCTION(wb_get_enabled)
 
 ZEND_FUNCTION(wb_refresh)
 {
-	LONG pwbo, now = FALSE;
+	LONG pwbo, now = TRUE;
 	LONG x = 0, y = 0, width = 0, height = 0;
 
     if(zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
@@ -534,8 +534,6 @@ ZEND_FUNCTION(wb_refresh)
 		RETURN_NULL()
 	else
 		RETURN_BOOL(wbRefreshControl((PWBOBJ)pwbo, x, y, width, height, now));
-//	BOOL wbRefreshControl(PWBOBJ pwbo, int xpos, int ypos, int nWidth, int nHeight, BOOL bNow)
-//		RETURN_BOOL(wbRefreshControl((PWBOBJ)pwbo, now));
 }
 
 ZEND_FUNCTION(wb_get_item_count)

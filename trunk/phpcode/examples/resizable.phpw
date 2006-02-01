@@ -58,9 +58,9 @@ wb_main_loop();
 
 //-------------------------------------------------------------------- FUNCTIONS
 
-function process_main($window, $id, $ctrl=0, $lparam=0, $lparam2=0)
+function process_main($window, $id, $ctrl=0, $lparam=0, $lparam2=0, $lparam3=0)
 {
-	global $list, $list2, $list3;
+	global $list, $list2, $list3, $statusbar;
 	static $lasty = 236;
 	static $capturing = false;
 
@@ -154,8 +154,17 @@ function process_main($window, $id, $ctrl=0, $lparam=0, $lparam2=0)
 
 				$pos = wb_get_position($list, true);
 				wb_set_size($list3, $pos[0] - 24, $winheight - 108);
-
 				wb_set_position(wb_get_control($window, ID_AUTO), 10, $winheight - 53);
+
+				// Show window size using $lparam
+
+				$dim = wb_get_size($window);
+				$winwidth = $dim[0];
+				$winheight = $dim[1];
+				wb_set_text($statusbar,
+					"Window area: $winwidth x $winheight pixels -- " .
+					"Client area: " . ($lparam3 & 0x0000FFFF) . " x " . (($lparam3 & 0xFFFF0000) / 0x10000) . " pixels\n");
+
 			}
 			break;
 

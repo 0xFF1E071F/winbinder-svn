@@ -10,6 +10,30 @@
 ********************************************************************************
 
 ------------------------------------------------------------------------------
+Version 0.45 (alpha) - build 173
+Date: Jan 31, 2006
+------------------------------------------------------------------------------
+
+- WBC_MOUSEMOVE messages were not being sent in certain situations. Fixed.
+- Added and optional extra parameter (usually called $lparam3) to window callback functions. This was done via wbCallUserFunction().
+- On windows that have the WBC_RESIZE style, $lparam3 (in the callback function) now receives the size of the client area as a LONG. Usually a call to wb_get_size($window, true) would produce the same effect, but it's there anyway to take advantage of the new $lparam3
+	. Updated example 'resizable.phpw'
+- wb_refresh() (and wbRefreshControl()):
+	. Completely rewrote the whole function
+	. Default value of parameter 'now' was changed to TRUE
+	. Now it invalidates and redraws only a part of the screen or control when (still undocumented) xpos/ypos/width/height parameters are passed to it. Was buggy prior to this release.
+	. Probably a bit faster for most operations
+	. If the wb_refresh() command is issued and the xpos/ypos/width/height are set, the window callback function (in PHP) receives a pointer to rectangle (About to change! Should be the area instead, and an array would be great.) as $lparam3. If wb_refresh() acts on the whole window, $lparam3 is zero. Dimensions should be obtained from $lparam3 as follows:
+			$address = wb_peek($lparam3, 16);
+			$num = unpack('L4n', $address);
+			$xpos = $num['n1'];
+			$ypos = $num['n2'];
+			$width = $num['n3'] - $xpos;
+			$height = $num['n4'] - $ypos;
+- Solved memory leak that occurred on every function call: added some extra calls to efree() in function wbCallUserFunction() in module phpwb_wb_lib.c
+- Added some ToDos to the list
+
+------------------------------------------------------------------------------
 Version 0.44 (alpha) - build 172
 Date: Jan 2, 2006
 ------------------------------------------------------------------------------

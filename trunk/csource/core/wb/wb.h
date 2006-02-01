@@ -509,7 +509,7 @@ UINT		wbCheckInput(PWBOBJ pwbo, DWORD dwFlags, DWORD dwTimeout);
 
 // Library-dependent functions
 
-BOOL		wbCallUserFunction(LPCTSTR pszFunctionName, PWBOBJ pwboParent, PWBOBJ pctrl, UINT id, LPARAM lParam1, LPARAM lParam2);
+BOOL		wbCallUserFunction(LPCTSTR pszFunctionName, PWBOBJ pwboParent, PWBOBJ pctrl, UINT id, LPARAM lParam1, LPARAM lParam2, LPARAM lParam3);
 BOOL		wbError(LPCTSTR szFunction, int nType, LPCTSTR pszFmt, ...);
 void *		wbMalloc(size_t size);
 void *		wbCalloc(size_t nmemb, size_t size);

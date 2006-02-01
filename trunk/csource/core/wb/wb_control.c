@@ -1461,35 +1461,70 @@ BOOL wbRefreshControl(PWBOBJ pwbo, int xpos, int ypos, int nWidth, int nHeight, 
 	if(!IsWindow(pwbo->hwnd))
 		return FALSE;
 
-	if(nWidth <= 0 || nHeight <= 0) {
-		bRet = InvalidateRect(pwbo->hwnd, (nWidth <= 0 || nHeight <= 0) ? NULL : &rc, TRUE);
-	} else {
-		rc.left = xpos;
-		rc.top = ypos;
-		rc.right = xpos + nWidth;
-		rc.bottom = ypos + nHeight;
-		bRet = InvalidateRect(pwbo->hwnd, &rc, TRUE);
-	}
+	if(!((pwbo->style & WBC_NOTIFY) && (pwbo->lparam & WBC_REDRAW) && pwbo->pszCallBackFn && *pwbo->pszCallBackFn)) {
 
-	if(bNow)
-		bRet = UpdateWindow(pwbo->hwnd);
+		// Not custom drawn
 
-	// We use the callback function to let the user do the drawing
-
-	if((pwbo->style & WBC_NOTIFY) && (pwbo->lparam & WBC_REDRAW) && pwbo->pszCallBackFn && *pwbo->pszCallBackFn) {
-
-		wbCallUserFunction(pwbo->pszCallBackFn, pwbo, pwbo, IDDEFAULT, WBC_REDRAW,
-		  (LPARAM)pwbo->pbuffer);
-	}
-
-	if(bNow) {				// Update window a second time (for owner-drawn windows)
 		if(nWidth <= 0 || nHeight <= 0) {
-			bRet = InvalidateRect(pwbo->hwnd, (nWidth <= 0 || nHeight <= 0) ? NULL : &rc, TRUE);
+			bRet = InvalidateRect(pwbo->hwnd, NULL, TRUE);	// Whole control
 		} else {
-			// RECT structure is already filled
+			rc.left = xpos;
+			rc.top = ypos;
+			rc.right = xpos + nWidth;
+			rc.bottom = ypos + nHeight;
 			bRet = InvalidateRect(pwbo->hwnd, &rc, TRUE);
 		}
-		bRet = UpdateWindow(pwbo->hwnd);
+
+		// Force an immediate update
+
+		if(bNow) {
+			bRet = UpdateWindow(pwbo->hwnd);
+		}
+
+	} else {
+
+		// Custom drawn
+
+		if(nWidth <= 0 || nHeight <= 0) {
+
+			// We use the callback function to let the user do the drawing
+
+			// *** Should probably use pwbo->parent for child controls, but the
+			// *** use of parameter pwboParent in wbCallUserFunction() is not clear
+			wbCallUserFunction(pwbo->pszCallBackFn, pwbo, pwbo,
+				IDDEFAULT, WBC_REDRAW, (LPARAM)pwbo->pbuffer, 0);
+
+			bRet = InvalidateRect(pwbo->hwnd, NULL, TRUE);
+
+			// Force an immediate update
+
+			if(bNow) {
+				bRet = UpdateWindow(pwbo->hwnd);
+			}
+
+		} else {
+
+			rc.left = xpos;
+			rc.top = ypos;
+			rc.right = xpos + nWidth;
+			rc.bottom = ypos + nHeight;
+
+			// We use the callback function to let the user do the drawing
+
+			// *** Should probably use pwbo->parent for child controls, but the
+			// *** use of parameter pwboParent in wbCallUserFunction() is not clear
+			wbCallUserFunction(pwbo->pszCallBackFn, pwbo, pwbo,
+				IDDEFAULT, WBC_REDRAW, (LPARAM)pwbo->pbuffer,
+				(LPARAM)&rc);
+
+			bRet = InvalidateRect(pwbo->hwnd, &rc, TRUE);
+
+			// Force an immediate update
+
+			if(bNow) {
+				bRet = UpdateWindow(pwbo->hwnd);
+			}
+		}
 	}
 	return bRet;
 }
