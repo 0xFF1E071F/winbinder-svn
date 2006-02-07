@@ -27,7 +27,7 @@
 
 #define CALL_CALLBACK(id,lp1,lp2,lp3)	/* Call user function */ \
 	{if(pwbobj && pwbobj->parent && pwbobj->parent->pszCallBackFn && *pwbobj->parent->pszCallBackFn) { \
-		wbCallUserFunction(pwbobj->parent->pszCallBackFn, pwbobj->parent, pwbobj, id, lp1, lp2, lp3); }}
+		wbCallUserFunction(pwbobj->parent->pszCallBackFn, pwbobj->pszCallBackObj, pwbobj->parent, pwbobj, id, lp1, lp2, lp3); }}
 
 #define SEND_MESSAGE			/* Send additional notification message */ \
 	((pwbobj->parent->uClass == TabControl) ? (pwbobj->parent->parent->style & WBC_NOTIFY) : (pwbobj->parent->style & WBC_NOTIFY))
@@ -43,7 +43,7 @@ BOOL SetTaskBarIcon(HWND hwnd, BOOL bModify);
 
 // External
 
-extern PWBOBJ AssignHandlerToTabs(HWND hwndParent, LPCTSTR pszHandler);
+extern PWBOBJ AssignHandlerToTabs(HWND hwndParent, LPCTSTR pszObjName, LPCTSTR pszHandler);
 extern DWORD GetCalendarTime(PWBOBJ pwbo);
 extern LRESULT CALLBACK BrowserWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
@@ -118,6 +118,7 @@ PWBOBJ wbCreateWindow(PWBOBJ pwboParent, UINT uWinBinderClass, LPCTSTR pszCaptio
 	pwbo->style = dwWBStyle;
 	pwbo->parent = pwboParent;
 	pwbo->pszCallBackFn = NULL;
+	pwbo->pszCallBackObj = NULL;
 	pwbo->lparam = lParam;
 	ZeroMemory(pwbo->lparams, sizeof(LONG) * 8);
 	pwbo->pbuffer = NULL;
@@ -244,7 +245,7 @@ HWND wbGetRequestedAppWindow(LPCTSTR pszCaption, BOOL bBringToFront)
 
 // Assign a handler to a window and to its children tab controls, if any
 
-BOOL wbSetWindowHandler(PWBOBJ pwbo, LPCTSTR pszHandler)
+BOOL wbSetWindowHandler(PWBOBJ pwbo, LPCTSTR pszObjName, LPCTSTR pszHandler)
 {
 	if(!pszHandler || !*pszHandler)
 		return FALSE;
@@ -252,9 +253,16 @@ BOOL wbSetWindowHandler(PWBOBJ pwbo, LPCTSTR pszHandler)
 	if(!pwbo || !pwbo->hwnd || !IsWindow(pwbo->hwnd))
 		return FALSE;
 
+	// An object name was passed
+
+	if(pszObjName && *pszObjName) {
+		pwbo->pszCallBackObj = (LPTSTR)pszObjName;
+	} else
+		pwbo->pszCallBackObj = NULL;
+
 	pwbo->pszCallBackFn = (LPTSTR)pszHandler;
 
-	AssignHandlerToTabs(pwbo->hwnd, pszHandler);
+	AssignHandlerToTabs(pwbo->hwnd, pszObjName, pszHandler);
 
 	return TRUE;
 }
@@ -276,6 +284,8 @@ BOOL wbDestroyWindow(PWBOBJ pwbo)
 	bRet = DestroyWindow(pwbo->hwnd);
 	if(!GetFocus())
 		SetFocus(GetForegroundWindow());
+
+	pwbo->hwnd = NULL;
 
 	wbFree(pwbo);
 
@@ -879,7 +889,6 @@ static LRESULT CALLBACK DefaultWBProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			break;
 
 		case WM_COMMAND:
-
 			{
 				HWND hCtrl;
 				PWBOBJ pwbobj;
@@ -889,7 +898,7 @@ static LRESULT CALLBACK DefaultWBProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 					pwbobj = wbGetWBObj(hwnd);
 					// Must not use the macro CALL_CALLBACK here
 					if(pwbobj && pwbobj->pszCallBackFn && *pwbobj->pszCallBackFn)
-						wbCallUserFunction(pwbobj->pszCallBackFn, pwbobj, pwbobj, LOWORD(wParam), 0, 0, 0);
+						wbCallUserFunction(pwbobj->pszCallBackFn, pwbobj->pszCallBackObj, pwbobj, pwbobj, LOWORD(wParam), 0, HIWORD(wParam), 0);
 					return 0;
 				}
 
@@ -904,10 +913,10 @@ static LRESULT CALLBACK DefaultWBProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 					case EditBox:
 					case RTFEditBox:
 						if((HIWORD(wParam) == EN_CHANGE)) {
-							CALL_CALLBACK(LOWORD(wParam), 0, 0, 0);
+							CALL_CALLBACK(LOWORD(wParam), 0, HIWORD(wParam), 0);
 						} else if(HIWORD(wParam) == EN_SETFOCUS) {
 							if(SEND_MESSAGE && TEST_FLAG(WBC_GETFOCUS))
-								CALL_CALLBACK(LOWORD(wParam), WBC_GETFOCUS, 0, 0);
+								CALL_CALLBACK(LOWORD(wParam), WBC_GETFOCUS, HIWORD(wParam), 0);
 						}
 						break;
 
@@ -915,36 +924,36 @@ static LRESULT CALLBACK DefaultWBProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 						if((HIWORD(wParam) == CBN_EDITCHANGE)) {
 							// Store selected index for future use
 							pwbobj->lparam = -1;
-							CALL_CALLBACK(LOWORD(wParam), 0, 0, 0);
+							CALL_CALLBACK(LOWORD(wParam), 0, HIWORD(wParam), 0);
 						} else if((HIWORD(wParam) == CBN_SELCHANGE)) {
 							// Store selected index for future use
 							pwbobj->lparam = SendMessage(pwbobj->hwnd, CB_GETCURSEL, 0, 0);
-							CALL_CALLBACK(LOWORD(wParam), 0, 0, 0);
+							CALL_CALLBACK(LOWORD(wParam), 0, HIWORD(wParam), 0);
 						} else if(HIWORD(wParam) == CBN_SETFOCUS) {
 							if(SEND_MESSAGE && TEST_FLAG(WBC_GETFOCUS))
-								CALL_CALLBACK(LOWORD(wParam), WBC_GETFOCUS, 0, 0);
+								CALL_CALLBACK(LOWORD(wParam), WBC_GETFOCUS, HIWORD(wParam), 0);
 						}
 						break;
 
 					case ListBox:
 						if(HIWORD(wParam) == LBN_DBLCLK) {
 							if(SEND_MESSAGE && TEST_FLAG(WBC_DBLCLICK))
-								CALL_CALLBACK(LOWORD(wParam), WBC_DBLCLICK, 0, 0);
+								CALL_CALLBACK(LOWORD(wParam), WBC_DBLCLICK, HIWORD(wParam), 0);
 						} else if (HIWORD(wParam) == LBN_SELCHANGE) {
-							CALL_CALLBACK(LOWORD(wParam), 0, 0, 0);
+							CALL_CALLBACK(LOWORD(wParam), 0, HIWORD(wParam), 0);
 						} else if(HIWORD(wParam) == LBN_SETFOCUS) {
 							if(SEND_MESSAGE && TEST_FLAG(WBC_GETFOCUS))
-								CALL_CALLBACK(LOWORD(wParam), WBC_GETFOCUS, 0, 0);
+								CALL_CALLBACK(LOWORD(wParam), WBC_GETFOCUS, HIWORD(wParam), 0);
 						}
 						break;
 
 					case InvisibleArea:
-						CALL_CALLBACK(LOWORD(wParam), 0, 0, 0);
+						CALL_CALLBACK(LOWORD(wParam), 0, HIWORD(wParam), 0);
 						break;
 
 					case HyperLink:
 						if(HIWORD(wParam) == STN_CLICKED)
-							CALL_CALLBACK(LOWORD(wParam), WBC_GETFOCUS, 0, 0);
+							CALL_CALLBACK(LOWORD(wParam), WBC_GETFOCUS, HIWORD(wParam), 0);
 						break;
 
 					case PushButton:
@@ -954,10 +963,10 @@ static LRESULT CALLBACK DefaultWBProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 					case ToolBar:
 
 						if(HIWORD(wParam) == BN_CLICKED) {
-							CALL_CALLBACK(LOWORD(wParam), 0, 0, 0);
+							CALL_CALLBACK(LOWORD(wParam), 0, HIWORD(wParam), 0);
 						} else if(HIWORD(wParam) == BN_SETFOCUS) {
 							if(SEND_MESSAGE && TEST_FLAG(WBC_GETFOCUS))
-								CALL_CALLBACK(LOWORD(wParam), WBC_GETFOCUS, 0, 0);
+								CALL_CALLBACK(LOWORD(wParam), WBC_GETFOCUS, HIWORD(wParam), 0);
 						}
 						break;
 
@@ -984,7 +993,7 @@ static LRESULT CALLBACK DefaultWBProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 					DWORD dwAlt = (GetKeyState(VK_MENU) < 0) ? WBC_ALT : 0;
 
 					if(pwbobj && pwbobj->pszCallBackFn && *pwbobj->pszCallBackFn)
-						wbCallUserFunction(pwbobj->pszCallBackFn, pwbobj, pwbobj, 0,
+						wbCallUserFunction(pwbobj->pszCallBackFn, pwbobj->pszCallBackObj, pwbobj, pwbobj, 0,
 						WBC_MOUSEMOVE | wParam | dwAlt, lParam, 0);
 				}
 			}
@@ -1007,7 +1016,7 @@ static LRESULT CALLBACK DefaultWBProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 					DWORD dwAlt = (GetKeyState(VK_MENU) < 0) ? WBC_ALT : 0;
 
 					if(pwbobj && pwbobj->pszCallBackFn && *pwbobj->pszCallBackFn)
-						wbCallUserFunction(pwbobj->pszCallBackFn, pwbobj, pwbobj, 0,
+						wbCallUserFunction(pwbobj->pszCallBackFn, pwbobj->pszCallBackObj, pwbobj, pwbobj, 0,
 						WBC_MOUSEDOWN | wParam | dwAlt, lParam, 0);
 				}
 			}
@@ -1034,7 +1043,7 @@ MOUSE1:
 					DWORD dwAlt = (GetKeyState(VK_MENU) < 0) ? WBC_ALT : 0;
 //printf("[%d]\n", WBC_MOUSEUP | wParam | dwAlt);
 					if(pwbobj && pwbobj->pszCallBackFn && *pwbobj->pszCallBackFn)
-						wbCallUserFunction(pwbobj->pszCallBackFn, pwbobj, pwbobj, 0,
+						wbCallUserFunction(pwbobj->pszCallBackFn, pwbobj->pszCallBackObj, pwbobj, pwbobj, 0,
 						WBC_MOUSEUP | wParam | dwAlt, lParam, 0);
 				}
 			}
@@ -1054,7 +1063,7 @@ MOUSE1:
 					DWORD dwAlt = (GetKeyState(VK_MENU) < 0) ? WBC_ALT : 0;
 
 					if(pwbobj && pwbobj->pszCallBackFn && *pwbobj->pszCallBackFn)
-						wbCallUserFunction(pwbobj->pszCallBackFn, pwbobj, pwbobj, 0,
+						wbCallUserFunction(pwbobj->pszCallBackFn, pwbobj->pszCallBackObj, pwbobj, pwbobj, 0,
 						WBC_DBLCLICK | dwAlt | wParam, lParam, 0);
 				}
 			}
@@ -1095,7 +1104,7 @@ MOUSE1:
 					break;
 
 				if(pwbobj->pszCallBackFn)
-					wbCallUserFunction(pwbobj->pszCallBackFn, pwbobj, pwbobj, wParam, 0, 0, 0);
+					wbCallUserFunction(pwbobj->pszCallBackFn, pwbobj->pszCallBackObj, pwbobj, pwbobj, wParam, 0, 0, 0);
 				return 0;
 			}
 			break;
@@ -1220,11 +1229,11 @@ static LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 //				if(pwbobj->style & WBC_NOTIFY && wParam == SIZE_RESTORED && lParam == 0) {
 				if(pwbobj->style & WBC_NOTIFY && wParam == SIZE_RESTORED) {
 					if((pwbobj->lparam & WBC_RESIZE) && pwbobj->pszCallBackFn && *pwbobj->pszCallBackFn)
-						wbCallUserFunction(pwbobj->pszCallBackFn, pwbobj, pwbobj, IDDEFAULT, WBC_RESIZE,
+						wbCallUserFunction(pwbobj->pszCallBackFn, pwbobj->pszCallBackObj, pwbobj, pwbobj, IDDEFAULT, WBC_RESIZE,
 						(LPARAM)pwbobj->pbuffer, lParam);
 //printf("%d %d\n", wParam, lParam);
 					if((pwbobj->lparam & WBC_REDRAW) && pwbobj->pszCallBackFn && *pwbobj->pszCallBackFn)
-						wbCallUserFunction(pwbobj->pszCallBackFn, pwbobj, pwbobj, IDDEFAULT, WBC_REDRAW,
+						wbCallUserFunction(pwbobj->pszCallBackFn, pwbobj->pszCallBackObj, pwbobj, pwbobj, IDDEFAULT, WBC_REDRAW,
 						(LPARAM)pwbobj->pbuffer, 0);
 				}
 

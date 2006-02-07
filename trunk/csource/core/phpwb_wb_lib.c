@@ -63,14 +63,17 @@ BOOL wbError(LPCTSTR szFunction, int nType, LPCTSTR pszFmt, ...)
 
 // *** The use of parameter pwboParent in wbCallUserFunction() is not clear
 
-BOOL wbCallUserFunction(LPCTSTR pszFunctionName, PWBOBJ pwboParent, PWBOBJ pctrl, UINT id, LPARAM lParam1, LPARAM lParam2, LPARAM lParam3)
+BOOL wbCallUserFunction(LPCTSTR pszFunctionName, LPCTSTR pszObjectName, PWBOBJ pwboParent, PWBOBJ pctrl, UINT id, LPARAM lParam1, LPARAM lParam2, LPARAM lParam3)
 {
 	zval *fname;
+	zval *oname;
+	zval **poname;
 	zval *return_value = NULL;
 	zval **parms[CALLBACK_ARGS];
 	zval *z0, *z1, *z2, *z3, *z4, *z5;
 	BOOL bRet;
 	char *pszFName;
+	char *pszOName;
 
 	TSRMLS_FETCH();
 
@@ -92,13 +95,28 @@ BOOL wbCallUserFunction(LPCTSTR pszFunctionName, PWBOBJ pwboParent, PWBOBJ pctrl
 	MAKE_STD_ZVAL(fname);
 	ZVAL_STRING(fname, pszFName, 1);
 
-	if(!zend_is_callable(fname, 0, &pszFName)) {
+	// Error checking is VERY POOR for user methods (i.e. when pszObjectName is not NULL)
+
+	if(!pszObjectName && !zend_is_callable(fname, 0, &pszFName)) {
 		zend_error(E_WARNING, "%s(): '%s' is not a function or cannot be called",
 		  get_active_function_name(TSRMLS_C), pszFName);
 		efree(pszFName);				// These two lines prevent a leakage
 		efree(fname->value.str.val);	// that occurred on every function call
 		efree(fname);
 		return FALSE;
+	}
+
+	// In case of an object
+
+	if(pszObjectName && *pszObjectName) {
+		pszOName = (char *)pszObjectName;
+		MAKE_STD_ZVAL(oname);
+		ZVAL_STRING(oname, pszOName, 1);
+		poname = &oname;
+	} else {
+		pszOName = NULL;
+		oname = NULL;
+		poname = NULL;
 	}
 
 	ALLOC_INIT_ZVAL(z0);
@@ -129,7 +147,7 @@ BOOL wbCallUserFunction(LPCTSTR pszFunctionName, PWBOBJ pwboParent, PWBOBJ pctrl
 
 	bRet = call_user_function_ex(
 		CG(function_table),			// Hash value for the function table
-		NULL,						// Pointer to an object (may be NULL)
+		poname,						// Pointer to an object (may be NULL)
 		fname,						// Function name
 		&return_value,				// Return value
 		CALLBACK_ARGS,				// Parameter count

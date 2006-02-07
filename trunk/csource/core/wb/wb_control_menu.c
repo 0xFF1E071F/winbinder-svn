@@ -85,6 +85,7 @@ PWBOBJ wbCreateMenu(PWBOBJ pwboParent, PWBITEM pitem[], int nItems)
 	pwbo->subitem = -1;
 	pwbo->style = 0;
 	pwbo->pszCallBackFn = NULL;
+	pwbo->pszCallBackObj = NULL;
 	pwbo->lparam = 0;
 	pwbo->parent = pwboParent;
 

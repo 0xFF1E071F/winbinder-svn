@@ -13,6 +13,9 @@
 (LATEST CHANGES BY RUBEM)
 ------------------------------------------------------------------------------
 
+- Implemented the option of passing a class method to wb_set_handler() using an array instead of a string (requested by Stefano for the OO interface). A pszCallBackObj parameter was added to structure WBOBJ. Also the following internal functions were changed to add a pszObject parameter: AssignHandlerToTabs(), wbCallUserFunction(), wbSetWindowHandler(). This parameter is now passed to the call_user_function_ex() call in wbCallUserFunction(). Must be tested with real-life situations (both with and without classes), specially using tab controls in both cases. Also, error checking is very poor when an object class is passed to wb_set_handler().
+- In the PHP callback function: $lparam2 now receives a notification code or extra data (see API documentation on WM_COMMAND, parameter wNotifyCode) when the default action is sent. The code helps differentate if the command comes from clicking or pressing the control itself or from another action. Seems to work for InvisibleAreas only, but it's not clear why. A more general implementation in the future should clearly differentiate between clicking, using the keyboard, using a menu, an accelerator, or an external action caused by another control. This is still a pending issue.
+- In wbDestroyWindow(): trying to prevent wb_destroy_window($any_other_window) from closing the application. Added 'pwbo->hwnd = NULL' which makes sense but still didn't solve the problem
 - InvisibleArea was subclassed to process and send WM_MOUSEMOVE messages to the callback
 
 ------------------------------------------------------------------------------

@@ -258,6 +258,7 @@ typedef struct _wbo {			// wbo
 	DWORD style;				// WinBinder style
 	struct _wbo *parent;		// Parent window
 	LPTSTR pszCallBackFn;		// Callback function
+	LPTSTR pszCallBackObj;		// Object for callback method
 	LPARAM lparam;				// User-defined parameter
 	union {
 		LONG lparams[8];		// General-purpose parameter array
@@ -476,7 +477,7 @@ PFONT		wbSysDlgFont(PWBOBJ pwboParent, LPCTSTR pszTitle, PFONT pfont);
 
 PWBOBJ		wbCreateWindow(PWBOBJ pwboParent, UINT uWinBinderClass, LPCTSTR pszCaption, int xPos, int yPos, int nWidth, int nHeight, UINT id, DWORD dwWBStyle, long lParam);
 BOOL		wbDestroyWindow(PWBOBJ pwbo);
-BOOL		wbSetWindowHandler(PWBOBJ pwbo, LPCTSTR pszHandler);
+BOOL		wbSetWindowHandler(PWBOBJ pwbo, LPCTSTR pszObjName,  LPCTSTR pszHandler);
 BOOL		wbSetWindowSize(PWBOBJ pwbo, int nWidth, int nHeight, int nShowMode);
 DWORD		wbGetWindowSize(PWBOBJ pwbo, BOOL bClientRect);
 DWORD		wbGetWindowPosition(PWBOBJ pwbo, PWBOBJ pwboParent, BOOL bClientRect);
@@ -509,7 +510,7 @@ UINT		wbCheckInput(PWBOBJ pwbo, DWORD dwFlags, DWORD dwTimeout);
 
 // Library-dependent functions
 
-BOOL		wbCallUserFunction(LPCTSTR pszFunctionName, PWBOBJ pwboParent, PWBOBJ pctrl, UINT id, LPARAM lParam1, LPARAM lParam2, LPARAM lParam3);
+BOOL		wbCallUserFunction(LPCTSTR pszFunctionName, LPCTSTR pszObjectName, PWBOBJ pwboParent, PWBOBJ pctrl, UINT id, LPARAM lParam1, LPARAM lParam2, LPARAM lParam3);
 BOOL		wbError(LPCTSTR szFunction, int nType, LPCTSTR pszFmt, ...);
 void *		wbMalloc(size_t size);
 void *		wbCalloc(size_t nmemb, size_t size);

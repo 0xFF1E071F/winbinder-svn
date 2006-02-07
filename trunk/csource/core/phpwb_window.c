@@ -341,27 +341,43 @@ ZEND_FUNCTION(wb_set_handler)
 {
 	long pwbo;
 	char *handler;
-	int s_len;
-	zval *name;
+	char *objname;
+	zval *name, *zparam;
 
     if(zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
-	 "ls", &pwbo, &handler, &s_len) == FAILURE)
+	 "lz", &pwbo, &zparam) == FAILURE)
 		return;
 
 	if(!wbIsWBObj((void *)pwbo, TRUE))
 		RETURN_NULL();
 
+	switch(zparam->type) {
+		case IS_ARRAY:
+			parse_array(zparam, "ss", &objname, &handler);
+			break;
+		case IS_STRING:
+			handler = zparam->value.str.val;
+			objname = NULL;
+			break;
+		default:
+			zend_error(E_WARNING, "Wrong data type in function %s()",
+			  get_active_function_name(TSRMLS_C));
+			RETURN_NULL();
+	}
+
 	MAKE_STD_ZVAL(name);
 	ZVAL_STRING(name, handler, 1);
 
-	if(!zend_is_callable(name, 0, &handler)) {
+	// Error checking is VERY POOR for user methods (i.e. when zparam is an array)
+
+	if(!objname && !zend_is_callable(name, 0, &handler)) {
 		zend_error(E_WARNING, "%s(): '%s' is not a function or cannot be called",
 		  get_active_function_name(TSRMLS_C), handler);
 		efree(name);
 		RETURN_NULL();
 	} else {
 		efree(name);
-		RETURN_BOOL(wbSetWindowHandler((PWBOBJ)pwbo, handler));
+		RETURN_BOOL(wbSetWindowHandler((PWBOBJ)pwbo, objname, handler));
 	}
 }
 

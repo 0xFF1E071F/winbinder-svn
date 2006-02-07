@@ -95,6 +95,7 @@ PWBOBJ wbCreateControl(PWBOBJ pwboParent, UINT uWinBinderClass, LPCTSTR pszCapti
 	pwbo->style = dwWBStyle;
 	pwbo->parent = pwboParent;
 	pwbo->pszCallBackFn = NULL;
+	pwbo->pszCallBackObj = NULL;
 	pwbo->lparam = lParam;
 	ZeroMemory(pwbo->lparams, sizeof(LONG) * 8);
 	pwbo->pbuffer = NULL;
@@ -580,6 +581,7 @@ PWBOBJ wbGetControl(PWBOBJ pwboParent, int id)
 				pwbo->style = 0;
 				pwbo->parent = pwboParent;
 				pwbo->pszCallBackFn = NULL;
+				pwbo->pszCallBackObj = NULL;
 				pwbo->lparam = 0;
 				pwbo->pbuffer = NULL;
 				break;
@@ -606,6 +608,7 @@ PWBOBJ wbGetControl(PWBOBJ pwboParent, int id)
 							pwbo->style = 0;
 							pwbo->parent = pwboParent;
 							pwbo->pszCallBackFn = NULL;
+							pwbo->pszCallBackObj = NULL;
 							pwbo->lparam = 0;
 							pwbo->pbuffer = NULL;
 						}
@@ -1499,7 +1502,7 @@ BOOL wbRefreshControl(PWBOBJ pwbo, int xpos, int ypos, int nWidth, int nHeight, 
 
 			// *** Should probably use pwbo->parent for child controls, but the
 			// *** use of parameter pwboParent in wbCallUserFunction() is not clear
-			wbCallUserFunction(pwbo->pszCallBackFn, pwbo, pwbo,
+			wbCallUserFunction(pwbo->pszCallBackFn, pwbo->pszCallBackObj, pwbo, pwbo,
 				IDDEFAULT, WBC_REDRAW, (LPARAM)pwbo->pbuffer, 0);
 
 			bRet = InvalidateRect(pwbo->hwnd, NULL, TRUE);
@@ -1521,7 +1524,7 @@ BOOL wbRefreshControl(PWBOBJ pwbo, int xpos, int ypos, int nWidth, int nHeight, 
 
 			// *** Should probably use pwbo->parent for child controls, but the
 			// *** use of parameter pwboParent in wbCallUserFunction() is not clear
-			wbCallUserFunction(pwbo->pszCallBackFn, pwbo, pwbo,
+			wbCallUserFunction(pwbo->pszCallBackFn, pwbo->pszCallBackObj, pwbo, pwbo,
 				IDDEFAULT, WBC_REDRAW, (LPARAM)pwbo->pbuffer,
 				(LPARAM)&rc);
 
@@ -1762,7 +1765,7 @@ static LRESULT CALLBACK InvisibleProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
 					if(pwbobj && pwbobj->parent && pwbobj->parent->pszCallBackFn && *pwbobj->parent->pszCallBackFn) {
 //printf("%08X %s\n", pwbobj->lparam, pwbobj->parent->pszCallBackFn);
-						wbCallUserFunction(pwbobj->parent->pszCallBackFn, pwbobj->parent, pwbobj, pwbobj->id,
+						wbCallUserFunction(pwbobj->parent->pszCallBackFn, pwbobj->pszCallBackObj, pwbobj->parent, pwbobj, pwbobj->id,
 						WBC_MOUSEMOVE | wParam | dwAlt, lParam, 0);
 					}
 				}
