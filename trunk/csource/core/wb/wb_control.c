@@ -733,12 +733,13 @@ UINT wbGetTextLength(PWBOBJ pwbo)
 
 		case ComboBox:
 			{
-				// lparam < 0 means the child edit control was modified
-
-				if(pwbo->lparam < 0) {
+				if(!(pwbo->style & WBC_READONLY)) {
 					return SendMessage(pwbo->hwnd, WM_GETTEXTLENGTH, 0, 0);
 				} else {
-					return SendMessage(pwbo->hwnd, CB_GETLBTEXTLEN, pwbo->lparam, 0);
+					int nIndex;
+
+					nIndex = SendMessage(pwbo->hwnd, CB_GETCURSEL, 0, 0);
+					return SendMessage(pwbo->hwnd, CB_GETLBTEXTLEN, nIndex, 0);
 				}
 			}
 
@@ -821,12 +822,10 @@ BOOL wbGetText(PWBOBJ pwbo, LPTSTR pszText, UINT nMaxChars)
 
 		case ComboBox:
 
-			// lparam < 0 means the child edit control was modified
-
-			if(pwbo->lparam < 0) {
+			if(!(pwbo->style & WBC_READONLY)) {
 				SendMessage(pwbo->hwnd, WM_GETTEXT, nMaxChars, (LPARAM)pszText);
 				return TRUE;
-			} else{
+			} else {
 				int nIndex;
 				BOOL bRet;
 
@@ -906,7 +905,6 @@ BOOL wbGetEnabled(PWBOBJ pwbo)
 		return FALSE;
 
 	if(pwbo->uClass == Menu && IsMenu((HMENU)pwbo->hwnd)) {		// Is it a menu item?
-//	if(IsMenu((HMENU)pwbo->hwnd)) {		// Is it a menu item?
 
 		MENUITEMINFO mi;
 

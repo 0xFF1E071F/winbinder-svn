@@ -921,12 +921,41 @@ static LRESULT CALLBACK DefaultWBProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 						break;
 
 					case ComboBox:
+
 						if((HIWORD(wParam) == CBN_EDITCHANGE)) {
+
 							// Store selected index for future use
+
 							pwbobj->lparam = -1;
 							CALL_CALLBACK(LOWORD(wParam), 0, HIWORD(wParam), 0);
+
 						} else if((HIWORD(wParam) == CBN_SELCHANGE)) {
+
+							// The code block below makes wb_get_text() return the correct contents
+							// of a non-read-only combo box right after a selection is made
+
+							if(!(pwbobj->style & WBC_READONLY)) {
+
+								int nIndex, nTextLen;
+								LPTSTR szText = "";
+
+								nIndex = SendMessage(pwbobj->hwnd, CB_GETCURSEL, 0, 0);
+								if(nIndex != CB_ERR) {
+									nTextLen = SendMessage(pwbobj->hwnd, CB_GETLBTEXTLEN, nIndex, 0);
+									if(nIndex != CB_ERR) {
+										if(nTextLen) {
+											szText = wbMalloc(nTextLen);
+											SendMessage(pwbobj->hwnd, CB_GETLBTEXT, nIndex, (LPARAM)szText);
+											SendMessage(pwbobj->hwnd, WM_SETTEXT, 0, (LPARAM)szText);
+											wbFree(szText);
+										} else
+											SendMessage(pwbobj->hwnd, WM_SETTEXT, 0, (LPARAM)"");
+									}
+								}
+							}
+
 							// Store selected index for future use
+
 							pwbobj->lparam = SendMessage(pwbobj->hwnd, CB_GETCURSEL, 0, 0);
 							CALL_CALLBACK(LOWORD(wParam), 0, HIWORD(wParam), 0);
 						} else if(HIWORD(wParam) == CBN_SETFOCUS) {
