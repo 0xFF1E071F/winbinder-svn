@@ -47,27 +47,30 @@ $mainwin = wb_create_window(NULL, NakedWindow, APPNAME, WBC_CENTER, WBC_CENTER, 
   WBC_INVISIBLE | WBC_NOTIFY | WBC_CUSTOMDRAW, WBC_REDRAW);
 wb_set_area($mainwin, WBC_TITLE, 0, 0, WIDTH, 86);
 
-// Draw and create window background
+// Set some cursors
 
-//draw_on_window($mainwin, WIDTH, HEIGHT);
+$cursor = wb_load_image(PATH_RES . 'finger.cur');
+wb_set_cursor(ImageButton, $cursor);
+wb_set_cursor($mainwin, 'cross');
 
 // Create some ImageButtons
 
 $states = wb_load_image(PATH_RES . 'states.bmp');
 
-$btn = wb_create_control($mainwin, ImageButton, "Toggle Always on Top",	10, 346, 32, 32, ID_ONTOP, WBC_IMAGE);
+$btn = wb_create_control($mainwin, ImageButton, "Toggle Always on Top",	10, 346, 32, 32, ID_ONTOP, 0);
+wb_set_image($btn, $states);
+wb_set_cursor($btn, 'uparrow');
+
+$btn = wb_create_control($mainwin, ImageButton, "Button 2", 			42, 346, 32, 32, 0, 0);
 wb_set_image($btn, $states);
 
-$btn = wb_create_control($mainwin, ImageButton, "Button 2", 			42, 346, 32, 32, 0, WBC_IMAGE);
+$btn = wb_create_control($mainwin, ImageButton, "Button 3",				74, 346, 32, 32, 0, 0);
 wb_set_image($btn, $states);
 
-$btn = wb_create_control($mainwin, ImageButton, "Button 3",				74, 346, 32, 32, 0, WBC_IMAGE);
+$btn = wb_create_control($mainwin, ImageButton, "Button 4",				106, 346, 32, 32, 0, WBC_DISABLED);
 wb_set_image($btn, $states);
 
-$btn = wb_create_control($mainwin, ImageButton, "Button 4",				106, 346, 32, 32, 0, WBC_IMAGE | WBC_DISABLED);
-wb_set_image($btn, $states);
-
-$btn = wb_create_control($mainwin, ImageButton, "Close this window",	WIDTH -  40, 346, 32, 32, IDCLOSE, WBC_IMAGE);
+$btn = wb_create_control($mainwin, ImageButton, "Close this window",	WIDTH -  40, 346, 32, 32, IDCLOSE, 0);
 wb_set_image($btn, $states);
 wb_destroy_image($btn);
 

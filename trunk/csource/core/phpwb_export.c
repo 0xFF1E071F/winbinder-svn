@@ -69,6 +69,7 @@ ZEND_FUNCTION(wb_get_state);
 ZEND_FUNCTION(wb_get_value);
 ZEND_FUNCTION(wb_get_visible);
 ZEND_FUNCTION(wb_refresh);
+ZEND_FUNCTION(wb_set_cursor);
 ZEND_FUNCTION(wb_set_enabled);
 ZEND_FUNCTION(wb_set_focus);
 ZEND_FUNCTION(wb_set_handler);
@@ -241,6 +242,7 @@ zend_function_entry winbinder_functions[] =
 	ZEND_FE(wb_get_selected, NULL)
 	ZEND_FE(wb_get_state, NULL)
 	ZEND_FE(wb_get_visible, NULL)
+	ZEND_FE(wb_set_cursor, NULL)
 	ZEND_FE(wb_set_focus, NULL)
 	ZEND_FE(wb_set_handler, NULL)
 	ZEND_FE(wb_set_location, NULL)
@@ -423,8 +425,10 @@ ZEND_MINIT_FUNCTION(winbinder)
 	WB_ZEND_CONST(LONG, "WBC_SINGLE",		WBC_SINGLE)
 	WB_ZEND_CONST(LONG, "WBC_SORT",			WBC_SORT)
 	WB_ZEND_CONST(LONG, "WBC_TASKBAR",		WBC_TASKBAR)
+	WB_ZEND_CONST(LONG, "WBC_AUTOREPEAT",	WBC_AUTOREPEAT)
 	WB_ZEND_CONST(LONG, "WBC_TOP",			WBC_TOP)
 	WB_ZEND_CONST(LONG, "WBC_VISIBLE",		WBC_VISIBLE)
+	WB_ZEND_CONST(LONG, "WBC_TRANSPARENT",	WBC_TRANSPARENT)
 
 	// Notification message flags
 

@@ -22,7 +22,7 @@ if(!defined("IDC_BUTTON1053")) define("IDC_BUTTON1053", 1053);
 
 // Create window
 
-$mainwin = wb_create_window(NULL, 100, "Sample WinBinder application", WBC_CENTER, WBC_CENTER, 555, 458, 529, 5120);
+$mainwin = wb_create_window(NULL, 1, "Sample WinBinder application", WBC_CENTER, WBC_CENTER, 555, 458, 529, 5120);
 
 // Insert controls
 

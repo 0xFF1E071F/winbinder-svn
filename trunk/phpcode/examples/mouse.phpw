@@ -80,7 +80,9 @@ function process_main($window, $id, $ctrl=0, $lparam=0, $lparam2=0)
 			if(($lparam & (WBC_LBUTTON | WBC_RBUTTON))) {
 				wb_draw_rect($window, $x - 2, $y - 2, 5, 5, $color, TRUE);
 				wb_draw_point($window, $x, $y, WHITE);
-			}
+				wb_set_cursor($window, 'none');
+			} else
+				wb_set_cursor($window, null);
 			break;
 
 		case ID_EXIT:

@@ -77,7 +77,8 @@ function get_folder_files($path, $subdirs=false, $fullname=true, $mask="", $forc
 
 //-------------------------------------------------------------------- INI FILES
 
-/* Transforms the array $data in a text that can be saved as an INI file */
+/* Transforms the array $data in a text that can be saved as an INI file.
+  Escapes double-quotes as (\") */
 
 function generate_ini($data, $comments="")
 {
@@ -91,16 +92,17 @@ function generate_ini($data, $comments="")
 
 		foreach($section as $key=>$value) {
 			$value = trim($value);
-			if((string)((int)$value) == (string)$value)
-				;	// Integer: does nothing
-			elseif((string)((float)$value) == (string)$value)
-				;	// Floating point: does nothing
-			elseif($value === "")
-				$value = '""';	// Empty string
-			elseif($value[0] == '"' && $value[strlen($value)-1] == '"')
-				;	// Has quotes already: does nothing
+			if((string)((int)$value) == (string)$value)			// Integer: does nothing
+				;
+			elseif((string)((float)$value) == (string)$value)	// Floating point: does nothing
+				;
+			elseif($value === "")								// Empty string
+				$value = '""';
+			elseif(strstr($value, '"'))							// Escape double-quotes
+				$value = '"' . str_replace('"', '\"', $value) . '"';
 			else
 				$value = '"' . $value . '"';
+
 			$text .= "$key = " . $value . "\r\n";
 		}
 	}
@@ -109,7 +111,8 @@ function generate_ini($data, $comments="")
 
 /*
 
-Replaces function parse_ini_file() so INI files may be processed more similarly to Windows. See manual for details.
+Replaces function parse_ini_file() so INI files may be processed more similarly to Windows.
+Replaces escaped double-quotes (\") with double-quotes ("). See manual for details.
 
 */
 
@@ -133,6 +136,11 @@ function parse_ini($initext, $changecase=TRUE, $convertwords=TRUE)
 	for($i = 0; $i < count($ini); $i++) {
 
 		$line = trim($ini[$i]);
+
+		// Replaces escaped double-quotes (\") with special signal /%quote%/
+
+		if(strstr($line, '\"'))
+			$line = str_replace('\"', '/%quote%/', $line);
 
 		// Skips blank lines and comments
 
@@ -160,6 +168,10 @@ function parse_ini($initext, $changecase=TRUE, $convertwords=TRUE)
 				$entry = strtolower($entry);
 
 			$value = preg_replace($entrypattern, "\\2", $line);
+
+			// Restores double-quotes (")
+
+			$value = str_replace('/%quote%/', '"', $value);
 
 			// Convert some special words to their respective values
 

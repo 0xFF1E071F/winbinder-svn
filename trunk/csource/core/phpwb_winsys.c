@@ -101,6 +101,43 @@ ZEND_FUNCTION(wbtemp_set_accel_table)
 	}
 }
 
+ZEND_FUNCTION(wb_set_cursor)
+{
+	LONG pwbo;
+	zval *source = NULL;
+	HANDLE hCursor;
+	LPTSTR pszCursorName;
+
+    if(zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
+	 "lz!", &pwbo, &source) == FAILURE)
+		return;
+
+	if(!source) {
+
+		hCursor = NULL;
+		pszCursorName = NULL;
+
+	} else if(source->type == IS_LONG) {
+
+		hCursor = (HANDLE)source->value.lval;
+		pszCursorName = NULL;
+
+	} else if(source->type == IS_STRING) {
+
+		hCursor = NULL;
+		pszCursorName = source->value.str.val;
+
+	} else {
+
+		zend_error(E_WARNING, "Invalid parameter type passed to function %s()",
+		  get_active_function_name(TSRMLS_C));
+		RETURN_NULL();
+
+	}
+
+	RETURN_BOOL(wbSetCursor((PWBOBJ)pwbo, pszCursorName, hCursor))
+}
+
 // TODO: Not working?
 // TODO: Play WAV, MIDI, MP3...
 

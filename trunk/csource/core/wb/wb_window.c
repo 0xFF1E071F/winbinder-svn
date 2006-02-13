@@ -46,6 +46,7 @@ BOOL SetTaskBarIcon(HWND hwnd, BOOL bModify);
 extern PWBOBJ AssignHandlerToTabs(HWND hwndParent, LPCTSTR pszObjName, LPCTSTR pszHandler);
 extern DWORD GetCalendarTime(PWBOBJ pwbo);
 extern LRESULT CALLBACK BrowserWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+extern BOOL RegisterImageButtonClass(void);
 
 // Static
 
@@ -68,7 +69,6 @@ static LRESULT CALLBACK NakedWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 static LRESULT CALLBACK ModelessWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 static LRESULT CALLBACK ModalWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 static LRESULT CALLBACK TabPageProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-static void ProcessOwnerDrawButton(HWND hwnd, PWBOBJ pwbo, LPDRAWITEMSTRUCT lpdis);
 
 //----------------------------------------------------------------------- TYPES
 
@@ -121,6 +121,7 @@ PWBOBJ wbCreateWindow(PWBOBJ pwboParent, UINT uWinBinderClass, LPCTSTR pszCaptio
 	pwbo->pszCallBackObj = NULL;
 	pwbo->lparam = lParam;
 	ZeroMemory(pwbo->lparams, sizeof(LONG) * 8);
+	ZeroMemory(&pwbo->rcTitle, sizeof(RECT) + 2 * sizeof(AREA));
 	pwbo->pbuffer = NULL;
 
 //	No need to create the buffer here because a WM_SIZE message is always sent when a window is created
@@ -151,8 +152,8 @@ PWBOBJ wbCreateWindow(PWBOBJ pwboParent, UINT uWinBinderClass, LPCTSTR pszCaptio
 				dwExStyle |= WS_EX_DLGMODALFRAME;
 			//pwbo->style |= WBC_CUSTOMDRAW;				// All naked windows are owner-drawn
 //			dwExStyle = dwExStyle ? dwExStyle : 0;
-//			pwbo->lparams[0] = (LPARAM)wbMalloc(sizeof(RECT));
-//			SetRect((LPRECT)pwbo->lparams[0], -1, -1, 0, 0);
+//			pwbo->rcTitle = (LPARAM)wbMalloc(sizeof(RECT));
+//			SetRect((LPRECT)pwbo->rcTitle, -1, -1, 0, 0);
 			break;
 
 		case ModalDialog:			// Modal dialog box
@@ -210,6 +211,8 @@ PWBOBJ wbCreateWindow(PWBOBJ pwboParent, UINT uWinBinderClass, LPCTSTR pszCaptio
 
 	if(uWinBinderClass == ModalDialog)
 		SendMessage(pwbo->hwnd, WM_SETFOCUS, (WPARAM)GetWindow(pwbo->hwnd, GW_CHILD), 0);
+
+//	wbSetCursor(pwbo, NULL);		// Assumes class cursor
 
 	// Should it be always on top?
 
@@ -282,6 +285,7 @@ BOOL wbDestroyWindow(PWBOBJ pwbo)
 	bIsMainWindow = (pwbo == pwndMain);
 
 	bRet = DestroyWindow(pwbo->hwnd);
+
 	if(!GetFocus())
 		SetFocus(GetForegroundWindow());
 
@@ -501,10 +505,16 @@ BOOL wbSetTimer(PWBOBJ pwbo, int id, UINT uPeriod)
 
 //------------------------------------------- FUNCTIONS PUBLIC TO WINBINDER ONLY
 
+// ***** LIMITATION:
+// ***** This implementation assumes there is only one window with one toolbar
+
 void SetToolBarHandle(HWND hCtrl)
 {
 	hToolBar = hCtrl;
 }
+
+// ***** LIMITATION:
+// ***** This implementation assumes there is only one window with a status bar
 
 void SetStatusBarHandle(HWND hCtrl)
 {
@@ -629,7 +639,7 @@ BOOL RegisterClasses(void)
 	if(!RegisterClass(&wc))
 		return FALSE;
 
-	// Register the browser window class
+	// Browser window class
 
 	memset(&wc, 0, sizeof(WNDCLASS));
 	wc.style = CS_HREDRAW | CS_VREDRAW;
@@ -643,6 +653,11 @@ BOOL RegisterClasses(void)
 	wc.cbWndExtra = DLGWINDOWEXTRA;
 
 	if(!RegisterClass(&wc))
+		return FALSE;
+
+	// Register custom controls
+
+	if(!RegisterImageButtonClass())
 		return FALSE;
 
 	return TRUE;
@@ -986,7 +1001,6 @@ static LRESULT CALLBACK DefaultWBProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 						break;
 
 					case PushButton:
-					case ImageButton:
 					case CheckBox:
 					case RadioButton:
 					case ToolBar:
@@ -1138,25 +1152,20 @@ MOUSE1:
 			}
 			break;
 
-		case WM_DRAWITEM:					// For owner-drawn controls (ImageButton class)
+		case WM_SETCURSOR:
 			{
-				LPDRAWITEMSTRUCT lpdis;
+				PWBOBJ pwbo = wbGetWBObj(hwnd);
+				if(!pwbo)
+					break;
 
-				lpdis = (LPDRAWITEMSTRUCT)lParam;
-				if(lpdis->itemID != (unsigned)-1) {
-					PWBOBJ pwbobj = wbGetWBObj(lpdis->hwndItem);
-
-					if(!pwbobj)
-						break;
-
-					switch(pwbobj->uClass) {
-						case ImageButton:
-							ProcessOwnerDrawButton(hwnd, pwbobj, lpdis);
-							break;
-					}
+				if(M_nMouseCursor != 0) {
+					SetCursor(M_nMouseCursor == -1 ? 0 : (HCURSOR)M_nMouseCursor);
+					return TRUE;			// Must return here, not break
+				} else {
+					break;					// Normal behavior
 				}
 			}
-			return TRUE;
+			break;
 
 		case WBWM_IDAPP:			// Custom WinBinder message
 			{
@@ -1212,15 +1221,16 @@ static LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				CenterWindow(hwnd, ((LPCREATESTRUCT)lParam)->hwndParent);
 			break;
 
-		case WM_SIZING:				// Used for window size limits
+		case WM_SIZING:				// Used to set window size limits
 			{
 				PWBOBJ pwbo = wbGetWBObj(hwnd);
 
-				// Little trick with unions below for a faster comparison
+				if(!pwbo)
+					break;
 
-				if(pwbo->lparams[4] || pwbo->lparams[5]) {
+				if(pwbo->arMin.width || pwbo->arMin.height) {
 
-					LPRECT lprc = (LPRECT)lParam;
+					LPRECT lprc = (LPRECT)lParam;	// lParam sets the window size
 
 					if(pwbo->arMin.width && lprc->right - lprc->left < pwbo->arMin.width)
 						lprc->right = lprc->left + pwbo->arMin.width;
@@ -1298,13 +1308,16 @@ static LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			PostQuitMessage(0);
 			break;
 
+// ******* OOPS -- Will DefWindowProc() (below) ever get called?
+// ******* And should it be DefWindowProc() or DefaultWBProc()???
+
 		default:
 			return DefaultWBProc(hwnd, msg, wParam, lParam);
 	}
 	return DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
-// Owner-drawn window class: superclasses MainWndProc
+// Owner-drawn window class: subclasses MainWndProc
 
 static LRESULT CALLBACK OwnerDrawnWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -1381,13 +1394,13 @@ static LRESULT CALLBACK OwnerDrawnWndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 			}
 			break;
 
-		default:
-			return MainWndProc(hwnd, msg, wParam, lParam);
+//		default:
+//			return MainWndProc(hwnd, msg, wParam, lParam);
 	}
 	return MainWndProc(hwnd, msg, wParam, lParam);
 }
 
-// Naked window class: superclasses MainWndProc
+// Naked window class: subclasses MainWndProc
 
 static LRESULT CALLBACK NakedWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -1400,7 +1413,7 @@ static LRESULT CALLBACK NakedWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				if(!pwbobj)
 					break;
 
-				// pwbo->lparam holds a pointer to the rectangle that simulates the title bar
+				// pwbo->rcTitle stores a rectangle that emulates a title bar
 
 				if(pwbobj->rcTitle.left < 0 || pwbobj->rcTitle.top < 0)
 					return HTCAPTION;					// Special case: full window area
@@ -1412,20 +1425,20 @@ static LRESULT CALLBACK NakedWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 					GetWindowRect(hwnd, &rcWin);
 					pt.x = LOWORD(lParam) - rcWin.left;
 					pt.y = HIWORD(lParam) - rcWin.top;
-
+//printf("%d %d %d %d\n", pt.x, pt.y, pwbobj->rcTitle.left, pwbobj->rcTitle.right);
 					if(PtInRect(&pwbobj->rcTitle, pt))
 						return HTCAPTION;
 				}
 			}
 			break;
 
-		default:
-			return MainWndProc(hwnd, msg, wParam, lParam);
+//		default:
+//			return MainWndProc(hwnd, msg, wParam, lParam);
 	}
 	return MainWndProc(hwnd, msg, wParam, lParam);
 }
 
-// Owner-drawn naked window class: superclasses NakedWndProc, OwnerDrawnWndProc
+// Owner-drawn naked window class: subclasses NakedWndProc, OwnerDrawnWndProc
 
 static LRESULT CALLBACK OwnerDrawnNakedWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -1490,6 +1503,9 @@ static LRESULT CALLBACK ModalWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			hCurrentDlg = NULL;
 			break;
 
+// ******* OOPS -- Will DefDlgProc() (below) ever get called?
+// ******* And should it be DefDlgProc() or DefaultWBProc()???
+
 		default:
 			return DefaultWBProc(hwnd, msg, wParam, lParam);
 	}
@@ -1511,6 +1527,9 @@ static LRESULT CALLBACK ModelessWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		case WM_CLOSE:
 		case WM_DESTROY:
 			return ModalWndProc(hwnd, msg, wParam, lParam);
+
+// ******* OOPS -- Will DefDlgProc() (below) ever get called?
+// ******* And should it be DefDlgProc() or DefaultWBProc()???
 
 		default:
 			return DefaultWBProc(hwnd, msg, wParam, lParam);
@@ -1546,35 +1565,6 @@ static LRESULT CALLBACK TabPageProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 }
 
 //------------------------------------------------------------ PRIVATE FUNCTIONS
-
-/* Processes an owner-drawn button (ImageButton) */
-
-static void ProcessOwnerDrawButton(HWND hwnd, PWBOBJ pwbo, LPDRAWITEMSTRUCT lpdis)
-{
-	int nIndex = 0;
-	HIMAGELIST hi = (HIMAGELIST)pwbo->lparam;
-
-	if(!hi)
-		return;
-
-	if(lpdis->CtlType != ODT_BUTTON)
-		return;
-
-	if(lpdis->itemState & ODS_DISABLED) {			// Disabled
-
-		nIndex = 3;
-
-	} else
-
-		if(lpdis->itemState & ODS_SELECTED)			// Pressed
-			nIndex = 2;
-		else if(lpdis->itemState & ODS_FOCUS) {
-			nIndex = 1;								// Focused and not pressed
-
-	}
-
-	ImageList_Draw(hi, nIndex, lpdis->hDC, 0, 0, ILD_NORMAL);
-}
 
 /* Try several methods to retrieve the icon from an application window
  Adapted from from http://groups.google.com/groups?hl=en&lr=&selm=38BC4F60.11F62F%40thematic.com

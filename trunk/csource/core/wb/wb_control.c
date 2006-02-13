@@ -17,12 +17,10 @@
 #include <shellapi.h>			// For Shell_NotifyIcon()
 
 #ifdef _MSC_VER
-#	include <richedit.h>			// For EM
+#	include <richedit.h>		// For EM
 #endif
 
 //-------------------------------------------------------------------- CONSTANTS
-
-#define MAXWINCLASS		32
 
 //-------------------------------------------------------------------- VARIABLES
 
@@ -41,7 +39,6 @@ extern DWORD GetCalendarTime(PWBOBJ pwbo);
 extern BOOL SetCalendarTime(PWBOBJ pwbo, time_t UnixTime);
 
 extern BOOL DisplayHTMLString(PWBOBJ pwbo, LPCTSTR string);
-//extern BOOL DisplayHTMLPage(PWBOBJ pwbo, LPCTSTR pszWebPageName);
 extern BOOL EmbedBrowserObject(PWBOBJ pwbo);
 
 //---------------------------------------------------------- FUNCTION PROTOTYPES
@@ -52,8 +49,9 @@ static BOOL SetTransparentBitmap(HWND hwnd, HBITMAP hbmBits, BOOL bStatic, COLOR
 static HWND CreateToolTip(PWBOBJ pwbo);
 
 static LRESULT CALLBACK FrameProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-static LRESULT CALLBACK EditProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+static LRESULT CALLBACK EditBoxProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 static LRESULT CALLBACK InvisibleProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+static LRESULT CALLBACK ImageButtonProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 // External
 
@@ -98,6 +96,7 @@ PWBOBJ wbCreateControl(PWBOBJ pwboParent, UINT uWinBinderClass, LPCTSTR pszCapti
 	pwbo->pszCallBackObj = NULL;
 	pwbo->lparam = lParam;
 	ZeroMemory(pwbo->lparams, sizeof(LONG) * 8);
+	ZeroMemory(&pwbo->rcTitle, sizeof(RECT) + 2 * sizeof(AREA));
 	pwbo->pbuffer = NULL;
 
 	// If parent is a tab control, change the parent to a page handle
@@ -191,16 +190,17 @@ PWBOBJ wbCreateControl(PWBOBJ pwboParent, UINT uWinBinderClass, LPCTSTR pszCapti
 			dwStyle = WS_CHILD | WS_TABSTOP | BS_PUSHBUTTON | BS_NOTIFY | nVisible;
 			break;
 
-		case ImageButton:
-			pszClass = "BUTTON";
-			dwStyle = WS_CHILD | WS_TABSTOP | BS_OWNERDRAW | nVisible;
-			break;
-
 		case InvisibleArea:
 			pszClass = "STATIC";
-			dwStyle = WS_CHILD | SS_NOTIFY | SS_SIMPLE | nVisible;
+			dwStyle = WS_CHILD | SS_NOTIFY | SS_BITMAP | nVisible;
 			dwExStyle = WS_EX_TRANSPARENT;
-//			pwbo->lparam = (LPARAM)dwWBStyle;
+			break;
+
+		case ImageButton:
+			pszClass = IMAGE_BUTTON_CLASS;		// This is a custom control class
+			dwStyle = WS_CHILD | WS_TABSTOP | nVisible;
+			if(pwbo->style & WBC_TRANSPARENT)
+				dwExStyle = WS_EX_TRANSPARENT;
 			break;
 
 		case CheckBox:
@@ -403,12 +403,6 @@ PWBOBJ wbCreateControl(PWBOBJ pwboParent, UINT uWinBinderClass, LPCTSTR pszCapti
 			EmbedBrowserObject(pwbo);
 			break;
 
-		case ImageButton:
-			CreateToolTip(pwbo);
-			if(lParam)		// Check button
-				SendMessage(pwbo->hwnd, BM_SETCHECK, TRUE, 0);
-			break;
-
 		case RadioButton:
 		case CheckBox:
 		case PushButton:
@@ -422,12 +416,14 @@ PWBOBJ wbCreateControl(PWBOBJ pwboParent, UINT uWinBinderClass, LPCTSTR pszCapti
 		case EditBox:			// Subclasses edit box to process keyboard messages
 			// Set the control font
 			SendMessage(pwbo->hwnd, WM_SETFONT, (WPARAM)hIconFont, 0);
-			lpfnEditProcOld = (WNDPROC)SetWindowLong(pwbo->hwnd, GWL_WNDPROC, (LONG)EditProc);
+			lpfnEditProcOld = (WNDPROC)SetWindowLong(pwbo->hwnd, GWL_WNDPROC, (LONG)EditBoxProc);
+			wbSetCursor(pwbo, NULL, 0);		// Assumes class cursor
 			break;
 
-		case TabControl:		// Subclasses tab control to process WM_COMMAND
+		case TabControl:
 			// Set the control font
 			SendMessage(pwbo->hwnd, WM_SETFONT, (WPARAM)hIconFont, 0);
+//			// Subclasses tab control to process WM_COMMAND
 //			lpfnTabProcOld = (WNDPROC)SetWindowLong(pwbo->hwnd, GWL_WNDPROC, (LONG)TabProc);
 			wbSetTabControlText(pwbo, pszCaption);
 
@@ -445,7 +441,14 @@ PWBOBJ wbCreateControl(PWBOBJ pwboParent, UINT uWinBinderClass, LPCTSTR pszCapti
 			break;
 
 		case InvisibleArea:		// Subclasses InvisibleArea to process WM_MOUSEMOVE
+			CreateToolTip(pwbo);
 			lpfnInvisibleProcOld = (WNDPROC)SetWindowLong(pwbo->hwnd, GWL_WNDPROC, (LONG)InvisibleProc);
+			wbSetCursor(pwbo, NULL, 0);		// Assumes class cursor
+			break;
+
+		case ImageButton:
+			CreateToolTip(pwbo);
+			wbSetCursor(pwbo, NULL, 0);		// Assumes class cursor
 			break;
 
 		case Spinner:
@@ -483,6 +486,7 @@ PWBOBJ wbCreateControl(PWBOBJ pwboParent, UINT uWinBinderClass, LPCTSTR pszCapti
 			// Set the control font
 			SendMessage(pwbo->hwnd, WM_SETFONT, (WPARAM)hIconFont, 0);
 			lpfnHyperLinkProcOld = (WNDPROC)SetWindowLong(pwbo->hwnd, GWL_WNDPROC, (LONG)HyperLinkProc);
+			wbSetCursor(pwbo, NULL, 0);		// Assumes class cursor
 			break;
 
 		default:
@@ -866,13 +870,16 @@ BOOL wbGetText(PWBOBJ pwbo, LPTSTR pszText, UINT nMaxChars)
 
 BOOL wbSetEnabled(PWBOBJ pwbo, BOOL bState)
 {
+	BOOL bRet;
+
 	if(!wbIsWBObj(pwbo, TRUE))					// Is it a valid control?
 		return FALSE;
+
+	// Change status flag
 
 	if(pwbo->uClass == Menu && IsMenu((HMENU)pwbo->hwnd)) {		// Is it a menu item?
 
 		MENUITEMINFO mi;
-		BOOL bRet;
 
 		mi.cbSize = sizeof(MENUITEMINFO);
 		mi.fMask = MIIM_STATE;
@@ -881,22 +888,38 @@ BOOL wbSetEnabled(PWBOBJ pwbo, BOOL bState)
 		bRet = SetMenuItemInfo((HMENU)pwbo->hwnd, pwbo->id, FALSE, &mi);
 		if(!bRet)
 			wbError(__FUNCTION__, MB_ICONWARNING, "Could not set state of menu item #%d", pwbo->id);
-		return bRet;
 
 	} else if(IsWindow(pwbo->hwnd)) {		// Is it a window?
 
 		switch(pwbo->uClass) {
 
 			case ToolBar:
-
-				return SendMessage((HWND)pwbo->hwnd, TB_ENABLEBUTTON, pwbo->id, MAKELONG(bState, 0));
+				bRet = SendMessage((HWND)pwbo->hwnd, TB_ENABLEBUTTON, pwbo->id, MAKELONG(bState, 0));
+				break;
 
 			default:
 				EnableWindow(pwbo->hwnd, bState ? 1 : 0);
-				return TRUE;
+				// Should NOT use the return value from EnableWindow()
+				bRet = TRUE;
+				break;
 		}
+
+		// Force draw custom-drawn controls when they change state
+
+		if(bRet && (pwbo->uClass == ImageButton))
+			InvalidateRect(pwbo->hwnd, NULL, FALSE);
+
 	} else
-		return FALSE;
+		bRet = FALSE;
+
+	// Change style according to bState
+
+	if(bRet && bState)
+		pwbo->style &= ~WBC_DISABLED;
+	else
+		pwbo->style |= WBC_DISABLED;
+
+	return bRet;
 }
 
 BOOL wbGetEnabled(PWBOBJ pwbo)
@@ -1064,7 +1087,6 @@ BOOL wbSetVisible(PWBOBJ pwbo, BOOL bState)
 	if(!wbIsWBObj(pwbo, TRUE))					// Is it a valid control?
 		return FALSE;
 
-	//ShowWindow(pwbo->hwnd, bState ? SW_SHOW : SW_HIDE);
 	SetWindowPos(pwbo->hwnd, 0, 0, 0, 0, 0, (bState ? SWP_SHOWWINDOW : SWP_HIDEWINDOW) | SWP_NOSIZE | SWP_NOMOVE | SWP_NOZORDER);
 	return TRUE;
 }
@@ -1202,7 +1224,6 @@ BOOL wbSetValue(PWBOBJ pwbo, DWORD dwValue)
 		// Check / uncheck button
 
 		case PushButton:
-		case ImageButton:
 		case CheckBox:
 		case RadioButton:
 			return SendMessage(pwbo->hwnd, BM_SETCHECK, dwValue, 0);
@@ -1268,7 +1289,6 @@ DWORD wbGetValue(PWBOBJ pwbo)
 				return SendMessage(pwbo->hwnd, CB_GETITEMDATA, pwbo->item, 0);
 
 		case EditBox:
-		case ImageButton:
 		case Label:
 		case PushButton:
 		case RTFEditBox:
@@ -1306,14 +1326,6 @@ DWORD wbGetValue(PWBOBJ pwbo)
 
 				tvi.hItem = TreeView_GetSelection(pwbo->hwnd);
 				return wbGetTreeViewItemValue(pwbo, tvi.hItem);
-
-/*				if(!tvi.hItem)
-					return 0;
-				else {
-					tvi.mask = TVIF_PARAM;
-					TreeView_GetItem(pwbo->hwnd, &tvi);
-					return tvi.lParam;
-				}*/
 			}
 
 		case ListView:
@@ -1373,7 +1385,7 @@ BOOL wbSetImage(PWBOBJ pwbo, HANDLE hImage, COLORREF clTransp, LPARAM lParam)
 
 				hi = ImageList_Create(bm.bmWidth / 4, bm.bmHeight, ILC_COLORDDB, 4, 0);
 				ImageList_Add(hi, hImage, NULL);
-				pwbo->lparam = (LPARAM)hi;
+				M_hiImageList = (LPARAM)hi;			// Store ImageList in control
 				break;
 			} else
 				bRet = FALSE;
@@ -1422,6 +1434,7 @@ BOOL wbSetImage(PWBOBJ pwbo, HANDLE hImage, COLORREF clTransp, LPARAM lParam)
 				bRet = SetTaskBarIcon(pwbo->hwnd, TRUE);
 
 	} // end switch
+
 	return bRet;
 }
 
@@ -1554,6 +1567,31 @@ BOOL IsBitmap(HANDLE handle)
 	return GetBitmapDimensionEx(handle, &siz);
 }
 
+/* Create ImageButton class */
+
+BOOL RegisterImageButtonClass(void)
+{
+	WNDCLASS wc;
+
+	memset(&wc, 0, sizeof(WNDCLASS));
+	wc.style = CS_HREDRAW | CS_VREDRAW;
+	wc.lpfnWndProc = (WNDPROC)ImageButtonProc;
+	wc.hInstance = hAppInstance;
+	wc.hbrBackground = NULL;
+	wc.lpszClassName = IMAGE_BUTTON_CLASS;
+	wc.lpszMenuName = NULL;
+	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wc.hIcon = NULL;
+	wc.cbWndExtra = DLGWINDOWEXTRA;
+
+	if(!RegisterClass(&wc))
+		return FALSE;
+
+	wbSetCursor((PWBOBJ)ImageButton, NULL, 0);
+
+	return TRUE;
+}
+
 //------------------------------------------------------------ PRIVATE FUNCTIONS
 
 /*
@@ -1621,85 +1659,11 @@ static BOOL SetTransparentBitmap(HWND hwnd, HBITMAP hbmBits, BOOL bStatic, COLOR
 	return TRUE;
 }
 
-/*
-
-// Trying to custom draw a Frame to avoid paint problems, but nah
-
-static BOOL DrawFrame(HDC hdc, HWND hwnd, LPRECT lprc)
-{
-	char szString[256];
-	int nLen;
-	COLORREF clOld;
-	HFONT hFont, hfOld;
-	HBRUSH hbr, hbrOld;
-	BOOL bRet;
-	COLORREF color = 0x004000;
-
-	GetWindowText(hwnd, szString, 255);
-	nLen = strlen(szString);
-
-	// Draw a background rectangle
-
-	hbr = CreateSolidBrush(GetSysColor(COLOR_BTNFACE));
-	hbrOld = SelectObject(hdc, hbr);
-	Rectangle(hdc, lprc->left, lprc->top, lprc->right, lprc->bottom);
-	SelectObject(hdc, hbrOld);
-	DeleteObject(hbr);
-
-	DrawEdge(hdc, lprc, EDGE_ETCHED, BF_RECT);
-
-	// Prepare to draw text
-
-	hFont = (HFONT)SendMessage(hwnd, WM_GETFONT, 0, 0);
-	clOld = SetTextColor(hdc, color);
-	SetBkMode(hdc, TRANSPARENT);
-	hfOld = SelectObject(hdc, hFont);
-
-	// Draw the text
-
-	if(nLen)
-		bRet = DrawTextEx(hdc, (PSZ)szString, nLen, lprc, DT_LEFT | DT_SINGLELINE, NULL);
-
-	// Draw a line under the text
-	{
-		SIZE siz;
-
-		if(GetTextExtentPoint32(hdc, (PSZ)szString, nLen, &siz)) {
-			wbDrawLine(hdc, lprc->left, lprc->top + siz.cy - 1,
-			  lprc->left + siz.cx, lprc->top + siz.cy - 1, color, 0);
-		}
-	}
-
-	// Restore the original context
-
-	SelectObject(hdc, hfOld);
-	SetBkMode(hdc, OPAQUE);
-	SetTextColor(hdc, clOld);
-
-	return bRet;
-}
-*/
-
 // Processing routine for Frame controls
 
 static LRESULT CALLBACK FrameProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch(msg) {
-
-/*		case WM_PAINT:
-			{
-				HDC hdc;
-				PAINTSTRUCT ps;
-
-				PWBOBJ pwbobj = wbGetWBObj(hwnd);
-
-				if(!pwbobj)
-					break;
-				hdc = BeginPaint(hwnd, &ps);
-				DrawFrame(hdc, hwnd, &ps.rcPaint);
-				EndPaint(hwnd, &ps);
-			}
-			return 0;*/
 
 		case WM_COMMAND:		// Passes commands to parent window
 		case WM_NOTIFY:
@@ -1714,9 +1678,9 @@ static LRESULT CALLBACK FrameProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 	return CallWindowProc(lpfnFrameProcOld, hwnd, msg, wParam, lParam);
 }
 
-// Processing routine for Edit controls
+// Processing routine for EditBoxes
 
-static LRESULT CALLBACK EditProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK EditBoxProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch(msg) {
 
@@ -1737,6 +1701,21 @@ static LRESULT CALLBACK EditProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 				if(hwndParent)
 					SendMessage(hwndParent, WBWM_KEYUP, (WPARAM)hwnd, (LPARAM)wParam);
+			}
+			break;
+
+		case WM_SETCURSOR:
+			{
+				PWBOBJ pwbo = wbGetWBObj(hwnd);
+				if(!pwbo)
+					break;
+
+				if(M_nMouseCursor != 0) {
+					SetCursor(M_nMouseCursor == -1 ? 0 : (HCURSOR)M_nMouseCursor);
+					return TRUE;			// Must return here, not break
+				} else {
+					break;					// Normal behavior
+				}
 			}
 			break;
 	}
@@ -1769,8 +1748,206 @@ static LRESULT CALLBACK InvisibleProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				}
 			}
 			break;
+
+		case WM_SETCURSOR:
+			{
+				PWBOBJ pwbo = wbGetWBObj(hwnd);
+				if(!pwbo)
+					break;
+
+				if(M_nMouseCursor != 0) {
+					SetCursor(M_nMouseCursor == -1 ? 0 : (HCURSOR)M_nMouseCursor);
+					return TRUE;			// Must return here, not break
+				} else {
+					break;					// Normal behavior
+				}
+			}
+			break;
 	}
 	return CallWindowProc(lpfnInvisibleProcOld, hwnd, msg, wParam, lParam);
+}
+
+// Processing routine for ImageButton
+
+static LRESULT CALLBACK ImageButtonProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	PWBOBJ pwbo;
+
+	switch(msg) {
+
+		case WM_MOUSEMOVE:
+
+			pwbo = wbGetWBObj(hwnd);
+			{
+				if(!(wParam & MK_LBUTTON)) {
+
+					RECT rc;
+					POINT pt;
+
+					GetWindowRect(hwnd, &rc);
+					pt.x = LOWORD(lParam) + rc.left;
+					pt.y = HIWORD(lParam) + rc.top;
+
+					if(PtInRect(&rc, pt)) {
+						SetCapture(hwnd);
+						InvalidateRect(hwnd, NULL, FALSE);
+					} else {
+						InvalidateRect(hwnd, NULL, FALSE);
+						ReleaseCapture();
+					}
+				}
+
+				if(BITTEST(pwbo->style, WBC_NOTIFY) &&
+					BITTEST(pwbo->lparam, WBC_MOUSEMOVE)) {
+
+					DWORD dwAlt = (GetKeyState(VK_MENU) < 0) ? WBC_ALT : 0;
+
+					if(pwbo && pwbo->parent && pwbo->parent->pszCallBackFn && *pwbo->parent->pszCallBackFn) {
+						wbCallUserFunction(pwbo->parent->pszCallBackFn, pwbo->pszCallBackObj, pwbo->parent, pwbo, pwbo->id,
+						WBC_MOUSEMOVE | wParam | dwAlt, lParam, 0);
+					}
+				}
+			}
+			break;
+
+		case WM_LBUTTONDOWN:
+			pwbo = wbGetWBObj(hwnd);
+			M_nImageIndex = 2;					// Pressed
+			InvalidateRect(hwnd, NULL, FALSE);
+			UpdateWindow(hwnd);						// Force an update
+			SetCapture(hwnd);
+
+			// Starts the auto-repeat feature
+
+			if(pwbo->style & WBC_AUTOREPEAT) {
+
+				// Sets the timer for the first delay
+
+				if(pwbo && pwbo->parent && pwbo->parent->pszCallBackFn && *pwbo->parent->pszCallBackFn) {
+					wbCallUserFunction(pwbo->parent->pszCallBackFn, pwbo->pszCallBackObj, pwbo->parent, pwbo, pwbo->id,
+					wParam, lParam, 0);
+				}
+				M_bRepeatOn = FALSE;
+				SetTimer(hwnd, REPEAT_TIMER, 400, NULL);
+			}
+			break;
+
+		case WM_LBUTTONUP:
+			pwbo = wbGetWBObj(hwnd);
+			M_nImageIndex = 0;					// Released
+			InvalidateRect(hwnd, NULL, FALSE);
+			ReleaseCapture();
+
+			if(pwbo->style & WBC_AUTOREPEAT) {
+
+				// Kills the timer
+
+				KillTimer(hwnd, REPEAT_TIMER);
+				M_bRepeatOn = FALSE;
+			} else if(!(pwbo->style & WBC_DISABLED)) {
+				if(pwbo && pwbo->parent && pwbo->parent->pszCallBackFn && *pwbo->parent->pszCallBackFn) {
+					wbCallUserFunction(pwbo->parent->pszCallBackFn, pwbo->pszCallBackObj, pwbo->parent, pwbo, pwbo->id,
+					wParam, lParam, 0);
+				}
+			}
+			break;
+
+		case WM_PAINT:
+			{
+				HDC hdc;
+				PAINTSTRUCT ps;
+				HIMAGELIST hi;
+				pwbo = wbGetWBObj(hwnd);
+				RECT rc;
+
+				if(!pwbo)
+					break;
+
+				if(pwbo->style & WBC_TRANSPARENT)
+					break;
+
+				// ImageList was already stored in control
+
+				hi = (HIMAGELIST)M_hiImageList;
+				if(!hi)
+					break;
+
+				hdc = BeginPaint(hwnd, &ps);
+
+				// Select image based on mouse position
+				// Image index is stored in control
+
+				GetWindowRect(hwnd, &rc);
+
+				if(pwbo->style & WBC_DISABLED) {
+					M_nImageIndex = 3;				// Disabled
+				} else {
+
+					POINT pt;
+
+					GetCursorPos(&pt);
+
+					if(PtInRect(&rc, pt)) {
+						if(M_nImageIndex != 2)
+							M_nImageIndex = 1;
+					} else {
+						if(M_bRepeatOn && (pwbo->style & WBC_AUTOREPEAT))
+							M_nImageIndex = 2;
+						else
+							M_nImageIndex = 0;
+					}
+				}
+				ImageList_Draw(hi, M_nImageIndex, hdc, 0, 0, ILD_NORMAL);
+
+				EndPaint(hwnd, &ps);
+			}
+			return 0;
+
+		case WM_TIMER:
+
+			pwbo = wbGetWBObj(hwnd);
+			if((wParam == REPEAT_TIMER) && (pwbo->style & WBC_AUTOREPEAT)) {
+				if(pwbo->style & WBC_DISABLED) {
+
+					// Kills the timer
+
+					KillTimer(hwnd, REPEAT_TIMER);
+
+				} else {
+
+					if(pwbo && pwbo->parent && pwbo->parent->pszCallBackFn && *pwbo->parent->pszCallBackFn) {
+						wbCallUserFunction(pwbo->parent->pszCallBackFn, pwbo->pszCallBackObj, pwbo->parent, pwbo, pwbo->id,
+						wParam, lParam, 0);
+					}
+
+					if(!M_bRepeatOn) {
+
+						// Starts repeating commands
+
+						SetTimer(hwnd, REPEAT_TIMER, 150, NULL);
+						M_bRepeatOn = TRUE;
+					}
+				}
+			}
+			break;
+
+		case WM_SETCURSOR:
+			{
+				pwbo = wbGetWBObj(hwnd);
+				if(!pwbo)
+					break;
+
+				if(M_nMouseCursor != 0) {
+					SetCursor(M_nMouseCursor == -1 ? 0 : (HCURSOR)M_nMouseCursor);
+					return TRUE;			// Must return here, not break
+				} else {
+					break;					// Normal behavior
+				}
+			}
+			break;
+
+	}
+	return DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
 static HWND CreateToolTip(PWBOBJ pwbo)

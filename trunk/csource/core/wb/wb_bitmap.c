@@ -310,6 +310,10 @@ HANDLE wbLoadImage(LPCTSTR pszImageFile, UINT nIndex, LPARAM lParam)
 			return hIcon;
 		}
 
+	} else if(strstr(szFile, ".cur") || strstr(szFile, ".ani")) {	 // Load cursor
+
+		return LoadCursorFromFile(szFile);
+
 	} else {
 		wbError(__FUNCTION__, MB_ICONWARNING, "Unrecognized image format in file %s", szFile);
 		return NULL;

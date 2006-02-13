@@ -25,6 +25,11 @@
 //-------------------------------------------------------------------- CONSTANTS
 
 #define OBJ_COLORSPACE		14
+//#define WB_IDC_NONE			MAKEINTRESOURCE(33001)
+
+//----------------------------------------------------------------------- MACROS
+
+#define M_FileExists(file)	(access(file, 0) == 0)
 
 //-------------------------------------------------------------------- VARIABLES
 
@@ -35,8 +40,9 @@ HWND hCurrentDlg = NULL;
 
 // Local
 
-static HACCEL hAccelTable = NULL;		// Accelerator table
-static HWND hAccelWnd = NULL;			// Accelerator table window
+static HACCEL hAccelTable = NULL;			// Accelerator table
+static HWND hAccelWnd = NULL;				// Accelerator table window
+static HCURSOR hClassCursor[NUMCLASSES];	// Table of mouse cursors, one for each class
 
 //---------------------------------------------------------- FUNCTION PROTOTYPES
 
@@ -46,6 +52,7 @@ static int _GetUserObjects(void);
 static int _GetGDIObjects(void);
 static HKEY _GetKeyFromString(LPCTSTR pszKey);
 static BOOL _GetOSVersionString(LPTSTR pszString);
+static HCURSOR GetSysCursor(LPCTSTR pszCursor);
 
 // Public to wb_* modules
 
@@ -61,6 +68,7 @@ extern BOOL RegisterClasses(void);
 
 BOOL wbInit(void)
 {
+//	int nClass;
 	LOGFONT lfIcon;
 	OSVERSIONINFO ovInfo;
 	INITCOMMONCONTROLSEX icex;
@@ -140,6 +148,15 @@ BOOL wbInit(void)
 
 	if(!RegisterClasses())
 		return FALSE;
+
+//	for(nClass = 0; nClass < NUMCLASSES; nClass++)
+//		wbSetCursor((PWBOBJ)Calendar, NULL);
+
+	// Initializes mouse cursor for some control classes
+
+	wbSetCursor((PWBOBJ)EditBox, "ibeam", NULL);
+	wbSetCursor((PWBOBJ)InvisibleArea, "arrow", NULL);
+
 	return TRUE;
 }
 
@@ -278,6 +295,113 @@ UINT wbCheckInput(PWBOBJ pwbo, DWORD dwFlags, DWORD dwTimeout)
 
 	return 0;
 }
+
+
+// ******* It seems that all child controls inherit the mouse cursor style
+// ******* from their parent window, and it's not clear if this
+// ******* behavior is standard in Windows (seems so) or some WinBinder bug
+
+// Set system, class or control mouse cursor
+
+BOOL wbSetCursor(PWBOBJ pwbo, LPCTSTR pszCursor, HANDLE handle)
+{
+	HCURSOR hCursor;
+
+	if(!pwbo) {
+
+		// Set system cursor
+
+		if(handle)									// Cursor handle
+			hCursor = handle;
+		if(!pszCursor || !*pszCursor)				// pszCursor is NULL
+			hCursor = GetSysCursor("arrow");
+		else										// Cursor name
+			hCursor = GetSysCursor(pszCursor);
+
+		if(hCursor)
+			SetCursor(hCursor == (HCURSOR)-1 ? 0 : hCursor);
+
+		// Must NOT use the value returned from from SetCursor()
+		return (hCursor != 0);
+
+	} else if(wbIsValidClass((UINT)pwbo)) {
+
+		// Stores class ((UINT)pwbo) mouse cursor in array hClassCursor
+
+		if(handle)									// Cursor handle
+			hCursor = handle;
+		else if(!pszCursor || !*pszCursor)			// pszCursor is NULL
+			hCursor = GetSysCursor("arrow");
+		else										// Cursor name
+			hCursor = GetSysCursor(pszCursor);
+
+		hClassCursor[(UINT)pwbo] = hCursor;
+		return TRUE;
+
+	} else {
+
+		// Stores mouse cursor handle in control param (M_nMouseCursor)
+
+		if(!pwbo->hwnd || !IsWindow(pwbo->hwnd))
+			return FALSE;
+
+		if(handle)									// Cursor handle
+			hCursor = handle;
+		else if(!pszCursor || !*pszCursor)			// pszCursor is NULL
+			hCursor = hClassCursor[pwbo->uClass];
+		else										// Cursor name
+			hCursor = GetSysCursor(pszCursor);
+
+		M_nMouseCursor = (LONG)hCursor;
+		return (hCursor != 0);
+	}
+}
+
+// Returns TRUE if uClass is a valid WinBinder class
+
+BOOL wbIsValidClass(UINT uClass)
+{
+	switch(uClass) {
+
+		case AppWindow:
+		case ModalDialog:
+		case ModelessDialog:
+		case NakedWindow:
+		case PopupWindow:
+		case ResizableWindow:
+		case ToolDialog:
+			return TRUE;
+
+		case Accel:
+		case Calendar:
+		case CheckBox:
+		case ComboBox:
+		case EditBox:
+		case Frame:
+		case Gauge:
+		case HTMLControl:
+		case HyperLink:
+		case ImageButton:
+		case InvisibleArea:
+		case Label:
+		case ListBox:
+		case ListView:
+		case Menu:
+		case PushButton:
+		case RTFEditBox:
+		case RadioButton:
+		case ScrollBar:
+		case Slider:
+		case Spinner:
+		case StatusBar:
+		case TabControl:
+		case ToolBar:
+		case TreeView:
+			return TRUE;
+	}
+	return FALSE;
+}
+
 
 /*
 	Gets the accelerator from a string like "Ctrl+S", "Alt+Ctrl+Shift+F12", "F1", "J", etc.
@@ -522,8 +646,8 @@ BOOL wbShowLastError(LPCTSTR pszCaption, BOOL bMessageBox)
 /*
 
 If pszFile exists, do nothing and return TRUE.
-If not, look for pszFile in the Windows directory, then in the System directory
-If it exists, put the complete path in pszFile and return TRUE.
+If not, look for pszFile in the Windows directory, then in the System directory.
+If it exists in one of those, put the complete path in pszFile and return TRUE.
 If not, do nothing and return FALSE.
 
 NOTE: Do not use SearchPath(), it may crash PHP (why?)
@@ -534,7 +658,7 @@ BOOL wbFindFile(LPTSTR pszFile, UINT uLen)
 {
 	char szPath[MAX_PATH * 2];
 
-	if(access(pszFile, 0) == 0)
+	if(M_FileExists(pszFile))
 		return TRUE;
 
 	if(uLen > MAX_PATH)
@@ -546,7 +670,7 @@ BOOL wbFindFile(LPTSTR pszFile, UINT uLen)
 	if(!szPath[strlen(szPath) - 1] != '\\')
 		strcat(szPath, "\\");
 	strcat(szPath, pszFile);
-	if(access(szPath, 0) == 0) {
+	if(M_FileExists(szPath)) {
 		strcpy(pszFile, szPath);
 		return TRUE;
 	}
@@ -557,7 +681,7 @@ BOOL wbFindFile(LPTSTR pszFile, UINT uLen)
 	if(!szPath[strlen(szPath) - 1] != '\\')
 		strcat(szPath, "\\");
 	strcat(szPath, pszFile);
-	if(access(szPath, 0) == 0) {
+	if(M_FileExists(szPath)) {
 		strcpy(pszFile, szPath);
 		return TRUE;
 	}
@@ -1234,5 +1358,64 @@ static BOOL _GetOSVersionString(LPTSTR pszString)
 
 	return TRUE;
 }
+
+static HCURSOR GetSysCursor(LPCTSTR pszCursor)
+{
+	LPTSTR pszCursorName;
+
+	// Selects a system cursor
+
+	if(!(pszCursor && *pszCursor))
+		pszCursorName = IDC_ARROW;
+	else if(!stricmp(pszCursor, "arrow"))
+		pszCursorName = IDC_ARROW;
+	else if(!stricmp(pszCursor, "wait"))
+		pszCursorName = IDC_WAIT;
+	else if(!stricmp(pszCursor, "cross"))
+		pszCursorName = IDC_CROSS;
+	else if(!stricmp(pszCursor, "help"))
+		pszCursorName = IDC_HELP;
+	else if(!stricmp(pszCursor, "waitarrow"))
+		pszCursorName = IDC_APPSTARTING;
+	else if(!stricmp(pszCursor, "ibeam"))
+		pszCursorName = IDC_IBEAM;
+	else if(!stricmp(pszCursor, "help"))
+		pszCursorName = IDC_ARROW;
+	else if(!stricmp(pszCursor, "finger"))
+		pszCursorName = IDC_HAND;
+	else if(!stricmp(pszCursor, "sizeall"))
+		pszCursorName = IDC_SIZEALL;
+	else if(!stricmp(pszCursor, "sizens"))
+		pszCursorName = IDC_SIZENS;
+	else if(!stricmp(pszCursor, "sizewe"))
+		pszCursorName = IDC_SIZEWE;
+	else if(!stricmp(pszCursor, "sizenesw"))
+		pszCursorName = IDC_SIZENESW;
+	else if(!stricmp(pszCursor, "sizenwse"))
+		pszCursorName = IDC_SIZENWSE;
+	else if(!stricmp(pszCursor, "uparrow"))
+		pszCursorName = IDC_UPARROW;
+	else if(!stricmp(pszCursor, "forbidden"))
+		pszCursorName = IDC_NO;
+	else if(!stricmp(pszCursor, "none"))
+		return (HCURSOR)-1;
+	else {
+		wbError(__FUNCTION__, MB_ICONWARNING, "Cursor style \"%s\" does not exist", pszCursor);
+		return NULL;
+	}
+	return LoadCursor(NULL, pszCursorName);
+}
+
+/*
+// DEBUGGING FUNCTION
+void printthem(void)
+{
+	int nClass;
+
+	for(nClass = 0; nClass < NUMCLASSES; nClass++)
+		printf("%04X ", hClassCursor[nClass]);
+	printf("\n");
+}
+*/
 
 //------------------------------------------------------------------ END OF FILE

@@ -77,13 +77,18 @@ LRESULT CALLBACK HyperLinkProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 
 		case WM_SETCURSOR:
 			{
-				HCURSOR hCursor;
+				PWBOBJ pwbo = wbGetWBObj(hwnd);
+				if(!pwbo)
+					break;
 
-				hCursor = LoadCursor(NULL, IDC_HAND);
-				if(hCursor)
-					SetCursor(hCursor);
+				if(M_nMouseCursor != 0) {
+					SetCursor(M_nMouseCursor == -1 ? 0 : (HCURSOR)M_nMouseCursor);
+					return TRUE;			// Must return here, not break
+				} else {
+					break;					// Normal behavior
+				}
 			}
-			return 0;
+			break;
 	}
 
 	return CallWindowProc(lpfnHyperLinkProcOld, hwnd, msg, wParam, lParam);

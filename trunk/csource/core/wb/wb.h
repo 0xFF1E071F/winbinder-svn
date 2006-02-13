@@ -82,6 +82,7 @@
 #define MAX_ITEM_STRING			1024	// Maximum string in a ListView / TreeView
 #define MAX_TREEVIEW_LEVELS		25		// Maximum treeview levels
 #define MAX_IMAGELIST_IMAGES	128		// Maximum images inside a ImageList
+#define REPEAT_TIMER			901		// Timer identifier for ImageButtons
 
 // Strings
 
@@ -98,6 +99,7 @@
 #define MODELESS_WINDOW_CLASS	"wbModelessDlg"
 #define MODAL_WINDOW_CLASS		"wbModalDlg"
 #define BROWSER_WINDOW_CLASS	"wbHTMLWnd"
+#define IMAGE_BUTTON_CLASS		"wbImageButton"
 
 // Custom WinBinder messages
 
@@ -108,43 +110,50 @@
 
 //----------------------------------------------------------- EXPORTED CONSTANTS
 
-// Window classes
+// WinBinder window and control classes
 
-#define AppWindow	 		100
-#define ResizableWindow	 	101
-#define PopupWindow	 		102
-#define ModalDialog	 		103
-#define ToolDialog	 		105
-#define ModelessDialog		106
-#define NakedWindow			108
+enum {
 
-// WinBinder control classes
+	// Window classes
 
-#define Accel				301
-#define Calendar			303
-#define CheckBox	 		304
-#define ComboBox			305
-#define EditBox	 			306
-#define Frame				307
-#define Gauge				308
-#define ListView			309
-#define HTMLControl			311
-#define Label				312
-#define ListBox				313
-#define Menu				314
-#define PushButton			316
-#define RadioButton			317
-#define RTFEditBox			318
-#define ScrollBar			319
-#define Slider				320
-#define Spinner				321
-#define StatusBar			323
-#define TabControl			324
-#define ToolBar				325
-#define TreeView			326
-#define ImageButton			327
-#define InvisibleArea		328
-#define HyperLink			329
+	AppWindow = 1,
+	ModalDialog,
+	ModelessDialog,
+	NakedWindow,
+	PopupWindow,
+	ResizableWindow,
+	ToolDialog,
+
+	// WinBinder control classes,
+
+	Accel,
+	Calendar,
+	CheckBox,
+	ComboBox,
+	EditBox,
+	Frame,
+	Gauge,
+	HTMLControl,
+	HyperLink,
+	ImageButton,
+	InvisibleArea,
+	Label,
+	ListBox,
+	ListView,
+	Menu,
+	PushButton,
+	RTFEditBox,
+	RadioButton,
+	ScrollBar,
+	Slider,
+	Spinner,
+	StatusBar,
+	TabControl,
+	ToolBar,
+	TreeView,
+};
+
+#define NUMCLASSES				TreeView	// Must be the last class
 
 // Style flags (parameter style of wb_create_window)
 
@@ -163,6 +172,7 @@
 #define WBC_MULTILINE			0x00000080	// *** SAME VALUE AS WBC_LINES (may change in the future) ***
 #define WBC_MASKED				0x00000100	// Password in edit fields
 #define WBC_TASKBAR				0x00000200	// Minimize to the taskbar status area
+#define WBC_AUTOREPEAT			0x00000200	// Auto-repeat (used for ImageButtons)
 #define WBC_NUMBER				0x00000400	// Numeric edit fields
 #define WBC_CENTER				0x00000800	// Used also in wbSetWindowPosition(), must be a low #
 #define WBC_TOP					0x00001000
@@ -173,6 +183,7 @@
 #define WBC_GROUP				0x00080000	// For radio button groups
 #define WBC_SINGLE				0x00100000	// Single selection for ListViews
 #define WBC_CUSTOMDRAW			0x10000000	// For main windows
+#define WBC_TRANSPARENT			0x20000000	// For ImageButtons
 #define WBC_DEFAULTPOS			(signed)CW_USEDEFAULT	// 0x80000000
 
 // Notification message flags (parameter param of wb_create_window)
@@ -228,7 +239,9 @@
 #define FTA_UNDERLINE			0x00000004
 #define FTA_STRIKEOUT			0x00000008
 
-//------------------------------------------------------- GENERAL-PURPOSE MACROS
+//----------------------------------------------------------------------- MACROS
+
+// General-purpose
 
 #define BITTEST(a, b)		(((a) & (b)) == (b))
 #define NUMITEMS(array)		(sizeof(array) / sizeof(*array))
@@ -239,6 +252,13 @@
 #ifndef MAX
 #define MAX(a,b)			(((a) > (b)) ? (a) : (b))
 #endif
+
+// Structure member aliases
+
+#define M_nMouseCursor		(pwbo->lparams[0])
+#define M_bRepeatOn			(pwbo->lparams[1])
+#define M_nImageIndex		(pwbo->lparams[2])
+#define M_hiImageList		(pwbo->lparams[3])
 
 //------------------------------------------------------------------- STRUCTURES
 
@@ -260,15 +280,11 @@ typedef struct _wbo {			// wbo
 	LPTSTR pszCallBackFn;		// Callback function
 	LPTSTR pszCallBackObj;		// Object for callback method
 	LPARAM lparam;				// User-defined parameter
-	union {
-		LONG lparams[8];		// General-purpose parameter array
-		struct {
-			RECT rcTitle;		// Title area
-			AREA arMin;			// Minimum window area
-			AREA arMax;			// Maximum window area
-		};
-	};
-	HBITMAP pbuffer;			// Screen buffer for windows
+	LONG lparams[8];			// General-purpose parameter array
+	RECT rcTitle;				// Title area
+	AREA arMin;					// Minimum window area
+	AREA arMax;					// Maximum window area
+	HBITMAP pbuffer;			// Screen buffer for container windows
 } WBOBJ, *PWBOBJ;
 
 // Item description
@@ -360,6 +376,7 @@ BOOL		wbSetRange(PWBOBJ pwbo, LONG dwMin, LONG dwMax);
 BOOL		wbGetVisible(PWBOBJ pwbo);
 BOOL		wbSetVisible(PWBOBJ pwbo, BOOL bState);
 BOOL		wbSetStyle(PWBOBJ pwbo, DWORD dwWBStyle, BOOL bSet);
+BOOL		wbIsValidClass(UINT uClass);
 BOOL		wbGetEnabled(PWBOBJ pwbo);
 BOOL		wbSetEnabled(PWBOBJ pwbo, BOOL bState);
 BOOL		wbSetText(PWBOBJ pwbo, LPCTSTR pszText, int nItem);
@@ -507,6 +524,7 @@ LONG		wbGetSystemInfo(LPCTSTR pszInfo, BOOL *pbString, LPTSTR pszString, UINT uL
 BOOL		wbSetAccelerators(PWBOBJ pwbo, LPACCEL paccels, int nCount);
 DWORD		wbMakeAccelFromString(const char *pszAccel);
 UINT		wbCheckInput(PWBOBJ pwbo, DWORD dwFlags, DWORD dwTimeout);
+BOOL		wbSetCursor(PWBOBJ pwbo, LPCTSTR pszCursor, HANDLE handle);
 
 // Library-dependent functions
 

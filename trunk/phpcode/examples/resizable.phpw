@@ -80,11 +80,11 @@ function process_main($window, $id, $ctrl=0, $lparam=0, $lparam2=0, $lparam3=0)
 
 				if(($x >= $pos[0] - 4) && ($x <= $pos[0] + $size[0] - 4) &&
 				   ($y >= $pos[1] + $size[1] - 30) && ($y <= $pos[1] + $size[1] + 10))
-					SetMyCursor(IDC_SIZENS);
+					wb_set_cursor(null, 'SIZENS');
 				else
-					SetMyCursor(IDC_ARROW);
+					wb_set_cursor(null, 'ARROW');
 
-			} if($lparam & WBC_LBUTTON) {
+			} elseif($lparam & WBC_LBUTTON) {
 
 				// Simulate a split window
 
@@ -109,7 +109,7 @@ function process_main($window, $id, $ctrl=0, $lparam=0, $lparam2=0, $lparam3=0)
 
 				if($capturing) {
 
-					SetMyCursor(IDC_SIZENS);
+					wb_set_cursor(null, 'SIZENS');
 
 					$dim = wb_get_size($window, true);
 					$winwidth = $dim[0];
@@ -129,42 +129,57 @@ function process_main($window, $id, $ctrl=0, $lparam=0, $lparam2=0, $lparam3=0)
 					$lasty = $y;
 				}
 
-			} elseif($lparam == WBC_RESIZE) {
+			} else {
 
-				// Resize control
+				// Just changes the mouse cursor
 
-				$dim = wb_get_size($window, true);
-				$winwidth = $dim[0];
-				$winheight = $dim[1];
-
-				// Set size/position of first control
-
-				wb_set_position($list, $winwidth / 2 - 51, 20);
-				wb_set_size($list, $winwidth - ($winwidth / 2 - 51) - 4,
-					min(max(20, $lasty - 22), ($winheight - 80)));
-
-				// Set size/position of second control
-
-				$size = wb_get_size($list);
-				wb_set_position($list2, $winwidth / 2 - 51, $size[1] + 24);
-				wb_set_size($list2, $winwidth - ($winwidth / 2 - 51) - 4,
-					 ($winheight - 35) - ($size[1] + 24));
-
-				// Set size of third control
+				$x = $lparam2 & 0xFFFF;			// Mouse cursor position
+				$y = ($lparam2 & 0xFFFF0000) >> 16;
 
 				$pos = wb_get_position($list, true);
-				wb_set_size($list3, $pos[0] - 24, $winheight - 108);
-				wb_set_position(wb_get_control($window, ID_AUTO), 10, $winheight - 53);
+				$size = wb_get_size($list);
 
-				// Show window size using $lparam
+				if(($x >= $pos[0] - 4) && ($x <= $pos[0] + $size[0] - 4) &&
+				   ($y >= $pos[1] + $size[1] - 30) && ($y <= $pos[1] + $size[1] + 10))
+					wb_set_cursor(null, 'SIZENS');
 
-				$dim = wb_get_size($window);
-				$winwidth = $dim[0];
-				$winheight = $dim[1];
-				wb_set_text($statusbar,
-					"Window area: $winwidth x $winheight pixels -- " .
-					"Client area: " . ($lparam3 & 0x0000FFFF) . " x " . (($lparam3 & 0xFFFF0000) / 0x10000) . " pixels\n");
+				if($lparam == WBC_RESIZE) {
 
+					// Resize control
+
+					$dim = wb_get_size($window, true);
+					$winwidth = $dim[0];
+					$winheight = $dim[1];
+
+					// Set size/position of first control
+
+					wb_set_position($list, $winwidth / 2 - 51, 20);
+					wb_set_size($list, $winwidth - ($winwidth / 2 - 51) - 4,
+						min(max(20, $lasty - 22), ($winheight - 80)));
+
+					// Set size/position of second control
+
+					$size = wb_get_size($list);
+					wb_set_position($list2, $winwidth / 2 - 51, $size[1] + 24);
+					wb_set_size($list2, $winwidth - ($winwidth / 2 - 51) - 4,
+						 ($winheight - 35) - ($size[1] + 24));
+
+					// Set size of third control
+
+					$pos = wb_get_position($list, true);
+					wb_set_size($list3, $pos[0] - 24, $winheight - 108);
+					wb_set_position(wb_get_control($window, ID_AUTO), 10, $winheight - 53);
+
+					// Show window size using $lparam
+
+					$dim = wb_get_size($window);
+					$winwidth = $dim[0];
+					$winheight = $dim[1];
+					wb_set_text($statusbar,
+						"Window area: $winwidth x $winheight pixels -- " .
+						"Client area: " . ($lparam3 & 0x0000FFFF) . " x " . (($lparam3 & 0xFFFF0000) / 0x10000) . " pixels\n");
+
+				}
 			}
 			break;
 
@@ -214,20 +229,6 @@ function ReleaseCapture()
 	if($pfn === null)
 		$pfn = wb_get_function_address("ReleaseCapture", $USER);
 	return wb_call_function($pfn);
-}
-
-function SetMyCursor($parm)
-{
-	global $USER;
-	static $pfn = null, $pfn2 = null;
-
-	if($pfn === null)
-		$pfn = wb_get_function_address("SetCursor", $USER);
-	if($pfn2 === null)
-		$pfn2 = wb_get_function_address("LoadCursor", $USER);
-
-	$hcursor = wb_call_function($pfn2, array(0, $parm));
-	wb_call_function($pfn, array($hcursor));
 }
 
 

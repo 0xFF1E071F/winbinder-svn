@@ -13,12 +13,38 @@
 (LATEST CHANGES BY RUBEM)
 ------------------------------------------------------------------------------
 
-(28) Fixed problem where editable combo boxes were not sending the correct text to wb_get_text() when a selection was made. Patched DefaultWBProc() in wb_window.c to include a CB_GETLBTEXT / WM_SETTEXT pair.
-(28) Fixed problem where wb_get_text() sometimes returned truncated text from combo boxes, and even crashed the application occasionally. Changes included wbGetTextLength() and wbGetText() in module wb_control.c. Pinpointed and requested by Hans.
-(27) Implemented the option of passing a class method to wb_set_handler() using an array instead of a string (requested by Stefano for the OO interface). A pszCallBackObj parameter was added to structure WBOBJ. Also the following internal functions were changed to add a pszObject parameter: AssignHandlerToTabs(), wbCallUserFunction(), wbSetWindowHandler(). This parameter is now passed to the call_user_function_ex() call in wbCallUserFunction(). Must be tested with real-life situations (both with and without classes), specially using tab controls in both cases. Also, error checking is very poor when an object class is passed to wb_set_handler().
-(27) In the PHP callback function: $lparam2 now receives a notification code or extra data (see API documentation on WM_COMMAND, parameter wNotifyCode) when the default action is sent. The code helps differentate if the command comes from clicking or pressing the control itself or from another action. Seems to work for InvisibleAreas only, but it's not clear why. A more general implementation in the future should clearly differentiate between clicking, using the keyboard, using a menu, an accelerator, or an external action caused by another control. This is still a pending issue.
-(27) In wbDestroyWindow(): trying to prevent wb_destroy_window($any_other_window) from closing the application. Added 'pwbo->hwnd = NULL' which makes sense but still didn't solve the problem
-(25) InvisibleArea was subclassed to process and send WM_MOUSEMOVE messages to the callback
+New function to change mouse cursor, enhanced ImageButton class, other changes and fixes
+
+- Created function wb_set_cursor() which can set or change the mouse cursor shape of windows, controls, or instantaneously (inside callback functions). It can change the cursor of all window classes (AppWindow, ModalDialog, ModelessDialog, NakedWindow, PopupWindow, ResizableWindow, ToolDialog), plus ImageButtons, InvisibleAreas, HyperLinks and EditBoxes. Mouse cursors can be set individually or class-wide for all controls that are subsequently created. The function can use one of the existing system cursors ('arrow', 'cross', 'finger', 'forbidden', 'help', 'ibeam', 'sizeall', 'sizenesw', 'sizens', 'sizenwse', 'sizewe', 'uparrow', 'wait', 'waitarrow') or read a cursor from a file (through function wb_set_image). It can also make the cursor invisible using 'none' as the second parameter. Several other changes (also listed here) have taken place as a consequence.
+- ImageButton was completely rewritten as a custom Windows class ("wbImageButton") instead of a subclass of Windows class "BUTTON" as previously. Advantages are: highlight on mouse over; optional auto-repeat function (WBC_AUTOREPEAT flag); custom mouse cursors; optionally transparent (use flag WBC_TRANSPARENT) so it completely replaces InvisibleArea with several advantages.
+- InvisibleArea: enabled tooltips, changed style to SS_SIMPLE to avoid displaying a string, caption was set to NULL. Please note that InvisibleAreas may be deprecated in the near future in favor of ImageButtons which do everything InvisibleAreas do but are much more flexible.
+- Functions generate_ini() and parse_ini() in wb_generic.inc.php: Double-quotes (") were not being correctly escaped in INI files. Fixed.
+- wb_set_image() was extended to return a cursor handle from a .CUR file.
+- Updated examples borderless.phpw, mouse.phpw and resizable.phwp to show the usage of wb_set_cursor() and the new ImageButton commands.
+- Included new resource file finger.cur.
+- The creation of function wb_set_cursor() overrides the previous behavior of HyperLinks which always displayed a "finger" (IDC_HAND) cursor.
+- New control styles: WBC_AUTOREPEAT, WBC_TRANSPARENT (for ImageButtons)
+- wbSetEnabled(): flag WBC_DISABLED is now changed accordingly to the value set, better error checking and other minor changes
+- Commented out some redundant function calls in the end of window processing routines
+- Changed some internal function names here and there. This won't affect any PHP code.
+- New internal functions wbSetCursor(), wbIsValidClass()
+- Changed WinBinder class values from #defines to an enum. Values were completely changed.
+- Removed the union from structure WBOBJ and adjusted the sources accordingly
+- Many other minor code revisions
+
+28
+--
+
+- Fixed problem where editable combo boxes were not sending the correct text to wb_get_text() when a selection was made. Patched DefaultWBProc() in wb_window.c to include a CB_GETLBTEXT / WM_SETTEXT pair.
+- Fixed problem where wb_get_text() sometimes returned truncated text from combo boxes, and even crashed the application occasionally. Changes included wbGetTextLength() and wbGetText() in module wb_control.c. Pinpointed and requested by Hans.
+
+27
+--
+
+- Implemented the option of passing a class method to wb_set_handler() using an array instead of a string (requested by Stefano for the OO interface). A pszCallBackObj parameter was added to structure WBOBJ. Also the following internal functions were changed to add a pszObject parameter: AssignHandlerToTabs(), wbCallUserFunction(), wbSetWindowHandler(). This parameter is now passed to the call_user_function_ex() call in wbCallUserFunction(). Must be tested with real-life situations (both with and without classes), specially using tab controls in both cases. Also, error checking is very poor when an object class is passed to wb_set_handler().
+- In the PHP callback function: $lparam2 now receives a notification code or extra data (see API documentation on WM_COMMAND, parameter wNotifyCode) when the default action is sent. The code helps differentate if the command comes from clicking or pressing the control itself or from another action. Seems to work for InvisibleAreas only, but it's not clear why. A more general implementation in the future should clearly differentiate between clicking, using the keyboard, using a menu, an accelerator, or an external action caused by another control. This is still a pending issue.
+- In wbDestroyWindow(): trying to prevent wb_destroy_window($any_other_window) from closing the application. Added 'pwbo->hwnd = NULL' which makes sense but still didn't solve the problem
+- InvisibleArea was subclassed to process and send WM_MOUSEMOVE messages to the callback
 
 ------------------------------------------------------------------------------
 Version 0.45 (alpha) - build 173
