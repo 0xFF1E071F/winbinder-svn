@@ -13,6 +13,9 @@
 (LATEST CHANGES BY RUBEM)
 ------------------------------------------------------------------------------
 
+29-32
+-----
+
 New function to change mouse cursor, enhanced ImageButton class, other changes and fixes
 
 - Created function wb_set_cursor() which can set or change the mouse cursor shape of windows, controls, or instantaneously (inside callback functions). It can change the cursor of all window classes (AppWindow, ModalDialog, ModelessDialog, NakedWindow, PopupWindow, ResizableWindow, ToolDialog), plus ImageButtons, InvisibleAreas, HyperLinks and EditBoxes. Mouse cursors can be set individually or class-wide for all controls that are subsequently created. The function can use one of the existing system cursors ('arrow', 'cross', 'finger', 'forbidden', 'help', 'ibeam', 'sizeall', 'sizenesw', 'sizens', 'sizenwse', 'sizewe', 'uparrow', 'wait', 'waitarrow') or read a cursor from a file (through function wb_set_image). It can also make the cursor invisible using 'none' as the second parameter. Several other changes (also listed here) have taken place as a consequence.

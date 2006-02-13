@@ -541,7 +541,7 @@ ZEND_MINIT_FUNCTION(winbinder)
 	return SUCCESS;
 }
 
-/* Provides module information (function provided by Hans Mo) */
+/* Provides module information (function provided by Hans Rebel) */
 
 ZEND_MINFO_FUNCTION(winbinder)
 {
