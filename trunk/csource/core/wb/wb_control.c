@@ -1857,9 +1857,9 @@ static LRESULT CALLBACK ImageButtonProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 				HDC hdc;
 				PAINTSTRUCT ps;
 				HIMAGELIST hi;
-				pwbo = wbGetWBObj(hwnd);
 				RECT rc;
 
+				pwbo = wbGetWBObj(hwnd);
 				if(!pwbo)
 					break;
 
