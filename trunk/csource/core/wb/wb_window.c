@@ -145,7 +145,6 @@ PWBOBJ wbCreateWindow(PWBOBJ pwboParent, UINT uWinBinderClass, LPCTSTR pszCaptio
 			break;
 
 		case NakedWindow:			// Fixed size borderless window
-
 			pszClass = 	(BITTEST(dwWBStyle, WBC_CUSTOMDRAW) ? OWNERDRAWN_NAKED_CLASS: NAKED_WINDOW_CLASS);
 			dwStyle = dwStyle ? dwStyle : WS_POPUP | WS_SYSMENU | WS_MINIMIZEBOX | WS_VISIBLE | WS_CLIPCHILDREN | CS_DBLCLKS;
 			if(BITTEST(dwWBStyle, WBC_BORDER))
@@ -170,7 +169,7 @@ PWBOBJ wbCreateWindow(PWBOBJ pwboParent, UINT uWinBinderClass, LPCTSTR pszCaptio
 		case ToolDialog:			// Modeless tool dialog
 			pszClass = MODELESS_WINDOW_CLASS;
 			dwStyle = dwStyle ? dwStyle : WS_POPUP | WS_SYSMENU | WS_CAPTION | WS_VISIBLE | WS_CLIPCHILDREN | CS_DBLCLKS;
-			dwExStyle = dwExStyle ? dwExStyle : WS_EX_PALETTEWINDOW;
+			dwExStyle = dwExStyle ? dwExStyle : WS_EX_TOOLWINDOW;
 			break;
 
 		default:
@@ -1321,8 +1320,6 @@ static LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 
 static LRESULT CALLBACK OwnerDrawnWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	static RECT rcOld = {0, 0, 0, 0};
-
 	switch(msg) {
 
 		case WM_ACTIVATE:
@@ -1334,6 +1331,8 @@ static LRESULT CALLBACK OwnerDrawnWndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 			{
 				PWBOBJ pwbobj;
 				RECT rc;
+				LPRECT prcOld;
+
 				pwbobj = wbGetWBObj(hwnd);
 
 				if(wParam == SIZE_MINIMIZED)
@@ -1344,10 +1343,19 @@ static LRESULT CALLBACK OwnerDrawnWndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 
 				GetClientRect(pwbobj->hwnd, &rc);
 
-				// Is the window larger than before?
+				if(!pwbobj->lparams[1]) {
+					prcOld = wbMalloc(sizeof(RECT));
+					SetRect(prcOld, 0, 0, 0, 0);
+					// Store previous buffer size in the window parameters
+					pwbobj->lparams[1] = (LONG)prcOld;
+				} else
+					prcOld = (LPRECT)pwbobj->lparams[1];
 
-				if((rc.right - rc.left > rcOld.right - rcOld.left) ||
-				   (rc.bottom - rc.top > rcOld.bottom - rcOld.top)) {
+				// Is the window is larger than before, enlarge the buffer;
+				// Otherwise do nothing
+
+				if((rc.right - rc.left > prcOld->right - prcOld->left) ||
+				   (rc.bottom - rc.top > prcOld->bottom - prcOld->top)) {
 
 					// Yes, create a larger buffer
 
@@ -1359,7 +1367,9 @@ static LRESULT CALLBACK OwnerDrawnWndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 
 					wbDrawRect(pwbobj->pbuffer, 0, 0, rc.right - rc.left, rc.bottom - rc.top,
 					  GetSysColor(COLOR_BTNFACE), TRUE, 0, 0);
-					rcOld = rc;
+
+//					memcpy(prcOld, &rc, sizeof(RECT));
+					*prcOld = rc;
 				}
 			}
 			break;
@@ -1384,13 +1394,18 @@ static LRESULT CALLBACK OwnerDrawnWndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 			}
 			return 0;
 
-		case WM_CLOSE:				// Release screen buffer from memory
+//		case WM_CLOSE:
+		case WM_DESTROY:			// Release screen buffer from memory
 			{
 				PWBOBJ pwbobj;
 				pwbobj = wbGetWBObj(hwnd);
 
-				if(pwbobj->pbuffer)
+				if(pwbobj->pbuffer) {
 					DeleteObject(pwbobj->pbuffer);
+					pwbobj->pbuffer = NULL;
+				}
+				// Zero the parameter used to store buffer size
+				pwbobj->lparams[1] = 0;
 			}
 			break;
 

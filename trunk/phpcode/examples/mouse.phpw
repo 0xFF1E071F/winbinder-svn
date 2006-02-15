@@ -82,7 +82,7 @@ function process_main($window, $id, $ctrl=0, $lparam=0, $lparam2=0)
 				wb_draw_point($window, $x, $y, WHITE);
 				wb_set_cursor($window, 'none');
 			} else
-				wb_set_cursor($window, null);
+				wb_set_cursor($window, 'cross');
 			break;
 
 		case ID_EXIT:

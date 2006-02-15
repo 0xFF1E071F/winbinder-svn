@@ -40,7 +40,6 @@ LRESULT CALLBACK HyperLinkProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 			{
 				HDC hdc;
 				PAINTSTRUCT ps;
-
 				PWBOBJ pwbobj = wbGetWBObj(hwnd);
 
 				if(!pwbobj)
@@ -116,6 +115,7 @@ static BOOL DrawHyperLink(HDC hdc, HWND hwnd, LPRECT lprc, COLORREF color)
 	HFONT hFont, hfOld;
 	HBRUSH hbr, hbrOld;
 	BOOL bRet;
+	PWBOBJ pwbobj = wbGetWBObj(hwnd);
 
 	GetWindowText(hwnd, szString, 1023);
 	nLen = strlen(szString);
@@ -140,16 +140,26 @@ static BOOL DrawHyperLink(HDC hdc, HWND hwnd, LPRECT lprc, COLORREF color)
 
 	// Draw the text
 
-	bRet = DrawTextEx(hdc, (PSZ)szString, nLen, lprc, DT_LEFT | DT_SINGLELINE, NULL);
+	bRet = DrawTextEx(hdc, (PSZ)szString, nLen, lprc,
+	  (BITTEST(pwbobj->style, WBC_CENTER) ? DT_CENTER : DT_LEFT) | DT_SINGLELINE, NULL);
 
 	// Draw a line under the text
 
-	if(bUnderline) {
+	if(bUnderline && pwbobj && (BITTEST(pwbobj->style, WBC_LINES))) {
 		SIZE siz;
 
 		if(GetTextExtentPoint32(hdc, (PSZ)szString, nLen, &siz)) {
-			wbDrawLine(hdc, lprc->left, lprc->top + siz.cy - 1,
-			  lprc->left + siz.cx, lprc->top + siz.cy - 1, color, 0, 0);
+			int xstart;
+
+			if(BITTEST(pwbobj->style, WBC_CENTER))
+				xstart = lprc->left + ((lprc->right - lprc->left) - siz.cx) / 2;
+			else
+				xstart = lprc->left;
+
+			wbDrawLine(hdc,
+			  xstart,
+			  lprc->top + siz.cy - 1,
+			  xstart + siz.cx, lprc->top + siz.cy - 1, color, 0, 0);
 		}
 	}
 

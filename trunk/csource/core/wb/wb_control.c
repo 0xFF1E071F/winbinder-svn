@@ -1378,12 +1378,14 @@ BOOL wbSetImage(PWBOBJ pwbo, HANDLE hImage, COLORREF clTransp, LPARAM lParam)
 
 				HIMAGELIST hi;
 				BITMAP bm;
+				int nImages;
 
 				GetObject(hImage, sizeof(BITMAP), (LPSTR) &bm);
 				if((bm.bmWidth == 0) | (bm.bmHeight == 0))
 					return FALSE;
 
-				hi = ImageList_Create(bm.bmWidth / 4, bm.bmHeight, ILC_COLORDDB, 4, 0);
+				nImages = lParam == 0 ? 4 : max(1, lParam);
+				hi = ImageList_Create(bm.bmWidth / nImages, bm.bmHeight, ILC_COLORDDB, nImages, 0);
 				ImageList_Add(hi, hImage, NULL);
 				M_hiImageList = (LPARAM)hi;			// Store ImageList in control
 				break;

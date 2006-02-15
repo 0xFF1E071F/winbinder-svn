@@ -13,6 +13,17 @@
 (LATEST CHANGES BY RUBEM)
 ------------------------------------------------------------------------------
 
+33
+--
+
+- Changed OwnerDrawnWndProc() so each window stores its own screen buffer size. This avoid the problem where an owner-drawn window was shown blank after being closed and opened again. Thanks to Hans for finding this bug.
+- In wb_set_image(), param now is used to set the number of images in a ImageButton control. Default is 4 (normal / highlighted / pressed / disabled), minimum is 1.
+- HyperLink class now requires WBC_LINES style to show underlined text. Please add this style to any HyperLink controls you may have if you want to maintain the default behavior.
+- HyperLinks now accept the WBC_CENTER style for horizontally centered text.
+- ToolDialog class is not "always Always On Top" anymore
+- In example resizable.phow: Included code to disable the window's maximize button
+- Other small changes in PHPW examples mouse.phpw and resisable.phpw
+
 29-32
 -----
 

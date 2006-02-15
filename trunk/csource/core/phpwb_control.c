@@ -413,7 +413,7 @@ ZEND_FUNCTION(wb_set_image)
 
 	}
 
-//	printf("%d %d %d %d %d\n", pwbo, trcolor, param1, param2, hImage);
+//	printf("%d %d %d %d\n", pwbo, trcolor, param, hImage);
 
 	// Here param is the number of images for the ImageList
 

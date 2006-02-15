@@ -53,6 +53,7 @@ wb_set_text($statusbar, APPNAME);
 
 // Start
 
+DisableMaximizeButton($mainwin);
 wb_set_handler($mainwin, "process_main");
 wb_main_loop();
 
@@ -204,9 +205,8 @@ function init_dlls()
 	define("WBOBJ_RAW",		"V3l2V13");
 	define("WBOBJ_SIZE",	72);
 
-	define("IDC_ARROW",		32512);
-	define("IDC_SIZEWE", 	32644);
-	define("IDC_SIZENS", 	32645);
+	define("SC_MAXIMIZE",	61488);
+
 }
 
 function SetCapture($hwnd)
@@ -231,6 +231,21 @@ function ReleaseCapture()
 	return wb_call_function($pfn);
 }
 
+function DisableMaximizeButton($hwnd)
+{
+	global $USER;
+	static $gsm = null, $dmi;
+
+	$wbobj = unpack(WBOBJ, wb_peek($hwnd, WBOBJ_SIZE));
+
+	if($dmi === null)
+		$dmi = wb_get_function_address("DeleteMenu", $USER);
+	if($gsm === null)
+		$gsm = wb_get_function_address("GetSystemMenu", $USER);
+
+	$sysmenu = wb_call_function($gsm, array($wbobj["hwnd"], false));
+	return wb_call_function($dmi, array($sysmenu, SC_MAXIMIZE, 0));
+}
 
 //------------------------------------------------------------------ END OF FILE
 
