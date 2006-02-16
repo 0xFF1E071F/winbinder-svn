@@ -13,18 +13,23 @@
 (LATEST CHANGES BY RUBEM)
 ------------------------------------------------------------------------------
 
-**
+36
+--
+
+- Removed the change in wbDrawBitmap() which caused other (more severe) problems.
+
+35
 --
 
 - Fixed wbDrawBitmap() to avoid misbehavior when wb_draw_image() was called with NOCOLOR. Strangely enough, this problem does not occur when the library is compiled the lcc-win32 compiler, only MS.
-- Updated the makerelease.phpw application to handle correctly the new wb_version.h format introduced by Hans in revision # 20
+- Updated the make_release.phpw application to handle correctly the new wb_version.h format introduced by Hans in revision # 20
 - New PHP example: animation.phpw
 
 33
 --
 
-- Changed OwnerDrawnWndProc() so each window stores its own screen buffer size. This avoid the problem where an owner-drawn window was shown blank after being closed and opened again. Thanks to Hans for finding this bug.
-- In wb_set_image(), param now is used to set the number of images in a ImageButton control. Default is 4 (normal / highlighted / pressed / disabled), minimum is 1.
+- Changed OwnerDrawnWndProc() so each window stores its own screen buffer size. This avoids the problem where an owner-drawn window was shown blank after being closed and opened again. Thanks to Hans for finding this bug.
+- In wb_set_image(), param is now used to set the number of images in a ImageButton control. Default is 4 (normal / highlighted / pressed / disabled), minimum is 1.
 - HyperLink class now requires WBC_LINES style to show underlined text. Please add this style to any HyperLink controls you may have if you want to maintain the default behavior.
 - HyperLinks now accept the WBC_CENTER style for horizontally centered text.
 - ToolDialog class is not "always Always On Top" anymore

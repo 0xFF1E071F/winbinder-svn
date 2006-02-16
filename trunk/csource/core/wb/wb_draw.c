@@ -61,7 +61,7 @@ COLORREF wbGetPixel(HANDLE handle, int xPos, int yPos)
 
 BOOL wbDrawBitmap(HANDLE handle, HBITMAP hbmBits, int xPos, int yPos, int nWidth, int nHeight, int xOffset, int yOffset, COLORREF clTransp)
 {
-	BOOL bRet = FALSE;
+	BOOL bRet;// = FALSE;
 	HDC hdcMem;
 	HBITMAP hbmMask;
 
@@ -96,7 +96,7 @@ BOOL wbDrawBitmap(HANDLE handle, HBITMAP hbmBits, int xPos, int yPos, int nWidth
 			MAKEROP4(SRCPAINT, SRCCOPY));
 
 	} else {
-		while(!bRet)		// *** Crazy code required by MS compiler
+//		while(!bRet)		// *** Crazy code required by MS compiler
 			bRet = BitBlt(hdcMain, xPos, yPos, nWidth, nHeight, hdcMem, xOffset, yOffset, SRCCOPY);
 	}
 	DeleteDC(hdcMem);
