@@ -105,7 +105,7 @@ define("PEAR10_TEMPLATE",	SCRIPTPATH . "pear10_template.xml");
 define("PEAR14_TEMPLATE",	SCRIPTPATH . "pear14_template.xml");
 
 define("APPNAME", 			"WinBinder Release Maker");	// Application name
-define("VERSION_CONTENTS",	"\r\n// Current WinBinder version\r\n// This file is generated automatically by " . APPNAME . ".\r\n\r\n#define WINBINDER_VERSION\t\t\"%s\"\r\n");
+define("VERSION_CONTENTS",	"\r\n// Current WinBinder version\r\n// This file is generated automatically by " . APPNAME . ".\r\n\r\n#define WINBINDER_VERSION\t\t\"%s\"\r\n#define WB_MAJ\t\t%d\r\n#define WB_MIN\t\t%d\r\n#define WB_REL\t\t%d\r\n");
 define("COMBO_ITEMS",		"No action\nSnapshot\nPHP developer\nC developer\nRelease\nMinimal PHP 4\nMinimal PHP 5\nDLLs only");
 
 //-------------------------------------------------------------------- VARIABLES
@@ -311,7 +311,8 @@ function save_version($mainwin)
 
 	$current_version = @file_get_contents(VERSION_FILE);
 	$ver = trim(wb_get_text(wb_get_control($mainwin, IDC_VERSION)));
-	$new_version = sprintf(VERSION_CONTENTS, $ver);
+	preg_match("/(\d+)\.(\d+)\.(\d+)/", $ver, $parts);
+	$new_version = sprintf(VERSION_CONTENTS, $ver, $parts[1], $parts[2], $parts[3]);
 	if(preg_split("/\r\n/", $current_version) != preg_split("/\r\n/", $new_version)) {
 		out("Updating project version number to $ver...\r\n");
 		file_put_contents(VERSION_FILE, $new_version);

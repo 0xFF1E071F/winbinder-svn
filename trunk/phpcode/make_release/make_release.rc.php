@@ -35,7 +35,7 @@ if(!defined("IDC_CLEAR")) define("IDC_CLEAR", 1039);
 
 // Create window
 
-$mainwin = wb_create_window(NULL, 106, "Make release", WBC_CENTER, WBC_CENTER, 609, 477, WBC_INVISIBLE, 0);
+$mainwin = wb_create_window(NULL, 3, "Make release", WBC_CENTER, WBC_CENTER, 609, 477, WBC_INVISIBLE, 0);
 
 // Insert controls
 
