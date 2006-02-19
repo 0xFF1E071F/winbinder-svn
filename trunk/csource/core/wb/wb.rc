@@ -2,7 +2,7 @@
 
  WINBINDER - A native Windows binding
 
- Copyright © 2004-2005 Hypervisual - see LICENSE.TXT for details
+ Copyright © 2004-2006 Hypervisual - see LICENSE.TXT for details
  Author: Rubem Pechansky (http://www.hypervisual.com/winbinder/contact.php)
 
  rc file for winbinder
@@ -56,7 +56,7 @@ BEGIN
             VALUE "LegalCopyright", "Copyright © 1997-2006 Rubem Pechansky\0"
             VALUE "LegalTrademarks", "PHP " P_VERSION "\0"
             VALUE "OriginalFilename", FILE_NAME "\0"
-            VALUE "PrivateBuild", "WinBinder alpha\0"
+            VALUE "PrivateBuild", "WinBinder beta\0"
             VALUE "ProductName", PRODUCT_NAME "\0"
             VALUE "ProductVersion", STRVER3(WB_MAJ,WB_MIN,WB_REL)
             VALUE "SpecialBuild", "Built by Hans\0"

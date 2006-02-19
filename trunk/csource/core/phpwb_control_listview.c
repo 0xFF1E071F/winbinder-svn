@@ -2,7 +2,7 @@
 
  WINBINDER - A native Windows binding for PHP
 
- Copyright © 2004-2005 Hypervisual - see LICENSE.TXT for details
+ Copyright © 2004-2006 Hypervisual - see LICENSE.TXT for details
  Author: Rubem Pechansky (http://www.hypervisual.com/winbinder/contact.php)
 
  ZEND wrapper for ListView control
