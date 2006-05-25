@@ -1,0 +1,92 @@
+; Wedit project file. Syntax: Name = value
+
+[winbinder_php50]
+
+CompilerFlags=20972289
+ExtraCmsFilesCount=0
+FileOptions=0
+FortranFlags=0
+Frame=1 0 1023 724
+GetOptions=0
+LockOptions=1
+Name=winbinder_php50
+NrOfFileProcessors=0
+NumberOfBreakpoints=0
+ProjectFlags=0
+ProjectTime=952291
+PutOptions=4
+StatusBar=0,0,0,0
+Useframework=0
+
+Includes=c:\util\lcc\include,C:\@desenv\WinBinder\csource\core,C:\@desenv\winbinder\csource\core\wb,C:\@desenv\WinBinder\csource\php50\main,C:\@desenv\WinBinder\csource\php50\zend,C:\@desenv\WinBinder\csource\php50\tsrm,C:\@desenv\WinBinder\csource\php50\regex,C:\@desenv\WinBinder\csource\php50\win32,C:\@desenv\WinBinder\csource\php50\ext\standard
+Libraries=iehelper.lib php50ts.lib psapi.lib shell32.lib ole32.lib oleaut32.lib uuid.lib winmm.lib
+
+CmsDirectory=C:\@desenv\WinBinder\CMS
+ProjectPath=C:\@desenv\winbinder\csource\core
+SourcesDir=C:\@desenv\winbinder\csource\core
+Exe=c:\@desenv\winbinder\binaries\php50\ext\php_winbinder.dll
+DbgExeName=c:\@desenv\winbinder\binaries\php50\ext\php_winbinder.dll
+MakeDir=C:\@desenv\WinBinder\tools\lcc-win32\php50
+DbgDir=c:\@desenv\winbinder\tools\lcc-win32\php50
+ErrorFile=C:\@desenv\WinBinder\tools\lcc-win32\php50\winbinder_php50.err
+MakeName=C:\util\lcc\bin\make.exe
+
+DebuggerArguments=
+Defines=
+LinkerArgs=
+UserCount=1
+User1=RUBEM
+UserName=RUBEM
+UsersOptions=1
+
+PrjFiles=37
+File1=winmm.lib
+File2=wb\wb_winsys.c
+File3=wb\wb_window.c
+File4=wb\wb_sysdlg.c
+File5=wb\wb_lowlevel.c
+File6=wb\wb_generic.c
+File7=wb\wb_font.c
+File8=wb\wb_draw.c
+File9=wb\wb_control_treeview.c
+File10=wb\wb_control_toolbar.c
+File11=wb\wb_control_tab.c
+File12=wb\wb_control_menu.c
+File13=wb\wb_control_listview.c
+File14=wb\wb_control_hyperlink.c
+File15=wb\wb_control_html.c
+File16=wb\wb_control_calendar.c
+File17=wb\wb_control.c
+File18=wb\wb_bitmap.c
+File19=shell32.lib
+File20=psapi.lib
+File21=phpwb_winsys.c
+File22=phpwb_window.c
+File23=phpwb_wb_lib.c
+File24=phpwb_sysdlg.c
+File25=phpwb_lowlevel.c
+File26=phpwb_generic.c
+File27=phpwb_font.c
+File28=phpwb_export.c
+File29=phpwb_draw.c
+File30=phpwb_control_treeview.c
+File31=phpwb_control_toolbar.c
+File32=phpwb_control_menu.c
+File33=phpwb_control_listview.c
+File34=phpwb_control.c
+File35=phpwb_bitmap.c
+File36=php50ts.lib
+File37=iehelper.lib
+
+OpenFiles=10
+OpenFile1="C:\@desenv\WinBinder\csource\core\wb\wb_generic.c" 134 22 22 863 519
+OpenFile2="C:\@desenv\winbinder\csource\core\phpwb.h" 38 -24 5 843 652
+OpenFile3="C:\@desenv\winbinder\csource\core\wb\wb.h" 23 -62 46 903 411
+CurrentFile=C:\@desenv\WinBinder\csource\core\wb\wb_generic.c
+OpenFile4="c:\@desenv\winbinder\csource\core\phpwb_bitmap.c" 44 121 0 973 486
+OpenFile5="c:\@desenv\winbinder\csource\core\phpwb_export.c" 6 138 138 979 625
+OpenFile6="c:\@desenv\winbinder\csource\php50\main\win95nt.h" 46 230 230 1071 717
+OpenFile7="c:\@desenv\winbinder\csource\php50\zend\zend_config.w32.h" 39 37 206 878 693
+OpenFile8="c:\@desenv\winbinder\csource\core\phpwb_lowlevel.c" 290 23 23 864 500
+OpenFile9="c:\util\lcc\include\mshtmlc.h" 4 122 131 956 493
+OpenFile10="c:\@desenv\winbinder\csource\core\wb\wb_control.c" 1278 84 189 608 378

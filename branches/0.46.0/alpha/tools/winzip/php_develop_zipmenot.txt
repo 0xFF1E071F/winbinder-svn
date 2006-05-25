@@ -1,0 +1,18 @@
+; The files below will not be included in the release
+
+*.a
+*.bak
+*.dep
+*.err
+*.lib
+*.lnk
+*.o
+*.obj
+*.res
+*.tws
+*.xrf
+tp*.bat
+@*\*.*
+Archive\*.*
+Website\manual\_we_info5
+Website\manual\_we_info5\*.*

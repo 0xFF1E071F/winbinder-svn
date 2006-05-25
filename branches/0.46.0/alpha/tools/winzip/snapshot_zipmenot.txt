@@ -1,0 +1,8 @@
+; The files below will not be included in the snapshot
+
+.\*.*
+PHP\*.*
+@*\*.*
+Archive\*.*
+Website\*.*
+code\*.exe

@@ -1,0 +1,9 @@
+; List of files to be included in the release
+
+package*.xml
+Readme.txt
+binaries\*.*
+csource\*.*
+docs\*.*
+phpcode\*.*
+tools\*.*
