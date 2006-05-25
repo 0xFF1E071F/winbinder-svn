@@ -1,0 +1,55 @@
+;*******************************************************************************
+;
+; WINBINDER - form editor project
+;
+;*******************************************************************************
+
+[Projectsettings]
+formvar = "$winmain"
+parent = "null"
+prefix = "IDC_"
+startval = 1000
+localize = ""
+locprefix = "LANG_"
+istabpage = ""
+tabnumber = 0
+filllists = ""
+fillheaders = ""
+imagenames = ""
+insertontabs = 1
+applyvalues = ""
+ctrlvar = "$ctrl_%d"
+namecounter = ""
+startctrlval = 1
+
+[Form]
+class = "AppWindow"
+caption = "Variables"
+geom = "WBC_CENTER WBC_CENTER 171 189"
+style = 0
+value = 0
+controls = 3
+
+[Form_ctrl1]
+class = "Frame"
+caption = "Frame1"
+geom = "20 20 120 115"
+style = 0
+value = 0
+id = ""
+
+[Form_ctrl2]
+class = "PushButton"
+caption = "Button1"
+geom = "35 50 90 25"
+style = 0
+value = 0
+id = "IDC_PUSHBUTTON1004"
+
+[Form_ctrl3]
+class = "PushButton"
+caption = "Button2"
+geom = "35 85 90 25"
+style = 0
+value = 0
+id = "IDC_PUSHBUTTON1005"
