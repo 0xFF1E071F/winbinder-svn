@@ -1,8 +1,0 @@
-; List of files to be included in the release
-
-Changelog.txt
-Code\inc\*.*
-Code\tests\*.*
-Website\manual\*.*
-PHP\PHP4\ext\php_winbinder.dll
-PHP\PHP5\ext\php_winbinder.dll

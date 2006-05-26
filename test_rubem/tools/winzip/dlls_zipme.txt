@@ -1,7 +1,0 @@
-; List of files to be included in the release
-
-Changelog.txt
-binaries\php4\ext\php_winbinder.dll
-binaries\php5\ext\php_winbinder.dll
-tools\lcc-win32\*.*
-tools\msvc\*.*

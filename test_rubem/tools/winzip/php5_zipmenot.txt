@@ -1,3 +1,0 @@
-; The files below will not be included in the release
-
-website\*.*

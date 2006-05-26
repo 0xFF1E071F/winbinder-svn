@@ -1,6 +1,0 @@
-; List of files to be included in the release
-
-PHP\PHP5\php.exe
-PHP\PHP5\php-win.exe
-PHP\PHP5\source\license.txt
-PHP\PHP5\php5ts.dll

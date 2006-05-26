@@ -1,5 +1,0 @@
-; List of files to be included in the release
-
-PHP\PHP4\php.exe
-PHP\PHP4\source\license.txt
-PHP\PHP4\php4ts.dll
