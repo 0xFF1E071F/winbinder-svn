@@ -1,0 +1,749 @@
+<?php
+
+/*******************************************************************************
+
+ WINBINDER - A native Windows binding for PHP
+
+ Copyright © 2004-2006 Hypervisual - see LICENSE.TXT for details
+ Author: Rubem Pechansky (http://www.hypervisual.com/winbinder/contact.php)
+
+Screen layout editor
+
+*******************************************************************************/
+
+//------------------------------------------------------------ SYSTEM PARAMETERS
+
+define("PATH_SCRIPT",	dirname(__FILE__) . "/");
+define("PATH_DATA",		PATH_SCRIPT);
+define("PATH_INC",		PATH_SCRIPT . "../include/");
+define("PATH_RES",		PATH_SCRIPT . "../resources/");
+define("PATH_RESPVT",	"resources/");	// For specific bitmaps, icons and cursors
+
+//----------------------------------------------------------------- DEPENDENCIES
+
+include PATH_INC . "winbinder.php";
+include "le_controls.inc.php";
+
+//-------------------------------------------------------------------- CONSTANTS
+
+define("ID_NEW", 			8601);
+define("ID_ABOUT", 			8602);
+define("ID_OPEN", 			8603);
+define("ID_SAVE", 			8604);
+define("ID_SAVEAS", 		8608);
+define("ID_PRINT", 			8605);
+define("ID_PREVIEW",		8606);
+define("ID_CLOSE", 			8610);
+define("ID_HELP", 			8620);
+define("ID_STATUSBAR",		8621);
+define("ID_WEBSITE",		8625);
+define("ID_FIND",			8626);
+define("ID_CUT",			8631);
+define("ID_COPY",			8632);
+define("ID_PASTE",			8633);
+define("ID_UNDO",			8634);
+define("ID_REDO",			8635);
+define("ID_MENUDLG",		8640);
+define("ID_TIMER",			8641);
+define("ID_FASTDRAW",		8642);
+
+define("SYS_INIFILE",		"le_main.ini");
+define("APPNAME", 			"WinBinder layout editor");	// Application name
+define("VERSION", 			"0.2.007");
+
+define("XOFFSET", 			180);
+define("YOFFSET", 			60);
+
+define("RIGHTCLICK", WBC_MOUSEDOWN | WBC_LBUTTON);
+
+// For selection handles
+
+define("HANDLE_WIDTH",		6);
+define("HANDLE_HEIGHT",		6);
+define("HANDLE_XOFFSET",	13);
+define("HANDLE_YOFFSET",	13);
+
+define("LE_INFO", "This simple form editor, in its present state, is essentially a proof of concept, not a complete application.\nIt serves to demonstrate that it is possible to build a form editor for WinBinder using WinBinder\nitself and it should be the basis of a completely self-contained, standalone release in the future.
+");
+
+//----------------------------------------------------------- CLASS DECLARATIONS
+
+class Wb {
+}
+
+//-------------------------------------------------------------------- VARIABLES
+
+$wb = new Wb;
+$cl = new Wb;
+
+// Of course the variables below should be stored in the INI file
+
+$cl->titlebar = 0x674F3C;
+$cl->hilite = WHITE;
+$cl->face = 0xE3DFE0;
+$cl->shade = DARKGRAY;
+$cl->shadow = BLACK;
+$cl->window = 0xE5E5EA;
+$cl->gridcolor = 0xD8D8D8;
+$cl->handle = BLACK;
+$cl->sysfont = wb_create_font("Tahoma", 8, BLACK);
+$cl->winfont = wb_create_font("Tahoma", 8, WHITE, FTA_BOLD);
+$cl->winicon = wb_load_image(PATH_RESPVT . "icon16.bmp");
+
+$wb->fastdraw = false;
+
+$ctrl_list = array(
+	array(PushButton,	"PushButton"),
+	array(CheckBox,		"CheckBox"),
+	array(RadioButton,	"RadioButton"),
+	array(EditBox,		"EditBox"),
+	array(Frame,		"Frame"),
+);
+
+//-------------------------------------------------------------- EXECUTABLE CODE
+
+create_main_window();
+wb_main_loop();
+
+//-------------------------------------------------------------------- FUNCTIONS
+
+// Create main window from RC template
+
+function create_main_window()
+{
+	global $settings, $wb, $ctrl_list;
+
+	init_dlls();
+
+ 	// BELOW: Temporary variables (refer to one control only, should be arrays in the future)
+
+	$wb->bwidth = 120;
+	$wb->bheight = 40;
+	$wb->bleft = XOFFSET + 40;
+	$wb->btop = YOFFSET + 60;
+
+	// Create main window (invisible) and controls
+
+	// Remove the line below while not under development
+
+	file_put_contents("le_main.rc.php", "<?php\n\n" . parse_rc(file_get_contents("le_main.rc"),
+	  "\$wb->mainwin",
+	  null, 'ResizableWindow', null, WBC_CENTER, WBC_CENTER, WBC_CENTER, WBC_CENTER,
+	  WBC_INVISIBLE | WBC_CUSTOMDRAW | WBC_NOTIFY,
+	  WBC_REDRAW | WBC_MOUSEDOWN | WBC_MOUSEUP | WBC_MOUSEMOVE | WBC_DBLCLICK, PATH_RESPVT) . "\n?>");
+
+	include("le_main.rc.php");
+
+	// Set minimum window size
+
+	wb_set_area($wb->mainwin, WBC_MINSIZE, 0, 0, 600, 400);
+	$wb->statusbar = wb_create_control($wb->mainwin, StatusBar, "Ready");
+
+	// Create main menu
+
+	$wb->mainmenu = wb_create_control($wb->mainwin, Menu, array(
+
+		"&File",
+			array(ID_NEW,		"&New\tCtrl+N",		"", PATH_RES . "menu_new.bmp",	"Ctrl+N"),
+			array(ID_OPEN,		"&Open...\tCtrl+O", "", PATH_RES . "menu_open.bmp",	"Ctrl+O"),
+			null,
+			array(ID_SAVE,		"&Save\tCtrl+S",	"", PATH_RES . "menu_save.bmp",	"Ctrl+S"),
+			array(ID_SAVEAS,	"Save &As..."),
+			null,
+			array(IDCLOSE,		"E&xit\tAlt+F4",	"", PATH_RES . "menu_exit.bmp"),
+
+		"&Tools",
+			array(ID_MENUDLG,	"&Menu Editor..."),
+
+		"&Help",
+			array(ID_HELP,		"&Help topics\tF1",	"", PATH_RES . "menu_help.bmp",	"F1"),
+			null,
+			array(ID_WEBSITE,	"&Web site"),
+			null,
+			array(ID_ABOUT,		"About...")
+	));
+
+	// Create toolbar
+
+	$wb->toolbar = wb_create_control($wb->mainwin, ToolBar, array(
+	  	null,
+	  	array(ID_NEW,		NULL, "New (Ctrl+N)",		0),
+	  	array(ID_OPEN,		NULL, "Open (Ctrl+O)",		1),
+	  	array(ID_SAVE,		NULL, "Save (Ctrl+S)",		2),
+	  	null,
+	  	array(ID_CUT,		NULL, "Cut (Ctrl+X)",		6),
+	  	array(ID_COPY,		NULL, "Copy (Ctrl+C)",		7),
+	  	array(ID_PASTE,		NULL, "Paste (Ctrl+V)",		8),
+	  	null,
+	  	array(ID_UNDO,		NULL, "Undo (Ctrl+Z)", 		9),
+	  	array(ID_REDO,		NULL, "Redo (Ctrl+Y)", 		10),
+	  	null,
+	  	array(ID_WEBSITE,	NULL, "Web site", 			11),
+	  	array(ID_HELP,		NULL, "Help ", 				13)
+	), 0, 0, 16, 15, 0, 0, PATH_RES . "toolbar.bmp");
+
+	// Create buttons to create controls and their respective constants
+
+	for($i = 0; $i < count($ctrl_list); $i++) {
+		$const = "IDC_" . strtoupper($ctrl_list[$i][1]);
+		define($const, 8001 + $i);
+		$c = wb_create_control($wb->mainwin, PushButton, "",
+			4 + 24 * $i, 36, 24, 24, constant($const), 0);
+		wb_set_image($c, PATH_RESPVT . "ctrl_{$ctrl_list[$i][1]}.bmp", GREEN);
+	}
+
+	// Size, move and show main window
+
+	wb_set_image($wb->mainwin, PATH_RES . "hyper.ico");
+	wb_set_handler($wb->mainwin, "process_main");
+	read_ini();
+	wb_set_visible($wb->mainwin, true);
+	wb_create_timer($wb->mainwin, ID_TIMER, 500);
+
+	// Include code for dialogs
+
+	include("le_menu_editor.inc.php");
+	wb_message_box($wb->mainwin, LE_INFO, "Information", WBC_INFO);
+}
+
+function process_main($window, $id, $ctrl, $lparam1=0, $lparam2=0)
+{
+	global $settings, $wb, $cl;
+
+	static $controls = array();
+	static $ismoving = false;
+	static $isresizing = false;
+	static $incontrol = false;
+	static $inEhandle = false;
+	static $inShandle = false;
+	static $inSEhandle = false;
+	static $selected = false;
+	static $capturing = false;
+	static $xcuroff = 0;
+	static $ycuroff = 0;
+
+	switch($id) {
+
+		case IDDEFAULT:
+
+			if($lparam1 & WBC_REDRAW) {									// Redraw screen
+
+				// Set some variables
+
+				$xoffset = XOFFSET + 20;
+				$yoffset = YOFFSET + 20;
+				$buffer = $lparam2;
+				$dim = wb_get_size($window, true);
+				$winwidth = $dim[0];
+				$winheight = $dim[1];
+
+				// Set ListBox size
+
+				wb_set_size(wb_get_control($wb->mainwin, IDC_CONTROL), XOFFSET + 5, $winheight - 120);
+
+				// Draw a decorative title
+
+				if(!$wb->fastdraw) {
+					$font = wb_create_font("Arial", 20, 0xC0B0B0, FTA_BOLD);
+					wb_draw_text($buffer, "WinBinder Layout Editor", $xoffset, 32, $font);
+					wb_destroy_font($font);
+				}
+
+				// Draw the dialog
+
+				draw_window($buffer, "WinBinder dialog", $xoffset, $yoffset, $winwidth - 204, $winheight - 108);
+
+ 				// Draw the grid
+
+				if(!$wb->fastdraw) {
+					for($y = $yoffset + 24; $y < $winheight - 30; $y += 10)
+						wb_draw_line($buffer, $xoffset + 4, $y, $winwidth - 8, $y, $cl->gridcolor);
+					for($x = $xoffset + 4; $x < $winwidth - 8; $x += 10)
+						wb_draw_line($buffer, $x, $yoffset + 24, $x, $winheight - 31, $cl->gridcolor);
+				}
+
+				// Draw controls
+
+				draw_button($buffer, "Move me!", $wb->bleft - $xcuroff, $wb->btop - $ycuroff, $wb->bwidth, $wb->bheight);
+				if($selected && !$ismoving)
+					draw_handles($buffer, "", $wb->bleft + $xcuroff, $wb->btop - $ycuroff, $wb->bwidth, $wb->bheight);
+
+				for($i = 1; $i < 10; $i++) {
+					draw_button($buffer, "Button " . ($i + 1), $xoffset + 20,
+						$yoffset + 60 + 30 * $i, 90, 25);
+				}
+				$wb->bleft = $wb->bleft - $xcuroff;
+				$wb->btop = $wb->btop - $ycuroff;
+
+				// Show fps
+
+				{
+					static $time_start = 0;
+
+					wb_set_text($wb->statusbar, sprintf("Screen redraw: %04.0f FPS",  (1 / (getmicrotime() - $time_start))));
+					$time_start = getmicrotime();
+				}
+
+			} elseif(!($lparam1 & (WBC_LBUTTON | WBC_RBUTTON))) {		// No button pressed
+
+				// Coordinates are relative to client area
+
+				$xleft = $lparam2 & 0xFFFF;
+				$ytop = ($lparam2 & 0xFFFF0000) >> 16;
+
+				// Is mouse cursor inside the control area?
+
+				if(($xleft >= $wb->bleft) && ($xleft <= $wb->bleft + $wb->bwidth) &&
+				   ($ytop >= $wb->btop) && ($ytop <= $wb->btop + $wb->bheight)) {
+				   	$incontrol = true;
+				   	$inEhandle = false;
+				   	$inShandle = false;
+				   	$selected = true;
+					SetMyCursor(IDC_HAND);
+
+				// Test for right handle
+
+				} else if(
+				  ($xleft >= $wb->bleft + $wb->bwidth + HANDLE_XOFFSET - HANDLE_WIDTH) &&
+				  ($xleft <= $wb->bleft + $wb->bwidth + HANDLE_XOFFSET) &&
+				  ($ytop  >= $wb->btop  + ($wb->bheight - HANDLE_HEIGHT) / 2) &&
+				  ($ytop  <= $wb->btop  + ($wb->bheight + HANDLE_HEIGHT) / 2)) {
+				   	$incontrol = false;
+				   	$inEhandle = true;
+					SetMyCursor(IDC_SIZEWE);
+
+				// Test for bottom handle
+
+				} else if(
+				  ($xleft >= $wb->bleft + ($wb->bwidth - HANDLE_WIDTH) / 2) &&
+				  ($xleft <= $wb->bleft + ($wb->bwidth + HANDLE_WIDTH) / 2) &&
+				  ($ytop  >= $wb->btop  + $wb->bheight + HANDLE_YOFFSET - HANDLE_HEIGHT) &&
+				  ($ytop  <= $wb->btop  + $wb->bheight + HANDLE_YOFFSET)) {
+				   	$incontrol = false;
+				   	$inShandle = true;
+					SetMyCursor(IDC_SIZENS);
+
+				// Test for bottom right handle
+
+				} else if(
+				  ($xleft >= $wb->bleft + $wb->bwidth + HANDLE_XOFFSET - HANDLE_WIDTH) &&
+				  ($xleft <= $wb->bleft + $wb->bwidth + HANDLE_XOFFSET) &&
+				  ($ytop  >= $wb->btop  + $wb->bheight + HANDLE_YOFFSET - HANDLE_HEIGHT) &&
+				  ($ytop  <= $wb->btop  + $wb->bheight + HANDLE_YOFFSET)) {
+				   	$incontrol = false;
+				   	$inSEhandle = true;
+					SetMyCursor(IDC_SIZENWSE);
+
+				// Outside control area
+
+				} else {
+				   	$incontrol = false;
+				   	$inEhandle = false;
+				   	$inShandle = false;
+				   	$inSEhandle = false;
+				}
+
+			} elseif($lparam1 & WBC_MOUSEUP) {							// Button released
+
+				$ismoving = false;
+				$isresizing = false;
+				$xcuroff = 0;
+				$ycuroff = 0;
+				wb_refresh($window, 1);
+				if($capturing) {
+					ReleaseCapture();
+					$capturing = false;
+				}
+				SetMyCursor(IDC_ARROW);
+
+			} elseif($lparam1 & RIGHTCLICK == RIGHTCLICK) {		// Left button pressed
+
+				// Coordinates are relative to client area
+
+				if($incontrol) {			// Moving control
+
+					$x = $lparam2 & 0xFFFF;
+					$y = ($lparam2 & 0xFFFF0000) >> 16;
+					// Grid is active
+					$xleft = (int)(max(XOFFSET + 4, $x - 0) / 5) * 5;
+					$ytop = (int)(max(YOFFSET + 37, $y - 0) / 5) * 5;
+
+					if(!$ismoving) {
+						$ismoving = true;
+						$xcuroff = $xleft - $wb->bleft;
+						$ycuroff = $ytop - $wb->btop;
+					}
+
+					if(!$capturing) {
+						SetCapture($window);
+						SetMyCursor(IDC_CROSS);
+						$capturing = true;
+					}
+
+					$wb->bleft = $xleft;
+					$wb->btop = $ytop;
+
+				} elseif($inEhandle) {		// Resizing control (East)
+
+					$x = $lparam2 & 0xFFFF;
+					// Grid is active
+					$x1 = (int)(max(XOFFSET + 4, $x - 0) / 5) * 5;
+
+					if(!$isresizing) {
+						$isresizing = true;
+					}
+
+					SetMyCursor(IDC_SIZEWE);
+
+					$wb->bwidth = max(1, $x1 - $wb->bleft);
+
+				} elseif($inShandle) {		// Resizing control (South)
+
+					$y = ($lparam2 & 0xFFFF0000) >> 16;
+					// Grid is active
+					$y1 = (int)(max(YOFFSET + 4, $y - 0) / 5) * 5;
+
+					if(!$isresizing) {
+						$isresizing = true;
+					}
+
+					SetMyCursor(IDC_SIZENS);
+
+					$wb->bheight = max(1, $y1 - $wb->btop);
+
+				} elseif($inSEhandle) {		// Resizing control (Southeast)
+
+					$x = $lparam2 & 0xFFFF;
+					$y = ($lparam2 & 0xFFFF0000) >> 16;
+					// Grid is active
+					$x1 = (int)(max(XOFFSET + 4, $x - 0) / 5) * 5;
+					$y1 = (int)(max(YOFFSET + 4, $y - 0) / 5) * 5;
+
+					if(!$isresizing) {
+						$isresizing = true;
+					}
+
+					SetMyCursor(IDC_SIZENWSE);
+
+					$wb->bwidth = max(1, $x1 - $wb->bleft);
+					$wb->bheight = max(1, $y1 - $wb->btop);
+
+				} else {					// Outside control area
+
+				   	$selected = false;
+				}
+
+				wb_refresh($window, 1);
+			}
+
+			break;
+
+		case ID_TIMER:
+			wb_set_text($wb->statusbar, "GDI objects: " . wb_get_system_info("gdiobjects"));
+			break;
+
+		//----------------------------------- Commands below
+
+		case IDC_FASTDRAW:
+			$wb->fastdraw = wb_get_value($ctrl);
+			wb_refresh($window, 0);
+			break;
+
+		case ID_MENUDLG:
+			create_menu_editor($window);
+			break;
+
+/*
+		case IDC_PUSHBUTTON:
+			$controls["button1"] = 1;
+			wb_refresh($window, 0);
+			break;
+
+		case IDC_CHECKBOX:
+			wb_create_control($wb->mainwin, CheckBox, "CheckBox",
+				16, 16, 120, 20, $wb->child_id++, 0);
+			list_controls($window);
+			break;
+
+		case IDC_RADIOBUTTON:
+			wb_create_control($wb->mainwin, RadioButton, "RadioButton",
+				16, 16, 120, 20, $wb->child_id++, 0);
+			list_controls($window);
+			break;
+
+		case IDC_EDITBOX:
+			wb_create_control($wb->mainwin, EditBox, "EditBox",
+				16, 16, 80, 20, $wb->child_id++, 0);
+			list_controls($window);
+			break;
+
+		case IDC_FRAME:
+			wb_create_control($wb->mainwin, Frame, "Frame",
+				16, 16, 200, 200, $wb->child_id++, 0);
+			list_controls($window);
+			break;*/
+
+		case ID_ABOUT:
+			wb_message_box($window,  APPNAME . " version: " . VERSION . "\r\nWinBinder version: " .
+			  WBC_VERSION . "\r\nPHP version: " . PHP_VERSION, "About " . APPNAME, WBC_INFO);
+			break;
+
+		case IDCLOSE:		// IDCLOSE is predefined
+			wb_destroy_font($cl->sysfont);
+			wb_destroy_font($cl->winfont);
+			wb_destroy_image($cl->winicon);
+			save_ini($window);
+			wb_destroy_window($window);
+			break;
+	}
+}
+
+//---------------------------------------------------------- AUXILIARY FUNCTIONS
+
+function draw_window($buffer, $caption, $xstart, $ystart, $width, $height)
+{
+	global $cl;
+	global $wb;
+
+	// Draw window mockup
+
+	$xend = $xstart + $width;
+	$yend = $ystart + $height;
+
+	if($wb->fastdraw) {
+		wb_draw_rect($buffer, $xstart, $ystart, $width, $height, $cl->window, true);
+		wb_draw_rect($buffer, $xstart, $ystart, $width, $height, $cl->shade, false, 2);
+	} else {
+		wb_draw_rect($buffer, $xstart, $ystart, $width, $height, $cl->window, true);
+		wb_draw_line($buffer, $xend - 2, $ystart, $xend - 2, $yend - 1, $cl->shade);
+		wb_draw_line($buffer, $xstart, $yend - 2, $xend - 1, $yend - 2, $cl->shade);
+		wb_draw_line($buffer, $xstart, $ystart, $xend, $ystart, $cl->hilite);
+		wb_draw_line($buffer, $xstart, $ystart, $xstart, $yend, $cl->hilite);
+		wb_draw_line($buffer, $xend - 1, $ystart, $xend - 1, $yend - 1, $cl->shadow);
+		wb_draw_line($buffer, $xstart, $yend - 1, $xend - 1, $yend - 1, $cl->shadow);
+	}
+
+	// Draw the fake title bar
+
+	wb_draw_rect($buffer, $xstart + 4, $ystart + 4, $width - 8, 20, $cl->titlebar);
+	wb_draw_text($buffer, $caption, $xstart + 24, $ystart + 4, $width, 20, $cl->winfont, WBC_MIDDLE);
+	if($wb->fastdraw)
+		wb_draw_rect($buffer, $xstart + 6, $ystart + 6, 16, 16, $cl->window, FALSE);
+	else
+		wb_draw_image($buffer, $cl->winicon, $xstart + 6, $ystart + 6, 0, 0, GREEN);
+}
+
+function draw_button($buffer, $caption, $xstart, $ystart, $width, $height)
+{
+	global $cl;
+	global $wb;
+
+	// Draw button mockup
+
+	$xend = $xstart + $width;
+	$yend = $ystart + $height;
+
+	if($wb->fastdraw) {
+		wb_draw_rect($buffer, $xstart, $ystart, $width, $height, $cl->shade, false, 1);
+	} else {
+		wb_draw_rect($buffer, $xstart, $ystart, $width, $height, $cl->face, true);
+		wb_draw_line($buffer, $xend - 2, $ystart, $xend - 2, $yend - 1, $cl->shade);
+		wb_draw_line($buffer, $xstart, $yend - 2, $xend - 1, $yend - 2, $cl->shade);
+		wb_draw_line($buffer, $xstart, $ystart, $xend, $ystart, $cl->hilite);
+		wb_draw_line($buffer, $xstart, $ystart, $xstart, $yend, $cl->hilite);
+		wb_draw_line($buffer, $xend - 1, $ystart, $xend - 1, $yend - 1, $cl->shadow);
+		wb_draw_line($buffer, $xstart, $yend - 1, $xend - 1, $yend - 1, $cl->shadow);
+	}
+
+	// Draw button text
+
+	wb_draw_text($buffer, $caption, $xstart, $ystart, $width, $height, $cl->sysfont, WBC_CENTER | WBC_MIDDLE);
+}
+
+function draw_handles($buffer, $caption, $xstart, $ystart, $width, $height)
+{
+	global $cl;
+	global $wb;
+
+	$xcen = $xstart + $width / 2;
+	$xend = $xstart + $width;
+	$ymid = $ystart + $height / 2;
+	$yend = $ystart + $height;
+
+	// Draw top selection handles
+
+	wb_draw_rect($buffer, $xstart - HANDLE_XOFFSET, $ystart - HANDLE_YOFFSET,
+		HANDLE_WIDTH, HANDLE_HEIGHT, $cl->handle, false);
+	wb_draw_rect($buffer, $xcen - HANDLE_WIDTH / 2, $ystart - HANDLE_YOFFSET,
+		HANDLE_WIDTH, HANDLE_HEIGHT, $cl->handle, false);
+	wb_draw_rect($buffer, $xend + HANDLE_XOFFSET - HANDLE_WIDTH, $ystart - HANDLE_YOFFSET,
+		HANDLE_WIDTH, HANDLE_HEIGHT, $cl->handle, false);
+
+	// Draw middle selection handles
+
+	wb_draw_rect($buffer, $xstart - HANDLE_XOFFSET, $ymid - HANDLE_HEIGHT / 2,
+		HANDLE_WIDTH, HANDLE_HEIGHT, $cl->handle, false);
+	wb_draw_rect($buffer, $xend + HANDLE_XOFFSET - HANDLE_WIDTH, $ymid - HANDLE_HEIGHT / 2,
+		HANDLE_WIDTH, HANDLE_HEIGHT, $cl->handle, true);
+
+	// Draw bottom selection handles
+
+	wb_draw_rect($buffer, $xstart - HANDLE_XOFFSET, $yend + HANDLE_YOFFSET - HANDLE_HEIGHT,
+		HANDLE_WIDTH, HANDLE_HEIGHT, $cl->handle, false);
+	wb_draw_rect($buffer, $xcen - HANDLE_WIDTH / 2, $yend + HANDLE_YOFFSET - HANDLE_HEIGHT,
+		HANDLE_WIDTH, HANDLE_HEIGHT, $cl->handle, true);
+	wb_draw_rect($buffer, $xend + HANDLE_XOFFSET - HANDLE_WIDTH, $yend + HANDLE_YOFFSET - HANDLE_HEIGHT,
+		HANDLE_WIDTH, HANDLE_HEIGHT, $cl->handle, true);
+}
+
+function list_controls($window)
+{/*
+	global $settings, $wb, $ctrl_list;
+
+	$ctrls = wb_get_item_list($wb->controldlg);
+
+	$list = wb_get_control($window, IDC_CONTROL);
+	wb_delete_items($list);
+	foreach($ctrls as $ctrl) {
+		foreach($ctrl_list as $test) {
+			if($test[0] == wb_get_class($ctrl)) {
+				$pos = wb_get_position($ctrl);
+				wb_create_items($list, $test[1] . " " . wb_get_id($ctrl) . " " . $pos[0] . " " . $pos[1]);
+				break;
+			}
+		}
+	}*/
+}
+
+function read_ini()
+{
+	global $settings, $wb;
+
+	// Read data from INI file
+
+	$settings = parse_ini(file_get_contents(SYS_INIFILE));
+
+	read_window_geom($wb->mainwin, "main", true);
+}
+
+function save_ini()
+{
+	global $settings, $wb;
+
+	wb_set_text($wb->statusbar, "Saving configurations...");
+
+	// Get values
+
+	save_window_geom($wb->mainwin, "main", true);
+
+	// Save options to INI file
+
+	$contents = generate_ini($settings, "; Make Release INI file\r\n");
+	if($contents) {
+		file_put_contents(SYS_INIFILE, $contents);
+		wb_set_text($wb->statusbar, "Configurations saved.");
+	} else
+		wb_message_box($wb->mainwin, "Problem saving file " . SYS_INIFILE);
+}
+
+// Read windows geometry data from INI file
+
+function read_window_geom($window, $prefix, $resize=false)
+{
+	global $settings, $wb;
+
+	if(!@$window)
+		return;
+	$geom = $settings["Settings"][$prefix . "_geom"];
+	$geom = preg_split("/\s+/", $geom);
+	wb_set_position($window, $geom[0], $geom[1]);
+
+	if($resize)
+		wb_set_size($window, max(600, (int)$geom[2]), max(400, (int)$geom[3]));
+}
+
+function save_window_geom($window, $prefix, $resize=false)
+{
+	global $settings, $wb;
+
+	if(!@$window)
+		return;
+	$pos = wb_get_position($window);
+	$size = wb_get_size($window);
+	if($resize)
+		$settings["Settings"][$prefix . "_geom"] = "{$pos[0]} {$pos[1]} {$size[0]} {$size[1]}";
+	else
+		$settings["Settings"][$prefix . "_geom"] = "{$pos[0]} {$pos[1]}";
+}
+
+//------------------------------------------------------------ WINDOWS FUNCTIONS
+
+function init_dlls()
+{
+	global $USER, $KERNEL, $GDI;
+
+	// Most common Windows libraries
+
+	$USER = wb_load_library("USER");
+	$KERNEL = wb_load_library("KERNEL");
+	$GDI = wb_load_library("GDI");
+
+	// Declare constants related to Windows and WinBinder structures
+
+	define("WBOBJ",			"Vhwnd/Vid/Vuclass/litem/lsubitem/Vstyle/Vparent/Vhandler/Vlparam/V8lparams/Vpbuffer");
+	define("WBOBJ_RAW",		"V3l2V13");
+	define("WBOBJ_SIZE",	72);
+
+	define("IDC_ARROW",		32512);
+	define("IDC_HAND", 		32649);
+	define("IDC_CROSS",		32515);
+	define("IDC_SIZEWE",	32644);
+	define("IDC_SIZENS",	32645);
+	define("IDC_SIZENWSE",	32642);
+	define("IDC_SIZENESW",	32643);
+	define("IDC_SIZE",		32640);
+}
+
+function SetCapture($hwnd)
+{
+	global $USER;
+	static $pfn = null;
+
+	$wbobj = unpack(WBOBJ, wb_peek($hwnd, WBOBJ_SIZE));
+
+	if($pfn === null)
+		$pfn = wb_get_function_address("SetCapture", $USER);
+	return wb_call_function($pfn, array($wbobj["hwnd"]));
+}
+
+function ReleaseCapture()
+{
+	global $USER;
+	static $pfn = null;
+
+	if($pfn === null)
+		$pfn = wb_get_function_address("ReleaseCapture", $USER);
+	return wb_call_function($pfn);
+}
+
+function SetMyCursor($parm)
+{
+	global $USER;
+	static $pfn = null, $pfn2 = null;
+
+	if($pfn === null)
+		$pfn = wb_get_function_address("SetCursor", $USER);
+	if($pfn2 === null)
+		$pfn2 = wb_get_function_address("LoadCursor", $USER);
+
+	$hcursor = wb_call_function($pfn2, array(0, $parm));
+	wb_call_function($pfn, array($hcursor));
+}
+
+function getmicrotime()
+{
+    list($usec, $sec) = explode(" ", microtime());
+    return ((float)$usec + (float)$sec);
+}
+
+//------------------------------------------------------------------ END OF FILE

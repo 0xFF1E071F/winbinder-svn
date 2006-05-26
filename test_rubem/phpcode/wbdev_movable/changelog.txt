@@ -1,0 +1,16 @@
+19.1.2006
+
+Changelog:
+- ini-paramters are now in serilized array wbcomp.ini
+- path is saved in ini
+- php-4 proof
+- uses now absolut paths in makefile
+- added statusbar and changed texts
+- added images for result
+- app is only on top for 1 sec
+- some minor bugs, which gave warnings in php
+
+If you make a link and run php.exe WBcompile.phpw in minimized window,
+then nmake will "use". So you dont see the cmd-window.
+
+Hans

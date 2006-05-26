@@ -1,0 +1,5 @@
+Implemented SVN repository in developer.berlios.de
+Changes in setup
+Changes in scripts
+More adjustments for PHP 5.1.1
+Other changes
