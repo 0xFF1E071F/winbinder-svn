@@ -120,8 +120,10 @@ function parse_ini($initext, $changecase=TRUE, $convertwords=TRUE)
 {
 	$ini = preg_split("/\r\n|\n/", $initext);
 	$secpattern = "/^\[(.[^\]]*)\]/i";
-	$entrypattern = "/^([a-z_0-9]*)\s*=\s*\"?([^\"]*)?\"?$/i";
-	$strpattern = "/^\"?(.[^\"]*)\"?$/i";
+//	$entrypattern = "/^([a-z_0-9]*)\s*=\s*\"?([^\"]*)?\"?" . '$' . "/i";
+//	$strpattern = "/^\"?(.[^\"]*)\"?" . '$' . "/i";
+	$entrypattern = "/^([a-z_0-9]*)\s*=\s*\"?([^\"]*)?\"?\$/i";
+	$strpattern = "/^\"?(.[^\"]*)\"?\$/i";
 
 	$section = array();
 	$sec = "";
