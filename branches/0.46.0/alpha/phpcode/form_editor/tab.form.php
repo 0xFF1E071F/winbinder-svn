@@ -30,24 +30,24 @@ $winmain = wb_create_window(null, ModalDialog, '(Empty Form)', WBC_CENTER, WBC_C
 
 // Insert controls
 
-$tab = $control1 = wb_create_control($winmain, TabControl, 'Tab1,Tab2,Tab3', 5, 20, 155, 240, IDC_TABCONTROL1001, 0x00000000, 0, 0);
-$control2 = wb_create_control($tab, EditBox, 'EditBox2', 20, 13, 90, 20, IDC_EDITBOX1002, 0x00000000, 0, 0);
-$control3 = wb_create_control($tab, EditBox, 'EditBox3', 20, 38, 90, 20, IDC_EDITBOX1003, 0x00000000, 0, 0);
-$control4 = wb_create_control($tab, Label, 'Label4', 20, 73, 90, 15, IDC_LABEL1001, 0x00000000, 0, 0);
-$control5 = wb_create_control($tab, Label, 'Label5', 20, 93, 90, 15, IDC_LABEL1001, 0x00000000, 0, 0);
-$control6 = wb_create_control($tab, RadioButton, 'RadioButton6', 20, 123, 120, 15, IDC_RADIOBUTTON1001, 0x00000000, 0, 0);
-$control7 = wb_create_control($winmain, CheckBox, 'CheckBox7', 185, 20, 120, 15, IDC_CHECKBOX1001, 0x00000000, 0, 0);
-$ctrl = $control8 = wb_create_control($winmain, ComboBox, 'ComboBox8', 185, 40, 120, 60, IDC_COMBOBOX1003, 0x00000040, 0, 0);
+$tab = $control = wb_create_control($winmain, TabControl, 'Tab1,Tab2,Tab3', 5, 20, 155, 240, IDC_TABCONTROL1001, 0x00000000, 0, 0);
+$control = wb_create_control($tab, EditBox, 'EditBox2', 20, 13, 90, 20, IDC_EDITBOX1002, 0x00000000, 0, 0);
+$control = wb_create_control($tab, EditBox, 'EditBox3', 20, 38, 90, 20, IDC_EDITBOX1003, 0x00000000, 0, 0);
+$control = wb_create_control($tab, Label, 'Label4', 20, 73, 90, 15, IDC_LABEL1001, 0x00000000, 0, 0);
+$control = wb_create_control($tab, Label, 'Label5', 20, 93, 90, 15, IDC_LABEL1001, 0x00000000, 0, 0);
+$control = wb_create_control($tab, RadioButton, 'RadioButton6', 20, 123, 120, 15, IDC_RADIOBUTTON1001, 0x00000000, 0, 0);
+$control = wb_create_control($winmain, CheckBox, 'CheckBox7', 185, 20, 120, 15, IDC_CHECKBOX1001, 0x00000000, 0, 0);
+$ctrl = $control = wb_create_control($winmain, ComboBox, 'ComboBox8', 185, 40, 120, 60, IDC_COMBOBOX1003, 0x00000040, 0, 0);
 wb_set_text($ctrl, explode(',', 'ComboBox8'));
-$control9 = wb_create_control($winmain, EditBox, 'EditBox9', 185, 70, 90, 20, IDC_EDITBOX1004, 0x00000000, 0, 0);
-$control10 = wb_create_control($winmain, ListView, 'ListView10,List12', 185, 100, 185, 75, IDC_LISTVIEW1001, 0x00000000, 0, 0);
-$control11 = wb_create_control($winmain, ImageButton, 'resources\ctrl_listbox3.bmp', 185, 190, 24, 24, IDC_IMAGEBUTTON1001, 0x00000000, 3, 0);
-$control12 = wb_create_control($tab, EditBox, 'EditBox12', 25, 163, 90, 20, IDC_EDITBOX1001, 0x00000000, 0, 0);
-$ctrl = $control13 = wb_create_control($winmain, Slider, 'Slider13', 260, 185, 100, 20, IDC_SLIDER1002, 0x00000000, 50, 0);
+$control = wb_create_control($winmain, EditBox, 'EditBox9', 185, 70, 90, 20, IDC_EDITBOX1004, 0x00000000, 0, 0);
+$control = wb_create_control($winmain, ListView, 'ListView10,List12', 185, 100, 185, 75, IDC_LISTVIEW1001, 0x00000000, 0, 0);
+$control = wb_create_control($winmain, ImageButton, 'resources\ctrl_listbox3.bmp', 185, 190, 24, 24, IDC_IMAGEBUTTON1001, 0x00000000, 3, 0);
+$control = wb_create_control($tab, EditBox, 'EditBox12', 25, 163, 90, 20, IDC_EDITBOX1001, 0x00000000, 0, 0);
+$ctrl = $control = wb_create_control($winmain, Slider, 'Slider13', 260, 185, 100, 20, IDC_SLIDER1002, 0x00000000, 50, 0);
 wb_set_value($ctrl, 50);
-$ctrl = $control14 = wb_create_control($winmain, ScrollBar, 'ScrollBar14', 225, 185, 18, 82, IDC_SCROLLBAR1003, 0x00000000, 50, 0);
+$ctrl = $control = wb_create_control($winmain, ScrollBar, 'ScrollBar14', 225, 185, 18, 82, IDC_SCROLLBAR1003, 0x00000000, 50, 0);
 wb_set_value($ctrl, 50);
-$ctrl = $control15 = wb_create_control($winmain, Gauge, 'Gauge15', 260, 215, 100, 20, IDC_GAUGE1004, 0x00000000, 50, 0);
+$ctrl = $control = wb_create_control($winmain, Gauge, 'Gauge15', 260, 215, 100, 20, IDC_GAUGE1004, 0x00000000, 50, 0);
 wb_set_value($ctrl, 50);
 
 // End controls

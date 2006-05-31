@@ -20,6 +20,8 @@ define("HANDLE_HEIGHT",		6);
 define("HANDLE_XOFFSET",	13);
 define("HANDLE_YOFFSET",	13);
 
+define("HANDLE_XOFFSET_5",	15);		// Must be a multiple of the grid
+define("HANDLE_YOFFSET_5",	15);		// Must be a multiple of the grid
 // Possible mouse positions related to a control
 
 define("NOWHERE",		0);
@@ -275,7 +277,7 @@ function process_form($window, $id, $ctrl, $lparam1=0, $lparam2=0)
 					SetMyCursor(IDC_SIZENS);
 
 					$bottom = $ct->top + $ct->height;
-					$newtop = $y1 + HANDLE_YOFFSET;
+					$newtop = $y1 + HANDLE_YOFFSET_5;
 					$newheight = $bottom - $newtop;
 					if($newheight > 0) {
 						$wb->form[$wb->currentform]->ct[$wb->form[$wb->currentform]->nselcontrol]->top = $newtop;
@@ -310,7 +312,7 @@ function process_form($window, $id, $ctrl, $lparam1=0, $lparam2=0)
 					SetMyCursor(IDC_SIZEWE);
 
 					$right = $ct->left + $ct->width;
-					$newleft = $x1 + HANDLE_XOFFSET;
+					$newleft = $x1 + HANDLE_XOFFSET_5;
 					$newwidth = $right - $newleft;
 					if($newwidth > 0) {
 						$wb->form[$wb->currentform]->ct[$wb->form[$wb->currentform]->nselcontrol]->left = $newleft;
@@ -349,7 +351,7 @@ function process_form($window, $id, $ctrl, $lparam1=0, $lparam2=0)
 					$wb->form[$wb->currentform]->ct[$wb->form[$wb->currentform]->nselcontrol]->width = max(1, $x1 - $ct->left);
 
 					$bottom = $ct->top + $ct->height;
-					$newtop = $y1 + HANDLE_YOFFSET;
+					$newtop = $y1 + HANDLE_YOFFSET_5;
 					$newheight= $bottom - $newtop;
 					if($newheight > 0) {
 						$wb->form[$wb->currentform]->ct[$wb->form[$wb->currentform]->nselcontrol]->top = $newtop;
@@ -389,7 +391,7 @@ function process_form($window, $id, $ctrl, $lparam1=0, $lparam2=0)
 					SetMyCursor(IDC_SIZENWSE);
 
 					$right = $ct->left + $ct->width;
-					$newleft = $x1 + HANDLE_XOFFSET;
+					$newleft = $x1 + HANDLE_XOFFSET_5;
 					$newwidth = $right - $newleft;
 					if($newwidth > 0) {
 						$wb->form[$wb->currentform]->ct[$wb->form[$wb->currentform]->nselcontrol]->left = $newleft;
@@ -397,7 +399,7 @@ function process_form($window, $id, $ctrl, $lparam1=0, $lparam2=0)
 					}
 
 					$bottom = $ct->top + $ct->height;
-					$newtop = $y1 + HANDLE_YOFFSET;
+					$newtop = $y1 + HANDLE_YOFFSET_5;
 					$newheight= $bottom - $newtop;
 					if($newheight > 0) {
 						$wb->form[$wb->currentform]->ct[$wb->form[$wb->currentform]->nselcontrol]->top = $newtop;
@@ -420,7 +422,7 @@ function process_form($window, $id, $ctrl, $lparam1=0, $lparam2=0)
 					SetMyCursor(IDC_SIZENESW);
 
 					$right = $ct->left + $ct->width;
-					$newleft = $x1 + HANDLE_XOFFSET;
+					$newleft = $x1 + HANDLE_XOFFSET_5;
 					$newwidth = $right - $newleft;
 					if($newwidth > 0) {
 						$wb->form[$wb->currentform]->ct[$wb->form[$wb->currentform]->nselcontrol]->left = $newleft;

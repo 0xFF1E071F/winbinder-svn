@@ -635,15 +635,29 @@ function draw_listview($buffer, $caption, $xstart, $ystart, $width, $height, $st
 	$nhead = count($title);
 	$xpos = $xstart + 1;
 
+	// Draw header titles
+
 	for($i = 0; $i < $nhead; $i++) {
-		$size = wb_get_size($title[$i], null);
-		$width = $size[0] + 20;
-		draw_pushbutton($buffer, " ", $xpos, $ystart + 1, $width, 16);
-		wb_draw_text($buffer, $title[$i], $xpos, $ystart + 1, $width, 16, ($style & WBC_DISABLED) ? $cl->disabledfont : $cl->sysfont, WBC_CENTER | WBC_MIDDLE);
-		$xpos += $width;
-		if($style & WBC_LINES)
-			wb_draw_line($buffer, $xpos, $ystart, $xpos, $ystart + $height, $cl->face);
+		if($xpos < $lwidth - 36) {
+			$size = wb_get_size($title[$i], null);
+			$width = $size[0] + 20;
+			draw_pushbutton($buffer, " ", $xpos, $ystart + 1, $width, 16);
+			wb_draw_text($buffer, $title[$i], $xpos, $ystart + 1, $width, 16, ($style & WBC_DISABLED) ? $cl->disabledfont : $cl->sysfont, WBC_CENTER | WBC_MIDDLE);
+			$xpos += $width;
+			if($style & WBC_LINES) {
+				wb_draw_line($buffer, $xpos, $ystart, $xpos, $ystart + $height, $cl->face);
+			}
+		}
 	}
+
+	// Draw last (blank) title if needed
+
+	$width = $lwidth - $xpos + 18;
+	if($width > 0) {
+		draw_pushbutton($buffer, " ", $xpos, $ystart + 1, $width, 16);
+	}
+
+	// Draw horizontal lines
 
 	if($style & WBC_LINES)
 		for($y = 30; $y < $height; $y += 13) {

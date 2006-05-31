@@ -18,6 +18,8 @@ fillheaders = 1
 imagenames = 1
 insertontabs = 1
 applyvalues = 1
+ctrlvar = ""
+startctrlval = 1
 
 [Form]
 class = "AppWindow"
@@ -89,7 +91,7 @@ caption = "Label7"
 geom = "10 50 100 15"
 style = 0
 value = 0
-id = "IDC_LABEL1007"
+id = ""
 
 [Form_ctrl9]
 class = "EditBox"
@@ -113,7 +115,7 @@ caption = "Frame10"
 geom = "10 75 280 130"
 style = 0
 value = 0
-id = "IDC_FRAME1010"
+id = ""
 
 [Form_ctrl12]
 class = "ListBox"

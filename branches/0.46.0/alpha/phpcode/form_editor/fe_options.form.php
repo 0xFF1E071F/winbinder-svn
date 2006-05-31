@@ -18,8 +18,6 @@ if(!defined('IDC_SHOWHEX')) define('IDC_SHOWHEX', 2010);
 if(!defined('IDC_FILEPATH')) define('IDC_FILEPATH', 2011);
 if(!defined('IDC_BROWSE')) define('IDC_BROWSE', 2012);
 if(!defined('IDC_AUTOPATH')) define('IDC_AUTOPATH', 2013);
-if(!defined('IDOK')) define('IDOK', 2014);
-if(!defined('IDCANCEL')) define('IDCANCEL', 2015);
 
 // Create window
 

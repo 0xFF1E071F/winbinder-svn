@@ -26,8 +26,6 @@ if(!defined('IDC_INSERTONTABS')) define('IDC_INSERTONTABS', 3021);
 if(!defined('IDC_APPLYVALUES')) define('IDC_APPLYVALUES', 3022);
 if(!defined('IDC_LOCALIZE')) define('IDC_LOCALIZE', 3023);
 if(!defined('IDC_LOCPREFIX')) define('IDC_LOCPREFIX', 3025);
-if(!defined('IDOK')) define('IDOK', 3026);
-if(!defined('IDCANCEL')) define('IDCANCEL', 3027);
 if(!defined('IDC_LABEL3001')) define('IDC_LABEL3001', 3001);
 
 // Create window

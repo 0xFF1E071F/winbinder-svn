@@ -207,8 +207,27 @@ function save_phpcode($filename)
 			} else {
 				$value = $valueid++;
 			}
-			if($ct->id)
-				$phpcode .= "if(!defined('{$ct->id}')) define('{$ct->id}', $value);\r\n";
+
+			// Don't generate code for preset constants
+
+			if($ct->id) {
+				switch($ct->id) {
+					case 'IDABORT':
+					case 'IDCANCEL':
+					case 'IDCLOSE':
+					case 'IDDEFAULT':
+					case 'IDHELP':
+					case 'IDIGNORE':
+					case 'IDNO':
+					case 'IDOK':
+					case 'IDRETRY':
+					case 'IDYES':
+						break;
+
+					default:
+						$phpcode .= "if(!defined('{$ct->id}')) define('{$ct->id}', $value);\r\n";
+				}
+			}
 		}
 	}
 
@@ -336,14 +355,14 @@ function save_phpcode($filename)
 
 				if($wb->form[$wb->currentform]->imagenames) {
 					if((substr($ct->caption, -4) == '.bmp') && file_exists($ct->caption))
-						$imgfile = $ct->caption;
+						$imgfile = "'$ct->caption'";
 					else
-						$imgfile = PATH_RESPVT . 'symb_imagebutton.bmp';
+						$imgfile = "'resources\\symb_imagebutton.bmp'";
 
 					$phpcode .=
-						"\$img = wb_load_image('$imgfile');
-						wb_set_image(\$ctrl, \$img, NOCOLOR, 0, $ct->value);
-						wb_destroy_image(\$img);"
+						"\$img = wb_load_image($imgfile);\n" .
+						"  wb_set_image(\$ctrl, \$img, NOCOLOR, 0, $ct->value);\n" .
+						"  wb_destroy_image(\$img);"
 					;
 				}
 				break;

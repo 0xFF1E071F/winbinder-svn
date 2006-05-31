@@ -18,6 +18,8 @@ fillheaders = ""
 imagenames = ""
 insertontabs = 1
 applyvalues = ""
+ctrlvar = ""
+startctrlval = 1
 
 [Form]
 caption = "WinBinder Form Editor"

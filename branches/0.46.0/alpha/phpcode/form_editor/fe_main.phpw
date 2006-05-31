@@ -29,7 +29,7 @@ include "fe_options.inc.php";
 //-------------------------------------------------------------------- CONSTANTS
 
 define("APPNAME", 			"WinBinder Form Editor");		// App name
-define("VERSION", 			"0.5.041");						// App version
+define("VERSION", 			"0.5.043");						// App version
 
 // Control identifiers
 
@@ -504,11 +504,11 @@ function process_main($window, $id, $ctrl, $lparam1=0, $lparam2=0)
 			break;
 
 		case IDC_COMBOBOX:
-			create_control("ComboBox", "Item1,Item2,Item3", 120, 60, 20, 18, null, WBC_READONLY);
+			create_control("ComboBox", "Item1,Item2,Item3", 120, 60, 20, 20, null, WBC_READONLY);
 			break;
 
 		case IDC_EDITBOX:
-			create_control("EditBox", null, 90, 20, 20, 18);
+			create_control("EditBox", null, 90, 20, 20, 20);
 			break;
 
 		case IDC_FRAME:
@@ -516,7 +516,7 @@ function process_main($window, $id, $ctrl, $lparam1=0, $lparam2=0)
 			break;
 
 		case IDC_GAUGE:
-			create_control("Gauge", null, 100, 20, 20, 18, null, 0, 50);
+			create_control("Gauge", null, 100, 20, 20, 20, null, 0, 50);
 			break;
 
 		case IDC_HTMLCONTROL:
@@ -540,11 +540,11 @@ function process_main($window, $id, $ctrl, $lparam1=0, $lparam2=0)
 			break;
 
 		case IDC_LISTBOX:
-			create_control("ListBox", "Item1,Item2,Item3", 120, 60, 20, 18);
+			create_control("ListBox", "Item1,Item2,Item3", 120, 60, 20, 20);
 			break;
 
 		case IDC_LISTVIEW:
-			create_control("ListView", 'Head1,Head2,Head3,Head4', 225, 140, 20, 18);
+			create_control("ListView", 'Head1,Head2,Head3,Head4', 245, 140, 20, 20);
 			break;
 
 		case IDC_PUSHBUTTON:
@@ -556,27 +556,27 @@ function process_main($window, $id, $ctrl, $lparam1=0, $lparam2=0)
 			break;
 
 		case IDC_RTFEDITBOX:
-			create_control("RTFEditBox", null, 120, 90, 20, 18);
+			create_control("RTFEditBox", null, 120, 90, 20, 20);
 			break;
 
 		case IDC_SCROLLBAR:
-			create_control("ScrollBar", null, 18, 150, 20, 18);
+			create_control("ScrollBar", null, 20, 150, 20, 20);
 			break;
 
 		case IDC_SLIDER:
-			create_control("Slider", null, 100, 20, 20, 18, null, 0, 50);
+			create_control("Slider", null, 100, 20, 20, 20, null, 0, 50);
 			break;
 
 		case IDC_SPINNER:
-			create_control("Spinner", null, 20, 20, 20, 18, null, WBC_GROUP);
+			create_control("Spinner", null, 20, 20, 20, 20, null, WBC_GROUP);
 			break;
 
 		case IDC_TABCONTROL:
-			create_control("TabControl", 'Tab1,Tab2,Tab3', 340, 240, 20, 18);
+			create_control("TabControl", 'Tab1,Tab2,Tab3', 340, 240, 20, 20);
 			break;
 
 		case IDC_TREEVIEW:
-			create_control("TreeView", null, 140, 220, 20, 18);
+			create_control("TreeView", null, 140, 220, 20, 20);
 			break;
 
 		//-------------------- The treeview
@@ -890,11 +890,13 @@ function create_control($class, $caption, $width, $height, $left, $top, $id=null
 	$wb->form[$wb->currentform]->numcontrols++;
 	$ncurrent = $wb->form[$wb->currentform]->numcontrols - 1;
 
-	// Assign an id if one is not given
+	// For non-static controls, assign an id if one is not given
 
-	if($id === null) {
-		$index = ++$wb->form[$wb->currentform]->ncurrindex;
-		$id = $wb->form[$wb->currentform]->prefix . strtoupper($class) . ($wb->form[$wb->currentform]->startval + $index);
+	if(($class != 'Label') && ($class != 'Frame')) {
+		if($id === null) {
+			$index = ++$wb->form[$wb->currentform]->ncurrindex;
+			$id = $wb->form[$wb->currentform]->prefix . strtoupper($class) . ($wb->form[$wb->currentform]->startval + $index);
+		}
 	}
 
 	if(!isset($wb->form[$wb->currentform]))
