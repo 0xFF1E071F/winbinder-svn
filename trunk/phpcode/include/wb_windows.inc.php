@@ -130,9 +130,19 @@ function wb_get_text($ctrl, $item=null, $subitem=null)
 		} else {					// NULL item
 
 			$sel = wb_get_selected($ctrl);
-			if($sel === null)
-				return null;
-			else {
+			if($sel === null) {		// Returns the entire table
+				$items = array();
+				for($i = 0;;$i++) {
+					$item = wbtemp_get_listview_text($ctrl, $i);
+					$all = '';
+					foreach($item as $col)
+						$all .= $col;
+					if($all == '')
+						break;
+					$items[] = $item;
+				}
+				return $items ? $items : null;
+			} else {
 				$items = array();
 				foreach($sel as $row)
 					$items[] = wbtemp_get_listview_text($ctrl, $row);
@@ -317,7 +327,7 @@ function wb_set_selected($ctrl, $selitems, $selected=TRUE)
 			break;
 
 		case Menu:
-			return wbtemp_set_menu_item_selected($ctrl, $selected);
+			return wbtemp_set_menu_item_checked($ctrl, $selitems, $selected);
 
 		case TabControl:
 			wbtemp_select_tab($ctrl, (int)$selitems);

@@ -1,0 +1,151 @@
+;*******************************************************************************
+;
+; WINBINDER - form editor project
+;
+;*******************************************************************************
+
+[Projectsettings]
+formvar = "$winmain"
+parent = "null"
+prefix = "IDC_"
+startval = 1000
+localize = ""
+locprefix = "LANG_"
+istabpage = ""
+tabnumber = 0
+filllists = 1
+fillheaders = ""
+imagenames = ""
+insertontabs = 1
+applyvalues = 1
+ctrlvar = "$control"
+namecounter = 1
+startctrlval = 1
+
+[Form]
+class = "ModalDialog"
+caption = "(Empty Form)"
+geom = "WBC_CENTER WBC_CENTER 389 315"
+style = 0
+value = 0
+controls = 15
+
+[Form_ctrl1]
+class = "TabControl"
+caption = "Tab1,Tab2,Tab3"
+geom = "5 20 155 240"
+style = 0
+value = 0
+id = "IDC_TABCONTROL1001"
+
+[Form_ctrl2]
+class = "EditBox"
+caption = "EditBox2"
+geom = "25 55 90 20"
+style = 0
+value = 0
+id = "IDC_EDITBOX1002"
+
+[Form_ctrl3]
+class = "EditBox"
+caption = "EditBox3"
+geom = "25 80 90 20"
+style = 0
+value = 0
+id = "IDC_EDITBOX1003"
+
+[Form_ctrl4]
+class = "Label"
+caption = "Label4"
+geom = "25 115 90 15"
+style = 0
+value = 0
+id = "IDC_LABEL1001"
+
+[Form_ctrl5]
+class = "Label"
+caption = "Label5"
+geom = "25 135 90 15"
+style = 0
+value = 0
+id = "IDC_LABEL1001"
+
+[Form_ctrl6]
+class = "RadioButton"
+caption = "RadioButton6"
+geom = "25 165 120 15"
+style = 0
+value = 0
+id = "IDC_RADIOBUTTON1001"
+
+[Form_ctrl7]
+class = "CheckBox"
+caption = "CheckBox7"
+geom = "185 20 120 15"
+style = 0
+value = 0
+id = "IDC_CHECKBOX1001"
+
+[Form_ctrl8]
+class = "ComboBox"
+caption = "ComboBox8"
+geom = "185 40 120 60"
+style = 64
+value = 0
+id = "IDC_COMBOBOX1003"
+
+[Form_ctrl9]
+class = "EditBox"
+caption = "EditBox9"
+geom = "185 70 90 20"
+style = 0
+value = 0
+id = "IDC_EDITBOX1004"
+
+[Form_ctrl10]
+class = "ListView"
+caption = "ListView10,List12"
+geom = "185 100 185 75"
+style = 0
+value = 0
+id = "IDC_LISTVIEW1001"
+
+[Form_ctrl11]
+class = "ImageButton"
+caption = "resources\ctrl_listbox3.bmp"
+geom = "185 190 24 24"
+style = 0
+value = 3
+id = "IDC_IMAGEBUTTON1001"
+
+[Form_ctrl12]
+class = "EditBox"
+caption = "EditBox12"
+geom = "30 205 90 20"
+style = 0
+value = 0
+id = "IDC_EDITBOX1001"
+
+[Form_ctrl13]
+class = "Slider"
+caption = "Slider13"
+geom = "260 185 100 20"
+style = 0
+value = 50
+id = "IDC_SLIDER1002"
+
+[Form_ctrl14]
+class = "ScrollBar"
+caption = "ScrollBar14"
+geom = "225 185 18 82"
+style = 0
+value = 50
+id = "IDC_SCROLLBAR1003"
+
+[Form_ctrl15]
+class = "Gauge"
+caption = "Gauge15"
+geom = "260 215 100 20"
+style = 0
+value = 50
+id = "IDC_GAUGE1004"
