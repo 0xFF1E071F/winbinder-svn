@@ -20,6 +20,7 @@ insertontabs = 1
 applyvalues = ""
 ctrlvar = ""
 startctrlval = 1
+staticnullid = 1
 
 [Form]
 class = "ModalDialog"

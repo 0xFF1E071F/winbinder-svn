@@ -27,6 +27,7 @@ if(!defined('IDC_APPLYVALUES')) define('IDC_APPLYVALUES', 3022);
 if(!defined('IDC_LOCALIZE')) define('IDC_LOCALIZE', 3023);
 if(!defined('IDC_LOCPREFIX')) define('IDC_LOCPREFIX', 3025);
 if(!defined('IDC_LABEL3001')) define('IDC_LABEL3001', 3001);
+if(!defined('IDC_STATICNULLID')) define('IDC_STATICNULLID', 3028);
 
 // Create window
 
@@ -37,7 +38,7 @@ $wb->winproject = wb_create_window($wb->mainwin, ModalDialog, 'Project Propertie
 wb_create_control($wb->winproject, Label, 'The properties below apply to the current project. You may use sprintf() syntax for the control variable name.', 20, 10, 580, 15, 0, 0x00000080, 0, 0);
 wb_create_control($wb->winproject, Frame, 'General project data', 15, 35, 285, 205, 0, 0x00000000, 0, 0);
 wb_create_control($wb->winproject, Frame, 'Tab pages', 15, 245, 285, 65, 0, 0x00000000, 0, 0);
-wb_create_control($wb->winproject, Frame, 'Additional code generation options', 315, 35, 285, 205, 0, 0x00000000, 0, 0);
+wb_create_control($wb->winproject, Frame, 'Additional code generation options', 315, 35, 285, 275, 0, 0x00000000, 0, 0);
 wb_create_control($wb->winproject, Label, '&Form variable name:', 20, 55, 125, 15, 0, 0x00000020, 0, 0);
 wb_create_control($wb->winproject, EditBox, '', 155, 55, 135, 20, IDC_FORMVAR, 0x00000000, 0, 0);
 wb_create_control($wb->winproject, Label, '&Parent variable name:', 20, 85, 125, 15, 0, 0x00000020, 0, 0);
@@ -61,10 +62,11 @@ wb_create_control($wb->winproject, CheckBox, '&Force controls over tabs to be ch
 wb_create_control($wb->winproject, CheckBox, 'Apply &values to ScrollBars, Gauges, and Sliders', 325, 160, 270, 15, IDC_APPLYVALUES, 0x00000000, 0, 0);
 wb_create_control($wb->winproject, CheckBox, 'Generate additional PHP code for &localization', 325, 185, 245, 15, IDC_LOCALIZE, 0x00000000, 0, 0);
 wb_create_control($wb->winproject, Label, 'Locali&zation prefix:', 340, 205, 114, 15, 0, 0x00000020, 0, 0);
-wb_create_control($wb->winproject, EditBox, '', 465, 205, 65, 20, IDC_LOCPREFIX, 0x00000000, 0, 0);
+wb_create_control($wb->winproject, EditBox, '', 465, 200, 65, 20, IDC_LOCPREFIX, 0x00000000, 0, 0);
 wb_create_control($wb->winproject, PushButton, 'OK', 210, 325, 90, 25, IDOK, 0x00000000, 0, 0);
 wb_create_control($wb->winproject, PushButton, 'Cancel', 315, 325, 90, 25, IDCANCEL, 0x00000000, 0, 0);
 wb_create_control($wb->winproject, Label, '(%d above)', 238, 145, 65, 15, IDC_LABEL3001, 0x00000000, 0, 0);
+wb_create_control($wb->winproject, CheckBox, 'Generate null &identifiers for new static controls', 325, 230, 260, 15, IDC_STATICNULLID, 0x00000000, 0, 0);
 
 // End controls
 

@@ -8,16 +8,16 @@ WINBINDER - form editor PHP file (generated automatically)
 
 // Control identifiers
 
-if(!defined('IDC_AUTOPHP')) define('IDC_AUTOPHP', 2004);
-if(!defined('IDC_WIREFRAME')) define('IDC_WIREFRAME', 2005);
-if(!defined('IDC_SHOWGRID')) define('IDC_SHOWGRID', 2006);
-if(!defined('IDC_GRID')) define('IDC_GRID', 2007);
-if(!defined('IDC_CONSTRUCTIONLINES')) define('IDC_CONSTRUCTIONLINES', 2008);
-if(!defined('IDC_GHOST')) define('IDC_GHOST', 2009);
-if(!defined('IDC_SHOWHEX')) define('IDC_SHOWHEX', 2010);
-if(!defined('IDC_FILEPATH')) define('IDC_FILEPATH', 2011);
-if(!defined('IDC_BROWSE')) define('IDC_BROWSE', 2012);
-if(!defined('IDC_AUTOPATH')) define('IDC_AUTOPATH', 2013);
+if(!defined('IDC_AUTOPHP')) define('IDC_AUTOPHP', 2001);
+if(!defined('IDC_WIREFRAME')) define('IDC_WIREFRAME', 2002);
+if(!defined('IDC_SHOWGRID')) define('IDC_SHOWGRID', 2003);
+if(!defined('IDC_GRID')) define('IDC_GRID', 2004);
+if(!defined('IDC_CONSTRUCTIONLINES')) define('IDC_CONSTRUCTIONLINES', 2005);
+if(!defined('IDC_GHOST')) define('IDC_GHOST', 2006);
+if(!defined('IDC_SHOWHEX')) define('IDC_SHOWHEX', 2007);
+if(!defined('IDC_FILEPATH')) define('IDC_FILEPATH', 2008);
+if(!defined('IDC_BROWSE')) define('IDC_BROWSE', 2009);
+if(!defined('IDC_AUTOPATH')) define('IDC_AUTOPATH', 2010);
 
 // Create window
 

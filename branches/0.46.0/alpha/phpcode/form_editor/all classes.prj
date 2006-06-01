@@ -20,6 +20,7 @@ insertontabs = 1
 applyvalues = 1
 ctrlvar = ""
 startctrlval = 1
+staticnullid = 1
 
 [Form]
 class = "AppWindow"

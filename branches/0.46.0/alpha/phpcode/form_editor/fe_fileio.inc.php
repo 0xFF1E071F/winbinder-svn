@@ -186,6 +186,10 @@ function save_phpcode($filename)
 	$ncontrols = $form->numcontrols;
 	$tabnumber = 0;
 
+	// Empty table of IDs
+
+	make_unique_id(null);
+
 	// Start PHP code
 
 	if($filename)
@@ -193,25 +197,39 @@ function save_phpcode($filename)
 	else
 		$phpcode = "";
 
-	// Create code to define the IDC_ constants
+	//--------------------- Code to generate identifiers for all controls
 
 	$phpcode .= "// Control identifiers\r\n\r\n";
-	for($i = 0; $i < $ncontrols; $i++) {
-		$ct = @$wb->form[$wb->currentform]->ct[$i];
+	$invalid = array();
 
-		// Create a define() call for each string identifier
+	// Loop for all controls
 
-		if(!preg_match("/^-?[0-9]+$/", $ct->id)) {
+	for($nctrl = 0; $nctrl < $ncontrols; $nctrl++) {
+		$ct = $wb->form[$wb->currentform]->ct[$nctrl];
+
+		if(!$ct->id) {
+
+			// Null ID
+
+		} else if(preg_match("/^-?[0-9]+$/", $ct->id)) {
+
+			// Numeric ID
+
+		} else if(preg_match('/^[a-z][a-z0-9_]*$/i', $ct->id)) {
+
+			// Valid string identifier: create a define() call
+
 			if(preg_match("/^" . $wb->form[$wb->currentform]->prefix . "[a-z]+([0-9]+)$/i", $ct->id, $matches)) {
-				$value = $matches[1];
+				$valueid = $matches[1];
 			} else {
-				$value = $valueid++;
+				$valueid++;
 			}
+			$valueid = make_unique_id($valueid);
 
 			// Don't generate code for preset constants
 
 			if($ct->id) {
-				switch($ct->id) {
+				switch(strtoupper($ct->id)) {
 					case 'IDABORT':
 					case 'IDCANCEL':
 					case 'IDCLOSE':
@@ -222,16 +240,28 @@ function save_phpcode($filename)
 					case 'IDOK':
 					case 'IDRETRY':
 					case 'IDYES':
+					case 'NULL':
+					case 'TRUE':
+					case 'FALSE':
 						break;
 
 					default:
-						$phpcode .= "if(!defined('{$ct->id}')) define('{$ct->id}', $value);\r\n";
+						$phpcode .= "if(!defined('{$ct->id}')) define('{$ct->id}', $valueid);\r\n";
 				}
 			}
+		} else {
+
+			// Invalid ID
+
+			$invalid[] = $ct->id;
+			@$wb->form[$wb->currentform]->ct[$nctrl]->id = make_valid_id($ct->id, 'MAKEID_');
+			$ct = $wb->form[$wb->currentform]->ct[$nctrl];
+			$valueid++;
+			$phpcode .= "if(!defined('{$ct->id}')) define('{$ct->id}', $valueid);\r\n";
 		}
 	}
 
-	// Create code to generate the form
+	// Create code to generate the form (optional)
 
 	if(!$wb->form[$wb->currentform]->istabpage) {
 		$phpcode .= "\r\n// Create window\r\n\r\n";
@@ -245,7 +275,7 @@ function save_phpcode($filename)
 		$tabnumber = $wb->form[$wb->currentform]->tabnumber;
 	}
 
-	//--------------------- Control loop: create code to generate the controls
+	//--------------------- Code to generate the controls
 
 	$phpcode .= "\r\n// Insert controls\r\n\r\n";
 
@@ -392,6 +422,14 @@ function save_phpcode($filename)
 
 	$phpcode .= "\r\n// End controls\r\n";
 
+	// Let the user know that invalid IDs were corrected
+
+	if(!empty($invalid)) {
+		update_control_data();		// Update ID field on main screen if necessary
+       	wb_message_box($wb->mainwin, "The following invalid IDs were automatically corrected:\n\n" .
+       	  implode("\n", $invalid), APPNAME, WBC_INFO);
+	}
+
 	//--------------------- Add ending PHP code and save file
 
 	if($filename) {
@@ -410,6 +448,7 @@ function save_phpcode($filename)
 
 			if(!$wb->form[$wb->currentform]->istabpage) {
 				$id = make_valid_id(str_replace('.form.php', '', basename($filename)));
+				echo "******" . "$id\n";
 				$phpcode .= "define('$id'," .
 				  str_repeat(' ', 26 - strlen($id)) . "'{$form->caption}');\n\n";
 			}
@@ -439,6 +478,8 @@ function save_phpcode($filename)
 	}
 }
 
+// Read settings from INI file
+
 function read_settings()
 {
 	global $wb;
@@ -467,6 +508,8 @@ function read_settings()
 
 	read_window_geom($wb->mainwin, "main", true);
 }
+
+// Save settings to INI file
 
 function save_settings()
 {
@@ -544,7 +587,9 @@ function save_window_geom($window, $prefix, $resize=false)
 		$wb->settings["Settings"][$prefix . "_geom"] = "{$pos[0]} {$pos[1]}";
 }
 
-function make_valid_id($str)
+// Suppress invalid chars and add a prefix to make a valid ID
+
+function make_valid_id($str, $prefix = null)
 {
 	global $wb;
 
@@ -557,7 +602,41 @@ function make_valid_id($str)
 			($str[$i] == '_'))
 			$id .= strtoupper($str[$i]);
 	}
-	return $wb->form[$wb->currentform]->locprefix . $id;
+	return ($prefix ? $prefix : $wb->form[$wb->currentform]->locprefix) . $id;
+}
+
+// Ensure every ID number is unique
+
+function make_unique_id($str_id)
+{
+	static $id_array = null;
+
+	if($str_id === null) {
+		$id_array = array();
+	}
+
+	if(is_integer($str_id)) {
+		$id = (int)$str_id;
+	} else {
+
+		// Extract numeric value from string ID
+
+		$id = '';
+		$len = strlen($str_id);
+		for($i = 0; $i < $len; $i++) {
+			if(($str_id[$i] >= '0' && $str_id[$i] <= '9'))
+				$id .= $str_id[$i];
+		}
+	}
+
+	// Make the id unique
+
+	do {
+		if(!in_array($id, $id_array)) {
+			$id_array[] = $id;
+			return $id;
+		}
+	} while ($id++);
 }
 
 //------------------------------------------------------------------ END OF FILE
