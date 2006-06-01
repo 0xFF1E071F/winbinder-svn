@@ -8,25 +8,25 @@ WINBINDER - form editor PHP file (generated automatically)
 
 // Control identifiers
 
-if(!defined('IDC_WIREFRAME')) define('IDC_WIREFRAME', 1012);
-if(!defined('IDC_GRID')) define('IDC_GRID', 1013);
-if(!defined('IDC_CONTROLS')) define('IDC_CONTROLS', 1014);
-if(!defined('IDC_STYLES')) define('IDC_STYLES', 1015);
-if(!defined('IDC_CLASSES')) define('IDC_CLASSES', 1016);
-if(!defined('IDC_CLASS')) define('IDC_CLASS', 1017);
-if(!defined('IDC_CAPTION')) define('IDC_CAPTION', 1018);
-if(!defined('IDC_ID')) define('IDC_ID', 1019);
-if(!defined('IDC_LEFT')) define('IDC_LEFT', 1020);
-if(!defined('IDC_LEFTSPINNER')) define('IDC_LEFTSPINNER', 1021);
-if(!defined('IDC_TOP')) define('IDC_TOP', 1022);
-if(!defined('IDC_TOPSPINNER')) define('IDC_TOPSPINNER', 1023);
-if(!defined('IDC_WIDTH')) define('IDC_WIDTH', 1024);
-if(!defined('IDC_WIDTHSPINNER')) define('IDC_WIDTHSPINNER', 1025);
-if(!defined('IDC_HEIGHT')) define('IDC_HEIGHT', 1026);
-if(!defined('IDC_HEIGHTSPINNER')) define('IDC_HEIGHTSPINNER', 1027);
-if(!defined('IDC_VALUE')) define('IDC_VALUE', 1028);
-if(!defined('IDC_VALUEAUX')) define('IDC_VALUEAUX', 1029);
-if(!defined('IDC_VALUESPINNER')) define('IDC_VALUESPINNER', 1030);
+if(!defined('IDC_WIREFRAME')) define('IDC_WIREFRAME', 1001);
+if(!defined('IDC_GRID')) define('IDC_GRID', 1002);
+if(!defined('IDC_CONTROLS')) define('IDC_CONTROLS', 1003);
+if(!defined('IDC_STYLES')) define('IDC_STYLES', 1004);
+if(!defined('IDC_CLASSES')) define('IDC_CLASSES', 1005);
+if(!defined('IDC_CLASS')) define('IDC_CLASS', 1006);
+if(!defined('IDC_CAPTION')) define('IDC_CAPTION', 1007);
+if(!defined('IDC_ID')) define('IDC_ID', 1008);
+if(!defined('IDC_LEFT')) define('IDC_LEFT', 1009);
+if(!defined('IDC_LEFTSPINNER')) define('IDC_LEFTSPINNER', 1010);
+if(!defined('IDC_TOP')) define('IDC_TOP', 1011);
+if(!defined('IDC_TOPSPINNER')) define('IDC_TOPSPINNER', 1012);
+if(!defined('IDC_WIDTH')) define('IDC_WIDTH', 1013);
+if(!defined('IDC_WIDTHSPINNER')) define('IDC_WIDTHSPINNER', 1014);
+if(!defined('IDC_HEIGHT')) define('IDC_HEIGHT', 1015);
+if(!defined('IDC_HEIGHTSPINNER')) define('IDC_HEIGHTSPINNER', 1016);
+if(!defined('IDC_VALUE')) define('IDC_VALUE', 1017);
+if(!defined('IDC_VALUEAUX')) define('IDC_VALUEAUX', 1018);
+if(!defined('IDC_VALUESPINNER')) define('IDC_VALUESPINNER', 1019);
 
 // Create window
 

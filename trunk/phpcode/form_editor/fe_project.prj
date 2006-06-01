@@ -21,6 +21,7 @@ applyvalues = ""
 ctrlvar = ""
 namecounter = ""
 startctrlval = 1
+staticnullid = 1
 
 [Form]
 class = "ModalDialog"
@@ -28,7 +29,7 @@ caption = "Project Properties"
 geom = "WBC_CENTER WBC_CENTER 620 391"
 style = 1
 value = 0
-controls = 31
+controls = 32
 
 [Form_ctrl1]
 class = "Label"
@@ -57,7 +58,7 @@ id = ""
 [Form_ctrl4]
 class = "Frame"
 caption = "Additional code generation options"
-geom = "315 35 285 205"
+geom = "315 35 285 275"
 style = 0
 value = 0
 id = ""
@@ -249,7 +250,7 @@ id = ""
 [Form_ctrl28]
 class = "EditBox"
 caption = ""
-geom = "465 205 65 20"
+geom = "465 200 65 20"
 style = 0
 value = 0
 id = "IDC_LOCPREFIX"
@@ -277,3 +278,11 @@ geom = "238 145 65 15"
 style = 0
 value = 0
 id = "IDC_LABEL3001"
+
+[Form_ctrl32]
+class = "CheckBox"
+caption = "Generate null &identifiers for new static controls"
+geom = "325 230 260 15"
+style = 0
+value = 0
+id = "IDC_STATICNULLID"
