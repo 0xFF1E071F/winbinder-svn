@@ -45,7 +45,7 @@ function read_project($filename)
 
 		// Read a section with the form data
 
-		$section = @$wb->project["Form_ctrl" . (string)($i + 1)];
+		$section = $wb->project["Form_ctrl" . (string)($i + 1)];
 		if(!$section)
 			break;
 
@@ -70,18 +70,11 @@ function read_project($filename)
 
 	foreach($wb->project_array as $var) {
 		$var = strtolower($var);
-		$wb->form[$wb->currentform]->$var = $wb->project["Projectsettings"][$var];
+		$wb->form[$wb->currentform]->$var = $wb->project['Projectsettings'][$var];
 		if(!$wb->form[$wb->currentform]->$var)
-			$wb->form[$wb->currentform]->$var = constant("DEFAULT_" . strtoupper($var));
+			$wb->form[$wb->currentform]->$var = constant('DEFAULT_' . strtoupper($var));
 	}
-/*
-	$wb->form[$wb->currentform]->formvar = $wb->project["Projectsettings"]["formvar"];
-	if(!$wb->form[$wb->currentform]->formvar)
-		$wb->form[$wb->currentform]->formvar = DEFAULT_FORMVAR;
-	$wb->form[$wb->currentform]->parent = $wb->project["Projectsettings"]["parent"];
-	if(!$wb->form[$wb->currentform]->parent)
-		$wb->form[$wb->currentform]->parent = DEFAULT_PARENT;
-*/
+	$wb->form[$wb->currentform]->ncurrindex = $wb->project['Projectsettings']['currentindex'];
 
 	wb_set_selected($wb->tree, 0);
 	update_control_data(true);
@@ -96,11 +89,9 @@ function save_project($filename)
 
 	// Set project properties (section "Projectsettings")
 
-//	$wb->project["Projectsettings"]["formvar"] = $wb->form[$wb->currentform]->formvar ? $wb->form[$wb->currentform]->formvar : DEFAULT_FORMVAR;
-//	$wb->project["Projectsettings"]["parent"] = $wb->form[$wb->currentform]->parent ? $wb->form[$wb->currentform]->parent : DEFAULT_PARENT;
-
 	foreach($wb->project_array as $var)
 		$wb->project["Projectsettings"][$var] = $wb->form[$wb->currentform]->$var ? $wb->form[$wb->currentform]->$var : constant("DEFAULT_" . strtoupper($var));
+	$wb->project['Projectsettings']['currentindex'] = $wb->form[$wb->currentform]->ncurrindex;
 
 	// Set form data (section "Form")
 
@@ -201,11 +192,14 @@ function save_phpcode($filename)
 
 	$phpcode .= "// Control identifiers\r\n\r\n";
 	$invalid = array();
+	$defined = array();
 
 	// Loop for all controls
 
 	for($nctrl = 0; $nctrl < $ncontrols; $nctrl++) {
+
 		$ct = $wb->form[$wb->currentform]->ct[$nctrl];
+		$define_this = false;
 
 		if(!$ct->id) {
 
@@ -217,46 +211,44 @@ function save_phpcode($filename)
 
 		} else if(preg_match('/^[a-z][a-z0-9_]*$/i', $ct->id)) {
 
-			// Valid string identifier: create a define() call
+			if(in_array($ct->id, $wb->presetids))
+				continue;
 
-			if(preg_match("/^" . $wb->form[$wb->currentform]->prefix . "[a-z]+([0-9]+)$/i", $ct->id, $matches)) {
-				$valueid = $matches[1];
-			} else {
-				$valueid++;
-			}
-			$valueid = make_unique_id($valueid);
+			// Valid string identifier
 
-			// Don't generate code for preset constants
+			if(!in_array($ct->id, $defined)) {
 
-			if($ct->id) {
-				switch(strtoupper($ct->id)) {
-					case 'IDABORT':
-					case 'IDCANCEL':
-					case 'IDCLOSE':
-					case 'IDDEFAULT':
-					case 'IDHELP':
-					case 'IDIGNORE':
-					case 'IDNO':
-					case 'IDOK':
-					case 'IDRETRY':
-					case 'IDYES':
-					case 'NULL':
-					case 'TRUE':
-					case 'FALSE':
-						break;
+				$defined[] = $ct->id;
 
-					default:
-						$phpcode .= "if(!defined('{$ct->id}')) define('{$ct->id}', $valueid);\r\n";
+				if(preg_match("/^" . $wb->form[$wb->currentform]->prefix . "[a-z]+([0-9]+)$/i", $ct->id, $matches)) {
+					$valueid = $matches[1];
+				} else {
+					$valueid++;
 				}
+				$define_this = true;
 			}
+
 		} else {
 
-			// Invalid ID
+			// Invalid ID: fix it
 
-			$invalid[] = $ct->id;
-			@$wb->form[$wb->currentform]->ct[$nctrl]->id = make_valid_id($ct->id, 'MAKEID_');
-			$ct = $wb->form[$wb->currentform]->ct[$nctrl];
-			$valueid++;
+			$inv = $ct->id;
+			$wb->form[$wb->currentform]->ct[$nctrl]->id = make_valid_id($ct->id, 'MAKEID_');
+
+			if(!in_array($ct->id, $defined)) {
+				$defined[] = $ct->id;
+				$ct = $wb->form[$wb->currentform]->ct[$nctrl];
+				$valueid++;
+				$valueid = make_unique_id($valueid);
+				$invalid[] = "$inv (changed to $ct->id)";
+				$define_this = true;
+			}
+		}
+
+		// Create a define() call
+
+		if($define_this) {
+			$valueid = make_unique_id($valueid);
 			$phpcode .= "if(!defined('{$ct->id}')) define('{$ct->id}', $valueid);\r\n";
 		}
 	}
@@ -281,7 +273,7 @@ function save_phpcode($filename)
 
 	$last_tab = null;
 	for($i = 0; $i < $ncontrols; $i++) {
-		$ct = @$wb->form[$wb->currentform]->ct[$i];
+		$ct = $wb->form[$wb->currentform]->ct[$i];
 		$cid = (!$ct->id ? '0' : $ct->id);
 
 		$ctrlparent = $formvar;
@@ -322,7 +314,7 @@ function save_phpcode($filename)
 					$yoff = 0;
 				}
 			}
-			}
+		}
 
 		//--------------------- Adds optional code (before control creation)
 
@@ -456,7 +448,7 @@ function save_phpcode($filename)
 			// Create a define() call for each localization identifier
 
 			for($i = 0; $i < $ncontrols; $i++) {
-				$ct = @$wb->form[$wb->currentform]->ct[$i];
+				$ct = $wb->form[$wb->currentform]->ct[$i];
 				$cid = (!$ct->id ? '0' : $ct->id);
 
 				if($ct->caption) {
@@ -498,7 +490,7 @@ function read_settings()
 		$ctrl = @wb_get_control($wb->mainwin, constant("IDC_" . strtoupper($var)));
 		if($ctrl) {
 			$var = strtolower($var);
-			$wb->$var = @$wb->settings["Settings"][$var];
+			$wb->$var = $wb->settings["Settings"][$var];
 			if($wb->$var !== '' && preg_match("/[\d\.\,]+/", $wb->$var))
 				wb_set_value($ctrl, $wb->$var);
 			else
@@ -550,7 +542,7 @@ function read_window_geom($window, $prefix, $resize=false)
 {
 	global $wb;
 
-	if(!@$window)
+	if(!$window)
 		return;
 	$geom = $wb->settings["Settings"][$prefix . "_geom"];
 	$geom = preg_split("/\s+/", $geom);
@@ -577,7 +569,7 @@ function save_window_geom($window, $prefix, $resize=false)
 {
 	global $wb;
 
-	if(!@$window)
+	if(!$window)
 		return;
 	$pos = wb_get_position($window);
 	$size = wb_get_size($window);
