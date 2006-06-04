@@ -28,7 +28,7 @@ include "fe_options.inc.php";
 //-------------------------------------------------------------------- CONSTANTS
 
 define("APPNAME", 			"WinBinder Form Editor");		// App name
-define("VERSION", 			"0.5.044");						// App version
+define("VERSION", 			"0.5.046");						// App version
 
 // Control identifiers
 
@@ -116,9 +116,15 @@ function create_main_window()
 	wb_set_area($wb->mainwin, WBC_MINSIZE, 0, 0, MIN_WIDTH, MIN_HEIGHT);
 	$wb->statusbar = wb_create_control($wb->mainwin, StatusBar, "");
 
+	// Control arrays
+
 	$wb->options_array = array('wireframe', 'grid', 'showgrid', 'ghost', 'constructionlines', 'showhex', 'autophp', 'filepath', 'autopath');
 	$wb->project_array = array('formvar', 'parent', 'prefix', 'startval', 'localize', 'locprefix', 'istabpage', 'tabnumber',
 	'filllists', 'fillheaders', 'imagenames', 'insertontabs', 'applyvalues', 'ctrlvar', 'startctrlval', 'staticnullid');
+
+	// Preset IDs
+
+	$wb->presetids = array('IDABORT', 'IDCANCEL', 'IDCLOSE', 'IDDEFAULT', 'IDHELP', 'IDIGNORE', 'IDNO', 'IDOK', 'IDRETRY', 'IDYES');
 
 	// List of control classes
 
@@ -512,7 +518,7 @@ function process_main($window, $id, $ctrl, $lparam1=0, $lparam2=0)
 			break;
 
 		case IDC_FRAME:
-			create_control("Frame", null, 130, 130, 20, 20);
+			create_control("Frame", null, 130, 130, 20, 20, $wb->form[$wb->currentform]->staticnullid ? '' : null);
 			break;
 
 		case IDC_GAUGE:
@@ -536,7 +542,7 @@ function process_main($window, $id, $ctrl, $lparam1=0, $lparam2=0)
 			break;
 
 		case IDC_LABEL:
-			create_control("Label", null, 90, 15, 20, 20);
+			create_control("Label", null, 90, 15, 20, 20, $wb->form[$wb->currentform]->staticnullid ? '' : null);
 			break;
 
 		case IDC_LISTBOX:
@@ -698,18 +704,18 @@ function process_main($window, $id, $ctrl, $lparam1=0, $lparam2=0)
 
         case ID_SAVE:
         	if(isset($wb->proj_filename)) {
-				save_project($wb->proj_filename);
 				if($wb->autophp)
 					save_phpcode($wb->proj_filename);
+				save_project($wb->proj_filename);
 			} else {
 				$filename = wb_sys_dlg_save($window, "Save Project", $wb->filefilter, $wb->filepath, null, "prj");
 				if($filename) {
 					$wb->proj_filename = $filename;
-					save_project($wb->proj_filename);
 					if($wb->autophp)
 						save_phpcode($wb->proj_filename);
 					if($wb->autopath)
 						$wb->filepath = dirname($filename);
+					save_project($wb->proj_filename);
 				}
 			}
 			break;
@@ -892,13 +898,9 @@ function create_control($class, $caption, $width, $height, $left, $top, $id=null
 	$wb->form[$wb->currentform]->numcontrols++;
 	$ncurrent = $wb->form[$wb->currentform]->numcontrols - 1;
 
-	// For non-static controls, assign an id if one is not given (according to flag)
-
-	if(!$wb->form[$wb->currentform]->staticnullid || (($class != 'Label') && ($class != 'Frame'))) {
-		if($id === null) {
-			$index = ++$wb->form[$wb->currentform]->ncurrindex;
-			$id = $wb->form[$wb->currentform]->prefix . strtoupper($class) . ($wb->form[$wb->currentform]->startval + $index);
-		}
+	if($id === null) {
+		$index = ++$wb->form[$wb->currentform]->ncurrindex;
+		$id = $wb->form[$wb->currentform]->prefix . strtoupper($class) . ($wb->form[$wb->currentform]->startval + $index);
 	}
 
 	if(!isset($wb->form[$wb->currentform]))
