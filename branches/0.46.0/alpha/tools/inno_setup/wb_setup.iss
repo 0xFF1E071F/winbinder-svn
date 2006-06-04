@@ -13,15 +13,15 @@
 Source: readme.txt; DestDir: {app}; Flags: ignoreversion isreadme
 Source: docs\*.*; DestDir: {app}\docs; Flags: ignoreversion; Excludes: copy of*.*
 Source: phpcode\*.*; DestDir: {app}\phpcode; Flags: recursesubdirs ignoreversion createallsubdirs; Excludes: copy of*.*,*.a,*.bak,*.dep,*.err,*.lib,*.lnk,*.o,*.obj,*.res,*.tws,*.xrf,tp*.bat; Components: WinBinder/Examples
-Source: binaries\php4\*.*; DestDir: {app}\binaries\php4; Components: PHP/PHP_4; Excludes: copy of*.*,*.dll,*.a,*.bak,*.dep,*.err,*.manifest,*.lib,*.lnk,*.o,*.obj,*.res,*.tws,*.xrf,tp*.bat
+Source: binaries\php4\*.*; DestDir: {app}\binaries\php4; Components: PHP/PHP_4; Excludes: copy of*.*,*.dll,*.a,*.bak,*.dep,*.err,*.lib,*.lnk,*.o,*.obj,*.res,*.tws,*.xrf,tp*.bat
 Source: binaries\php4\php4ts.dll; DestDir: {app}\binaries\php4; Components: PHP/PHP_4
 Source: binaries\php4\ext\php_winbinder.dll; DestDir: {app}\binaries\php4\ext; Components: PHP/PHP_4
 Source: binaries\php4\ext\php_sqlite.dll; DestDir: {app}\binaries\php4\ext; Components: PHP/PHP_4/AddLib4
 Source: binaries\php4\ext\freeimage.dll; DestDir: {app}\binaries\php4\ext; Components: PHP/PHP_4/AddLib4
-Source: binaries\php50\*.*; DestDir: {app}\binaries\php50; Components: PHP/PHP_50; Excludes: copy of*.*,*.exe,*.dll,*.a,*.bak,*.dep,*.err,*.lib,*.lnk,*.manifest,*.o,*.obj,*.res,*.tws,*.xrf,tp*.bat
+Source: binaries\php50\*.*; DestDir: {app}\binaries\php50; Components: PHP/PHP_50; Excludes: copy of*.*,*.exe,*.dll,*.a,*.bak,*.dep,*.err,*.lib,*.lnk,*.o,*.obj,*.res,*.tws,*.xrf,tp*.bat
 Source: binaries\php50\ext\php_winbinder.dll; DestDir: {app}\binaries\php50\ext; Components: PHP/PHP_50
 Source: {app}\binaries\php4\ext\freeimage.dll; DestDir: {app}\binaries\php50\ext; Components: PHP/PHP_50; Flags: external
-Source: binaries\php51\*.*; DestDir: {app}\binaries\php51; Components: PHP/PHP_51; Excludes: copy of*.*,*.exe,*.dll,*.a,*.bak,*.dep,*.err,*.lib,*.lnk,*.manifest,*.o,*.obj,*.res,*.tws,*.xrf,tp*.bat
+Source: binaries\php51\*.*; DestDir: {app}\binaries\php51; Components: PHP/PHP_51; Excludes: copy of*.*,*.exe,*.dll,*.a,*.bak,*.dep,*.err,*.lib,*.lnk,*.o,*.obj,*.res,*.tws,*.xrf,tp*.bat
 Source: binaries\php51\ext\php_winbinder.dll; DestDir: {app}\binaries\php51\ext; Components: PHP/PHP_51
 Source: {app}\binaries\php4\ext\freeimage.dll; DestDir: {app}\binaries\php51\ext; Components: PHP/PHP_51; Flags: external
 Source: ..\..\Util\Info-Zip\unzip\unzip.exe; DestDir: {tmp}; Components: PHP/PHP_50; AfterInstall: UnzipFiles('50')
@@ -29,21 +29,21 @@ Source: ..\..\Util\Info-Zip\unzip\unzip.exe; DestDir: {tmp}; Components: PHP/PHP
 Source: ..\..\Util\Download DLL\isxdl.dll; DestDir: {tmp}; Flags: dontcopy
 
 [Icons]
-Name: {group}\Welcome to WinBinder; Filename: {app}\binaries\php4\php-win.exe; Parameters: """{app}\phpcode\examples\welcome.phpw"""; Components: PHP/PHP_4; WorkingDir: {app}\phpcode\examples; IconFilename: {app}\phpcode\resources\hyper.ico
-Name: {group}\Welcome to WinBinder; Filename: {app}\binaries\php50\php-win.exe; Parameters: """{app}\phpcode\examples\welcome.phpw"""; Components: PHP/PHP_50; WorkingDir: {app}\phpcode\examples; IconFilename: {app}\phpcode\resources\hyper.ico
-Name: {group}\Welcome to WinBinder; Filename: {app}\binaries\php51\php-win.exe; Parameters: """{app}\phpcode\examples\welcome.phpw"""; Components: PHP/PHP_51; WorkingDir: {app}\phpcode\examples; IconFilename: {app}\phpcode\resources\hyper.ico
+Name: {group}\Welcome to WinBinder; Filename: {app}\binaries\php4\php-win.exe; Parameters: """{app}\phpcode\examples\welcome.phpw"""; Components: PHP/PHP_4; WorkingDir: {app}\phpcode\examples; IconFilename: {app}\phpcode\resources\wb.ico
+Name: {group}\Welcome to WinBinder; Filename: {app}\binaries\php50\php-win.exe; Parameters: """{app}\phpcode\examples\welcome.phpw"""; Components: PHP/PHP_50; WorkingDir: {app}\phpcode\examples; IconFilename: {app}\phpcode\resources\wb.ico
+Name: {group}\Welcome to WinBinder; Filename: {app}\binaries\php51\php-win.exe; Parameters: """{app}\phpcode\examples\welcome.phpw"""; Components: PHP/PHP_51; WorkingDir: {app}\phpcode\examples; IconFilename: {app}\phpcode\resources\wb.ico
 Name: {group}\WinBinder Manual; Filename: {app}\docs\winbinder.chm
 Name: {group}\Readme; Filename: {app}\readme.txt
 Name: {group}\Uninstall; Filename: {uninstallexe}
 Name: {group}\Docs\License; Filename: {app}\docs\license.txt
 Name: {group}\Docs\Release notes; Filename: {app}\docs\release_notes.txt
 Name: {group}\Docs\Changelog; Filename: {app}\docs\changelog.txt
-Name: {userdesktop}\Welcome to WinBinder; Filename: {app}\binaries\php4\php-win.exe; Parameters: """{app}\phpcode\examples\welcome.phpw"""; Components: PHP/PHP_4; WorkingDir: {app}\phpcode\examples; IconFilename: {app}\phpcode\resources\hyper.ico
-Name: {userdesktop}\Welcome to WinBinder; Filename: {app}\binaries\php50\php-win.exe; Parameters: """{app}\phpcode\examples\welcome.phpw"""; Components: PHP/PHP_50; WorkingDir: {app}\phpcode\examples; IconFilename: {app}\phpcode\resources\hyper.ico
-Name: {userdesktop}\Welcome to WinBinder; Filename: {app}\binaries\php51\php-win.exe; Parameters: """{app}\phpcode\examples\welcome.phpw"""; Components: PHP/PHP_51; WorkingDir: {app}\phpcode\examples; IconFilename: {app}\phpcode\resources\hyper.ico
+Name: {userdesktop}\Welcome to WinBinder; Filename: {app}\binaries\php4\php-win.exe; Parameters: """{app}\phpcode\examples\welcome.phpw"""; Components: PHP/PHP_4; WorkingDir: {app}\phpcode\examples; IconFilename: {app}\phpcode\resources\wb.ico
+Name: {userdesktop}\Welcome to WinBinder; Filename: {app}\binaries\php50\php-win.exe; Parameters: """{app}\phpcode\examples\welcome.phpw"""; Components: PHP/PHP_50; WorkingDir: {app}\phpcode\examples; IconFilename: {app}\phpcode\resources\wb.ico
+Name: {userdesktop}\Welcome to WinBinder; Filename: {app}\binaries\php51\php-win.exe; Parameters: """{app}\phpcode\examples\welcome.phpw"""; Components: PHP/PHP_51; WorkingDir: {app}\phpcode\examples; IconFilename: {app}\phpcode\resources\wb.ico
 
 [Setup]
-OutputDir=R:\WinBinder-Rel\alpha
+OutputDir=R:\WinBinder-Rel
 OutputBaseFilename=winbinder_setup
 VersionInfoCompany=Hypervisual
 VersionInfoDescription=WinBinder

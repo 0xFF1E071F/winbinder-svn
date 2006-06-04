@@ -14,8 +14,8 @@
 const
 	WB_DEBUG = False;	// Set to True for debugging, set to False for release
 	CRLF = #13#10;
-	php50file = 'php5_minimal.zip';
-	php50exts = 'php5_libs.zip';
+	php50file = 'php50_minimal.zip';
+	php50exts = 'php50_libs.zip';
 	php51file = 'php51_minimal.zip';
 	php51exts = 'php51_libs.zip';
 var
