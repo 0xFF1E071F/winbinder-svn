@@ -440,7 +440,7 @@ doc_root =
 user_dir =
 
 ; Directory in which the loadable extensions (modules) reside.
-extension_dir = "./ext/"
+extension_dir = "./"
 
 ; Whether or not to enable the dl() function.  The dl() function does NOT work
 ; properly in multithreaded servers, such as IIS or Zeus, and is automatically
@@ -597,11 +597,6 @@ default_socket_timeout = 60
 ;extension=php_xslt.dll
 ;extension=php_yaz.dll
 ;extension=php_zip.dll
-
-extension=freeimage.dll
-extension=php_gd2.dll
-extension=php_sqlite.dll
-extension=php_winbinder.dll
 
 
 ;;;;;;;;;;;;;;;;;;;
