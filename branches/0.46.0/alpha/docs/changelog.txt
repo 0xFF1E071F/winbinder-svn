@@ -91,6 +91,14 @@ BUG FIXES:
 . separated the script section from wb.iss into wb_setup.pas. A separate file allows correct syntax highlighting in a code editor and allows testing script changes without leaving ISTool (Inno Setup UI)
 . other changes
 
+OTHER ACTIVITIES
+
+- updated the PHP 4 engine and the respective extensions to 4.4.2
+
+- removed the redundant PHP binaries and accompanying files (not the extensions) for 5.0.5 and 5.1.2
+
+- uploaded new "minimal" PHP 4.4.2, 5.0.5 and 5.1.2 versions as well as the respective extensions to SF
+
 For further enhancements and bug fixes since the last official release 0.43.164 see the change log.
 
 ------------------------------------------------------------------------------
