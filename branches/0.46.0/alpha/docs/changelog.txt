@@ -57,6 +57,8 @@ BUG FIXES:
 
 - solved memory leak that occurred on every function call: added some extra calls to efree() in function wbCallUserFunction() in module phpwb_wb_lib.c
 
+- wb_control.c: Rectified wb_set_range() slider TBM_SETRANGEMAX action
+
 - WBC_MOUSEMOVE messages were not being sent in certain situations
 
 - InvisibleArea was subclassed to process and send WM_MOUSEMOVE messages to the callback
