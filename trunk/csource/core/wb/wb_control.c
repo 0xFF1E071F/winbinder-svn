@@ -1239,28 +1239,32 @@ BOOL wbSetValue(PWBOBJ pwbo, DWORD dwValue)
 
 BOOL wbSetRange(PWBOBJ pwbo, LONG lMin, LONG lMax)
 {
-	if(!wbIsWBObj(pwbo, TRUE))					// Is it a valid control?
-		return FALSE;
+   if(!wbIsWBObj(pwbo, TRUE))               // Is it a valid control?
+      return FALSE;
 
-	switch(pwbo->uClass) {
+   switch(pwbo->uClass) {
 
-		// Set range
+      // Set range
 
-		case Slider:
-			SendMessage(pwbo->hwnd, TBM_SETRANGEMIN, FALSE, lMin);
-			return SendMessage(pwbo->hwnd, TBM_SETRANGEMAX, FALSE, lMax);
+      case Slider:
+         SendMessage(pwbo->hwnd, TBM_SETRANGEMIN, FALSE, lMin);
+         SendMessage(pwbo->hwnd, TBM_SETRANGEMAX, TRUE, lMax);
+         break;
 
-		case Gauge:
-			return SendMessage(pwbo->hwnd, PBM_SETRANGE32, lMin, lMax);
+      case Gauge:
+         SendMessage(pwbo->hwnd, PBM_SETRANGE32, lMin, lMax);
+         break;
 
-		case Spinner:		// Inverted so that the control increases upwards
-			return SendMessage(pwbo->hwnd, UDM_SETRANGE32, lMin, lMax);
+      case Spinner:      // Inverted so that the control increases upwards
+         SendMessage(pwbo->hwnd, UDM_SETRANGE32, lMin, lMax);
+         break;
 
-		case ScrollBar:
-			return SendMessage(pwbo->hwnd, SBM_SETRANGE, lMin, lMax);
-	}
+      case ScrollBar:
+         SendMessage(pwbo->hwnd, SBM_SETRANGE, lMin, lMax);
+         break;
+   }
 
-	return TRUE;
+   return TRUE;
 }
 
 DWORD wbGetValue(PWBOBJ pwbo)
