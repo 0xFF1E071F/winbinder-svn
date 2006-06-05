@@ -16,39 +16,37 @@ Source: phpcode\*.*; DestDir: {app}\phpcode; Flags: recursesubdirs ignoreversion
 Source: binaries\php4\*.*; DestDir: {app}\binaries\php4; Components: PHP/PHP_4; Excludes: copy of*.*,*.dll,*.a,*.bak,*.dep,*.err,*.lib,*.lnk,*.o,*.obj,*.res,*.tws,*.xrf,tp*.bat
 Source: binaries\php4\php4ts.dll; DestDir: {app}\binaries\php4; Components: PHP/PHP_4
 Source: binaries\php4\ext\php_winbinder.dll; DestDir: {app}\binaries\php4\ext; Components: PHP/PHP_4
-Source: binaries\php4\ext\php_sqlite.dll; DestDir: {app}\binaries\php4\ext; Components: PHP/PHP_4/AddLib4
-Source: binaries\php4\ext\freeimage.dll; DestDir: {app}\binaries\php4\ext; Components: PHP/PHP_4/AddLib4
-Source: binaries\php50\*.*; DestDir: {app}\binaries\php50; Components: PHP/PHP_50; Excludes: copy of*.*,*.exe,*.dll,*.a,*.bak,*.dep,*.err,*.lib,*.lnk,*.o,*.obj,*.res,*.tws,*.xrf,tp*.bat
-Source: binaries\php50\ext\php_winbinder.dll; DestDir: {app}\binaries\php50\ext; Components: PHP/PHP_50
-Source: {app}\binaries\php4\ext\freeimage.dll; DestDir: {app}\binaries\php50\ext; Components: PHP/PHP_50; Flags: external
-Source: binaries\php51\*.*; DestDir: {app}\binaries\php51; Components: PHP/PHP_51; Excludes: copy of*.*,*.exe,*.dll,*.a,*.bak,*.dep,*.err,*.lib,*.lnk,*.o,*.obj,*.res,*.tws,*.xrf,tp*.bat
-Source: binaries\php51\ext\php_winbinder.dll; DestDir: {app}\binaries\php51\ext; Components: PHP/PHP_51
-Source: {app}\binaries\php4\ext\freeimage.dll; DestDir: {app}\binaries\php51\ext; Components: PHP/PHP_51; Flags: external
-Source: ..\..\Util\Info-Zip\unzip\unzip.exe; DestDir: {tmp}; Components: PHP/PHP_51; AfterInstall: UnzipFiles('51'); Flags: dontcopy
+Source: binaries\php4\ext\php_gd2.dll; DestDir: {app}\binaries\php4\ext; Components: PHP/PHP_4
+Source: binaries\php4\ext\php_sqlite.dll; DestDir: {app}\binaries\php4\ext; Components: PHP/PHP_4
+Source: binaries\php4\ext\freeimage.dll; DestDir: {app}\binaries\php4\ext; Components: PHP/PHP_4
+Source: binaries\php50\ext\*.dll; DestDir: {app}\binaries\php50\ext; Components: PHP/PHP_50
+Source: binaries\php51\ext\*.dll; DestDir: {app}\binaries\php51\ext; Components: PHP/PHP_51
+Source: ..\..\Util\Info-Zip\unzip\unzip.exe; DestDir: {tmp}; Components: PHP/PHP_50; AfterInstall: UnzipFiles('50')
+Source: ..\..\Util\Info-Zip\unzip\unzip.exe; DestDir: {tmp}; Components: PHP/PHP_51; AfterInstall: UnzipFiles('51')
 Source: ..\..\Util\Download DLL\isxdl.dll; DestDir: {tmp}; Flags: dontcopy
 
 [Icons]
-Name: {group}\Welcome to WinBinder; Filename: {app}\binaries\php4\php-win.exe; Parameters: """{app}\phpcode\examples\welcome.phpw"""; Components: PHP/PHP_4; WorkingDir: {app}\phpcode\examples; IconFilename: {app}\phpcode\resources\hyper.ico
-Name: {group}\Welcome to WinBinder; Filename: {app}\binaries\php50\php-win.exe; Parameters: """{app}\phpcode\examples\welcome.phpw"""; Components: PHP/PHP_50; WorkingDir: {app}\phpcode\examples; IconFilename: {app}\phpcode\resources\hyper.ico
-Name: {group}\Welcome to WinBinder; Filename: {app}\binaries\php51\php-win.exe; Parameters: """{app}\phpcode\examples\welcome.phpw"""; Components: PHP/PHP_51; WorkingDir: {app}\phpcode\examples; IconFilename: {app}\phpcode\resources\hyper.ico
+Name: {group}\Welcome to WinBinder; Filename: {app}\binaries\php4\php-win.exe; Parameters: """{app}\phpcode\examples\welcome.phpw"""; Components: PHP/PHP_4; WorkingDir: {app}\phpcode\examples; IconFilename: {app}\phpcode\resources\wb.ico
+Name: {group}\Welcome to WinBinder; Filename: {app}\binaries\php50\php-win.exe; Parameters: """{app}\phpcode\examples\welcome.phpw"""; Components: PHP/PHP_50; WorkingDir: {app}\phpcode\examples; IconFilename: {app}\phpcode\resources\wb.ico
+Name: {group}\Welcome to WinBinder; Filename: {app}\binaries\php51\php-win.exe; Parameters: """{app}\phpcode\examples\welcome.phpw"""; Components: PHP/PHP_51; WorkingDir: {app}\phpcode\examples; IconFilename: {app}\phpcode\resources\wb.ico
 Name: {group}\WinBinder Manual; Filename: {app}\docs\winbinder.chm
 Name: {group}\Readme; Filename: {app}\readme.txt
 Name: {group}\Uninstall; Filename: {uninstallexe}
 Name: {group}\Docs\License; Filename: {app}\docs\license.txt
 Name: {group}\Docs\Release notes; Filename: {app}\docs\release_notes.txt
 Name: {group}\Docs\Changelog; Filename: {app}\docs\changelog.txt
-Name: {userdesktop}\Welcome to WinBinder; Filename: {app}\binaries\php4\php-win.exe; Parameters: """{app}\phpcode\examples\welcome.phpw"""; Components: PHP/PHP_4; WorkingDir: {app}\phpcode\examples; IconFilename: {app}\phpcode\resources\hyper.ico
-Name: {userdesktop}\Welcome to WinBinder; Filename: {app}\binaries\php50\php-win.exe; Parameters: """{app}\phpcode\examples\welcome.phpw"""; Components: PHP/PHP_50; WorkingDir: {app}\phpcode\examples; IconFilename: {app}\phpcode\resources\hyper.ico
-Name: {userdesktop}\Welcome to WinBinder; Filename: {app}\binaries\php51\php-win.exe; Parameters: """{app}\phpcode\examples\welcome.phpw"""; Components: PHP/PHP_51; WorkingDir: {app}\phpcode\examples; IconFilename: {app}\phpcode\resources\hyper.ico
+Name: {userdesktop}\Welcome to WinBinder; Filename: {app}\binaries\php4\php-win.exe; Parameters: """{app}\phpcode\examples\welcome.phpw"""; Components: PHP/PHP_4; WorkingDir: {app}\phpcode\examples; IconFilename: {app}\phpcode\resources\wb.ico
+Name: {userdesktop}\Welcome to WinBinder; Filename: {app}\binaries\php50\php-win.exe; Parameters: """{app}\phpcode\examples\welcome.phpw"""; Components: PHP/PHP_50; WorkingDir: {app}\phpcode\examples; IconFilename: {app}\phpcode\resources\wb.ico
+Name: {userdesktop}\Welcome to WinBinder; Filename: {app}\binaries\php51\php-win.exe; Parameters: """{app}\phpcode\examples\welcome.phpw"""; Components: PHP/PHP_51; WorkingDir: {app}\phpcode\examples; IconFilename: {app}\phpcode\resources\wb.ico
 
 [Setup]
-OutputDir=C:\@desenv\WinBinder\@Privado\Arquivo
-OutputBaseFilename=winbinder_setup
+OutputDir=R:\WinBinder-Rel
+OutputBaseFilename=WinBinder-0.46.0
 VersionInfoCompany=Hypervisual
 VersionInfoDescription=WinBinder
-AppCopyright=Copyright © 2004-2005 Hypervisual - see LICENSE.TXT for details
+AppCopyright=Copyright © 2004-2006 Hypervisual - see LICENSE.TXT for details
 AppName=WinBinder
-LicenseFile=C:\@desenv\WinBinder\docs\license.txt
+LicenseFile=R:\WinBinder-Rel\alpha\docs\license.txt
 RestartIfNeededByRun=false
 DefaultGroupName=WinBinder
 ShowLanguageDialog=no
@@ -67,11 +65,11 @@ AlwaysShowComponentsList=true
 DirExistsWarning=auto
 ChangesAssociations=true
 MergeDuplicateFiles=false
-SourceDir=C:\@desenv\WinBinder
+SourceDir=R:\WinBinder-Rel\alpha
 UseSetupLdr=true
 
-AppVerName=WinBinder version 0.44.172
-VersionInfoVersion=0.44.172
+AppVerName=WinBinder version 0.46.0
+VersionInfoVersion=0.46.0
 SolidCompression=true
 Compression=lzma/max
 InternalCompressLevel=normal
@@ -90,11 +88,10 @@ Name: WinBinder; Description: WinBinder; Types: Complete Default Update_WB
 Name: WinBinder/Examples; Description: Help and examples; Types: Complete Default Update_WB
 Name: PHP; Description: PHP; Types: Complete Default Update_PHP
 Name: PHP/PHP_4; Description: PHP 4; Types: Complete Default Update_PHP
-Name: PHP/PHP_4/AddLib4; Description: Additional libraries (SQLite, FreeImage); Types: Complete Default Update_PHP
 Name: PHP/PHP_50; Description: PHP 5.0 (download); ExtraDiskSpaceRequired: 3600000; Types: Complete Update_PHP
-Name: PHP/PHP_50/AddLib50; Description: Additional libraries (MySQL, FreeImage); Types: Complete Update_PHP
+Name: PHP/PHP_50/AddLib50; Description: Additional libraries (PDO, PDO_SQLite, MySQL, FreeImage); Types: Complete Update_PHP
 Name: PHP/PHP_51; Description: PHP 5.1 (download); ExtraDiskSpaceRequired: 3600000; Types: Complete Update_PHP
-Name: PHP/PHP_51/AddLib51; Description: Additional libraries (MySQL, FreeImage); Types: Complete Update_PHP
+Name: PHP/PHP_51/AddLib51; Description: Additional libraries (PDO, PDO_SQLite, MySQL, SQLite, FreeImage); Types: Complete Update_PHP
 
 [Types]
 Name: Default; Description: Default installation
@@ -129,7 +126,7 @@ DialogFontSize=8
 Name: {app}\binaries; Type: filesandordirs; Components: 
 
 [_ISTool]
-LogFile=C:\@desenv\WinBinder\tools\inno_setup\wb_setup_log.txt
+LogFile=R:\WinBinder-Rel\alpha\tools\inno_setup\wb_setup_log.txt
 LogFileAppend=false
 
 [Code]

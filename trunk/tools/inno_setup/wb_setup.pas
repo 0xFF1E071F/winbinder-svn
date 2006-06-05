@@ -14,8 +14,8 @@
 const
 	WB_DEBUG = False;	// Set to True for debugging, set to False for release
 	CRLF = #13#10;
-	php50file = 'php5_minimal.zip';
-	php50exts = 'php5_libs.zip';
+	php50file = 'php50_minimal.zip';
+	php50exts = 'php50_libs.zip';
 	php51file = 'php51_minimal.zip';
 	php51exts = 'php51_libs.zip';
 var
@@ -230,8 +230,8 @@ begin
 
 		if (Pos('php_50', sComp) > 0) or (Pos('addlib_50', sComp) > 0) then begin
 			if WB_DEBUG then begin
-				FileCopy('C:\@desenv\WinBinder\@Privado\Arquivo\2005\php5_minimal.zip', ExpandConstant('{tmp}\php5_minimal.zip'), False);
-				FileCopy('C:\@desenv\WinBinder\@Privado\Arquivo\2005\php5_libs.zip', ExpandConstant('{tmp}\php5_libs.zip'), False);
+				FileCopy('R:\Download\winbinder\minimals\distros\php50_minimal.zip', ExpandConstant('{tmp}\php50_minimal.zip'), False);
+				FileCopy('R:\Download\winbinder\minimals\distros\php50_libs.zip', ExpandConstant('{tmp}\php50_libs.zip'), False);
 			end else begin
 				if isxdl_DownloadFiles(hWnd) = 0 then begin
 					MsgBox('Download failed. Please review your setup options or try again later.', mbError, MB_OK);
@@ -242,8 +242,8 @@ begin
 
 		if (Pos('php_51', sComp) > 0) or (Pos('addlib_51', sComp) > 0) then begin
 			if WB_DEBUG then begin
-				FileCopy('C:\@desenv\WinBinder\@Privado\Arquivo\2005\php51_minimal.zip', ExpandConstant('{tmp}\php5_minimal.zip'), False);
-				FileCopy('C:\@desenv\WinBinder\@Privado\Arquivo\2005\php51_libs.zip', ExpandConstant('{tmp}\php5_libs.zip'), False);
+				FileCopy('R:\Download\winbinder\minimals\distros\php51_minimal.zip', ExpandConstant('{tmp}\php51_minimal.zip'), False);
+				FileCopy('R:\Download\winbinder\minimals\distros\php51_libs.zip', ExpandConstant('{tmp}\php51_libs.zip'), False);
 			end else begin
 				if isxdl_DownloadFiles(hWnd) = 0 then begin
 					MsgBox('Download failed. Please review your setup options or try again later.', mbError, MB_OK);
