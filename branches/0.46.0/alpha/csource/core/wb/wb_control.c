@@ -1226,7 +1226,7 @@ BOOL wbSetRange(PWBOBJ pwbo, LONG lMin, LONG lMax)
 
 		case Slider:
 			SendMessage(pwbo->hwnd, TBM_SETRANGEMIN, FALSE, lMin);
-			return SendMessage(pwbo->hwnd, TBM_SETRANGEMAX, FALSE, lMin);
+			return SendMessage(pwbo->hwnd, TBM_SETRANGEMAX, FALSE, lMax);
 
 		case Gauge:
 			return SendMessage(pwbo->hwnd, PBM_SETRANGE32, lMin, lMax);
