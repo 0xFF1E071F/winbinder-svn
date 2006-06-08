@@ -1,0 +1,354 @@
+Compilation started: Fri Jun 09 00:00:25 2006
+Running pre-compile steps
+
+Compiling script using Inno Setup 5.1.6
+Parsing [Setup] section, line 48
+Parsing [Setup] section, line 49
+Parsing [Setup] section, line 51
+Parsing [Setup] section, line 52
+Parsing [Setup] section, line 53
+Parsing [Setup] section, line 54
+Parsing [Setup] section, line 55
+Parsing [Setup] section, line 57
+Parsing [Setup] section, line 58
+Parsing [Setup] section, line 59
+Parsing [Setup] section, line 60
+Parsing [Setup] section, line 61
+Parsing [Setup] section, line 62
+Parsing [Setup] section, line 63
+Parsing [Setup] section, line 64
+Parsing [Setup] section, line 65
+Parsing [Setup] section, line 66
+Parsing [Setup] section, line 67
+Parsing [Setup] section, line 68
+Parsing [Setup] section, line 69
+Parsing [Setup] section, line 70
+Parsing [Setup] section, line 71
+Parsing [Setup] section, line 72
+Parsing [Setup] section, line 73
+Parsing [Setup] section, line 74
+Parsing [Setup] section, line 75
+Parsing [Setup] section, line 76
+Parsing [Setup] section, line 78
+Parsing [Setup] section, line 79
+Parsing [Setup] section, line 81
+Parsing [Setup] section, line 82
+Parsing [Setup] section, line 83
+Parsing [Setup] section, line 85
+Parsing [Setup] section, line 86
+Parsing [Setup] section, line 87
+Parsing [Setup] section, line 88
+Parsing [Setup] section, line 90
+Parsing [Setup] section, line 91
+Parsing [Setup] section, line 92
+Reading file (LicenseFile)
+Reading file (WizardImageFile)
+   File: R:\Download\winbinder\snapshots\Icons\WinBinder.bmp
+Reading file (WizardSmallImageFile)
+   File: R:\Download\winbinder\snapshots\Icons\WinBinderIcon.bmp
+Reading default messages from Default.isl
+Parsing [LangOptions], [Messages], and [CustomMessages] sections
+   File: C:\Programme\Inno Setup 5\Default.isl
+   Messages in script file
+Reading [Code] section
+Parsing [Types] section, line 114
+Parsing [Types] section, line 115
+Parsing [Types] section, line 116
+Parsing [Types] section, line 117
+Parsing [Types] section, line 118
+Parsing [Components] section, line 102
+Parsing [Components] section, line 103
+Parsing [Components] section, line 105
+Parsing [Components] section, line 106
+Parsing [Components] section, line 107
+Parsing [Components] section, line 108
+Parsing [Components] section, line 109
+Parsing [Components] section, line 110
+Parsing [Icons] section, line 30
+Parsing [Icons] section, line 31
+Parsing [Icons] section, line 32
+Parsing [Icons] section, line 34
+Parsing [Icons] section, line 35
+Parsing [Icons] section, line 36
+Parsing [Icons] section, line 37
+Parsing [Icons] section, line 38
+Parsing [Icons] section, line 39
+Parsing [Icons] section, line 40
+Parsing [Icons] section, line 42
+Parsing [Icons] section, line 43
+Parsing [Icons] section, line 44
+Parsing [Registry] section, line 122
+Parsing [Registry] section, line 123
+Parsing [Registry] section, line 125
+Parsing [Registry] section, line 126
+Parsing [Registry] section, line 128
+Parsing [Registry] section, line 129
+Parsing [Registry] section, line 131
+Parsing [Registry] section, line 132
+Parsing [Registry] section, line 134
+Parsing [UninstallDelete] section, line 151
+Parsing [Run] section, line 96
+Parsing [Run] section, line 97
+Parsing [Run] section, line 98
+Parsing [Files] section, line 14
+Parsing [Files] section, line 16
+Parsing [Files] section, line 17
+Parsing [Files] section, line 19
+Parsing [Files] section, line 20
+   Reading version info: R:\WinBinder-Rel\alpha\binaries\php50\ext\php_winbinder.dll
+Parsing [Files] section, line 21
+   Reading version info: R:\WinBinder-Rel\alpha\binaries\php51\ext\php_winbinder.dll
+Parsing [Files] section, line 23
+   Reading version info: R:\WinBinder-Rel\alpha\..\..\Util\Info-Zip\unzip\unzip.exe
+Parsing [Files] section, line 24
+   Reading version info: R:\WinBinder-Rel\alpha\..\..\Util\Info-Zip\unzip\unzip.exe
+Parsing [Files] section, line 26
+   Reading version info: R:\WinBinder-Rel\alpha\..\..\Util\Download DLL\isxdl.dll
+Compiling [Code] section
+Creating setup files
+   Compressing: R:\WinBinder-Rel\alpha\readme.txt
+   Compressing: R:\WinBinder-Rel\alpha\docs\changelog.txt
+   Compressing: R:\WinBinder-Rel\alpha\docs\license-freeimage.txt
+   Compressing: R:\WinBinder-Rel\alpha\docs\license-infozip.txt
+   Compressing: R:\WinBinder-Rel\alpha\docs\license-innosetup.txt
+   Compressing: R:\WinBinder-Rel\alpha\docs\license-php.txt
+   Compressing: R:\WinBinder-Rel\alpha\docs\license.txt
+   Compressing: R:\WinBinder-Rel\alpha\docs\release_notes.txt
+   Compressing: R:\WinBinder-Rel\alpha\docs\winbinder.chm
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\accel.phpw
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\borderless.phpw
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\calc.phpw
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\calc.rc
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\calendar.phpw
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\combo_list_boxes.phpw
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\console2window.phpw
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\customdraw.phpw
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\dblclick.phpw
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\digiclock.phpw
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\dll_functions.phpw
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\editbox.phpw
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\focus.phpw
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\foreign_function_tutorial.phpw
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\hello.phpw
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\hello_oo.phpw
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\html_control.phpw
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\hyperlink.phpw
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\images.phpw
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\invisible.phpw
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\leaks.phpw
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\lines_and_shapes.phpw
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\listview.phpw
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\manytests.wap
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\manytests_listview.inc.php
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\manytests_listview.rc
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\manytests_lowlevel.inc.php
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\manytests_lowlevel.rc
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\manytests_main.phpw
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\manytests_main.rc
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\manytests_main.rc.php
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\manytests_static.inc.php
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\manytests_static.rc
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\manytests_tabs.rc.php
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\manytests_values.inc.php
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\manytests_values.rc
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\minimal.phpw
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\mouse.phpw
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\move_control.phpw
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\no_main_loop.phpw
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\print.form.php
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\print.prj
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\printer.phpw
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\radio_groups.phpw
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\registry.phpw
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\resizable.phpw
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\rtfedit.phpw
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\serial.phpw
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\set_style.phpw
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\single_instance.phpw
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\sysinfo.phpw
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\tabcontrol.phpw
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\taskbar.phpw
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\tray_popup.phpw
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\treeview.phpw
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\ttfreader.phpw
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\wait.phpw
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\welcome.phpw
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\window_tutorial.phpw
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\db\db_test.phpw
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\db\sqlite_db_check.db
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\examples\fi\dib.phpw
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\all classes.form.php
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\all classes.prj
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\fe_dlg_classes.php
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\fe_draw.inc.php
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\fe_fileio.inc.php
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\fe_form.inc.php
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\fe_main.form.php
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\fe_main.ini
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\fe_main.phpw
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\fe_main.prj
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\fe_main.rc.php
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\fe_options.form.php
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\fe_options.inc.php
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\fe_options.prj
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\fe_project.form.php
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\fe_project.inc.php
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\fe_project.prj
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\fe_winapi.inc.php
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\idtests.form.php
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\idtests.prj
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\tab.form.php
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\tab.prj
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\vars.form.php
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\vars.prj
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\ctrl_calendar3.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\ctrl_checkbox3.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\ctrl_combobox3.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\ctrl_editbox3.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\ctrl_frame3.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\ctrl_gauge3.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\ctrl_htmlcontrol3.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\ctrl_hyperlink3.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\ctrl_imagebutton3.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\ctrl_invisiblearea3.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\ctrl_label3.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\ctrl_listbox3.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\ctrl_listview3.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\ctrl_pushbutton3.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\ctrl_radiobutton3.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\ctrl_rtfeditbox3.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\ctrl_scrollbar3.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\ctrl_slider3.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\ctrl_spinner3.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\ctrl_tabcontrol3.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\ctrl_treeview3.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\draw_checkbox.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\draw_checkbox_checked.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\draw_htmlcontrol.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\draw_radio.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\draw_radio_sel.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\draw_treeview.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\draw_treeview_lines.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\form.ico
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\form_icon.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\menu_calendar.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\menu_checkbox.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\menu_combobox.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\menu_editbox.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\menu_frame.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\menu_gauge.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\menu_htmlcontrol.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\menu_hyperlink.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\menu_imagebutton.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\menu_invisiblearea.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\menu_label.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\menu_listbox.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\menu_listview.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\menu_pushbutton.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\menu_radiobutton.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\menu_rtfeditbox.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\menu_scrollbar.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\menu_slider.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\menu_spinner.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\menu_tabcontrol.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\menu_treeview.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\symb_calendar.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\symb_dnarrow.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\symb_imagebutton.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\symb_lfarrow.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\symb_rtarrow.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\symb_uparrow.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\toolbar.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\treeview.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\form_editor\resources\wb.ico
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\include\wb_generic.inc.php
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\include\wb_resources.inc.php
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\include\wb_windows.inc.php
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\include\winbinder.php
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\include\db\changeLog_db.txt
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\include\db\db_common.inc.php
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\include\db\db_mysql.inc.php
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\include\db\db_sqlite.inc.php
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\include\fi\freeimage.inc.php
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\make_release\filelist.txt
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\make_release\make_release.ini
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\make_release\make_release.phpw
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\make_release\make_release.rc
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\make_release\make_release.rc.php
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\make_release\make_release.wap
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\make_release\pear10_template.xml
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\make_release\pear14_template.xml
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\resources\browser.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\resources\cancel.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\resources\cassini.jpg
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\resources\dn_arrow.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\resources\edit.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\resources\hyper.ico
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\resources\h_setup.ico
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\resources\icon2.png
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\resources\icon24.png
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\resources\icon4.png
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\resources\icon8t.gif
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\resources\icon8t.png
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\resources\menu_doc.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\resources\menu_edit.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\resources\menu_exit.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\resources\menu_help.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\resources\menu_new.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\resources\menu_open.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\resources\menu_print.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\resources\menu_save.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\resources\menu_send.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\resources\note.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\resources\ok.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\resources\states.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\resources\toolbar.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\resources\treeview.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\resources\ttf.ico
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\resources\up_arrow.bmp
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\resources\viewer.ico
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\resources\wb.ico
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\todo\dlg_cat.rc
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\todo\dlg_cat.rc.php
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\todo\dlg_item.rc
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\todo\dlg_item.rc.php
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\todo\dlg_prior.rc
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\todo\dlg_prior.rc.php
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\todo\dlg_sever.rc
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\todo\dlg_sever.rc.php
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\todo\sqlite_todo.db
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\todo\todo.ini
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\todo\todo.wap
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\todo\todo_dlg_cat.inc.php
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\todo\todo_dlg_item.inc.php
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\todo\todo_dlg_prior.inc.php
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\todo\todo_dlg_sever.inc.php
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\todo\todo_import_export.inc.php
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\todo\todo_main.phpw
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\todo\todo_main.rc
+   Compressing: R:\WinBinder-Rel\alpha\phpcode\todo\todo_main.rc.php
+   Compressing: R:\WinBinder-Rel\alpha\binaries\php4\php-cgi.exe
+   Compressing: R:\WinBinder-Rel\alpha\binaries\php4\php-win.exe
+   Compressing: R:\WinBinder-Rel\alpha\binaries\php4\php-win.exe.manifest
+   Compressing: R:\WinBinder-Rel\alpha\binaries\php4\php.exe
+   Compressing: R:\WinBinder-Rel\alpha\binaries\php4\php.exe.manifest
+   Compressing: R:\WinBinder-Rel\alpha\binaries\php4\php.ini
+   Compressing: R:\WinBinder-Rel\alpha\binaries\php4\php.ini-dist
+   Compressing: R:\WinBinder-Rel\alpha\binaries\php4\php.ini-recommended
+   Compressing: R:\WinBinder-Rel\alpha\binaries\php4\php4ts.dll
+   Compressing: R:\WinBinder-Rel\alpha\binaries\php4\ext\freeimage.dll
+   Compressing: R:\WinBinder-Rel\alpha\binaries\php4\ext\php_gd2.dll
+   Compressing: R:\WinBinder-Rel\alpha\binaries\php4\ext\php_sqlite.dll
+   Compressing: R:\WinBinder-Rel\alpha\binaries\php4\ext\php_winbinder.dll
+   Compressing: R:\WinBinder-Rel\alpha\binaries\php50\ext\php_winbinder.dll   (0.46.0.0)
+   Compressing: R:\WinBinder-Rel\alpha\binaries\php51\ext\php_winbinder.dll   (0.46.0.0)
+   Compressing: R:\WinBinder-Rel\alpha\..\..\Util\Info-Zip\unzip\unzip.exe
+   Compressing: R:\WinBinder-Rel\alpha\..\..\Util\Info-Zip\unzip\unzip.exe
+   Compressing: R:\WinBinder-Rel\alpha\..\..\Util\Download DLL\isxdl.dll   (4.9.9.0)
+   Compressing Setup stub
+   Updating version info
+
+R:\WinBinder-Rel\WinBinder-0.46.0.exe
+
+Running post-compile steps
+Compilation ended: Fri Jun 09 00:00:54 2006

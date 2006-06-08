@@ -1,0 +1,23 @@
+This is the last maintenance release of the alpha branch. WinBinder now does fully support the following PHP versions: 4.3.10 up to 4.4.2 and 5.0.3 up to 5.1.4.
+
+HIGHLIGHTS:
+
+- WinBinder now uses the new Form Editor (FE) instead of WinAsm
+- Updated the included PHP 4 engine and respective extensions to 4.4.2
+- New "minimal" versions PHP 4.4.2, 5.0.5 and 5.1.2 available
+- Easier processing of resize events in callback function
+- Several improvements in PHP scripts: make_release.phpw, welcome.phpw, hyperlink.phpw
+- New example printer.phpw shows how to print from a WinBinder application
+- Included a new WinBinder icon
+- Fixed functions generate_ini() and parse_ini() so now they handle double quotes correctly
+- wb_set_selected() now processes check boxes in menu items as it should
+- wb_get_text() fixed so now it returns an array with the whole contents of a ListView control
+- wb_set_range() didn't work for sliders -- this was fixed
+- InvisibleArea now informs the callback function when the mouse is moved
+- Rewrote wb_refresh() so several bugs were fixed and more -- see changelog for details
+- Several changes, corrections and improvements in setup, including updates, fixes and more
+- Solved memory leak that occurred on every function call
+- Created PHP 5.1.1 path and project files for the lcc-win32 compiler
+- Other changes and fixes
+
+For further enhancements and bug fixes since the last official release 0.43.164 see the change log.
