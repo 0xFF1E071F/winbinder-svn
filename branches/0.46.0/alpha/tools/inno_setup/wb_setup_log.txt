@@ -1,4 +1,4 @@
-Compilation started: Thu Jun 08 23:15:02 2006
+Compilation started: Fri Jun 09 00:00:25 2006
 Running pre-compile steps
 
 Compiling script using Inno Setup 5.1.6
@@ -43,9 +43,9 @@ Parsing [Setup] section, line 91
 Parsing [Setup] section, line 92
 Reading file (LicenseFile)
 Reading file (WizardImageFile)
-   File: R:\Download\winbinder\snapshots\Icons\WinBinderBig.bmp
-Reading file (WizardSmallImageFile)
    File: R:\Download\winbinder\snapshots\Icons\WinBinder.bmp
+Reading file (WizardSmallImageFile)
+   File: R:\Download\winbinder\snapshots\Icons\WinBinderIcon.bmp
 Reading default messages from Default.isl
 Parsing [LangOptions], [Messages], and [CustomMessages] sections
    File: C:\Programme\Inno Setup 5\Default.isl
@@ -351,4 +351,4 @@ Creating setup files
 R:\WinBinder-Rel\WinBinder-0.46.0.exe
 
 Running post-compile steps
-Compilation ended: Thu Jun 08 23:15:22 2006
+Compilation ended: Fri Jun 09 00:00:54 2006
