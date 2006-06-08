@@ -12,18 +12,24 @@
 //----------------------------------------------- CONSTANTS AND GLOBAL VARIABLES
 
 const
-	WB_DEBUG = False;	// Set to True for debugging, set to False for release
-	CRLF = #13#10;
-	php50file = 'php50_minimal.zip';
-	php50exts = 'php50_libs.zip';
-	php51file = 'php51_minimal.zip';
-	php51exts = 'php51_libs.zip';
+
+WB_DEBUG = False;	// Set to True for debugging, set to False for release
+
+CRLF = #13#10;
+
+php50file = 'php50_minimal.zip';
+php50exts = 'php50_libs.zip';
+
+php51file = 'php51_minimal.zip';
+php51exts = 'php51_libs.zip';
+
 var
-  ServerPage: TInputOptionWizardPage;
-  nCode: Integer;
-  unzippgm: String;
-  cmd: String;
-  ServerURL: String;
+
+ServerPage: TInputOptionWizardPage;
+nCode: Integer;
+unzippgm: String;
+cmd: String;
+ServerURL: String;
 
 //------------------------------------------------------------------- PROTOTYPES
 
@@ -68,10 +74,17 @@ end;
 // Used by UnzipFiles below
 
 procedure GoUnzip(source: String; targetdir: String);
-  begin
-    source := ExpandConstant('{tmp}\' + source);
-	if not FileExists(unzippgm) then MsgBox('Could not find file ' + unzippgm, mbError, MB_OK)
-	else if not FileExists(source) then MsgBox('Could not find file ' + source, mbError, MB_OK)
+begin
+	source := ExpandConstant('{tmp}\' + source);
+
+	if not FileExists(unzippgm) then MsgBox(
+		'Could not find file ' + unzippgm, mbError, MB_OK
+	)
+
+	else if not FileExists(source) then MsgBox(
+		'Could not find file ' + source, mbError, MB_OK
+	)
+
 	else begin
 		cmd := '-o -qq "' + source + '" -d "' + targetdir + '"';
 		if Exec(unzippgm, cmd, '', SW_HIDE, ewWaitUntilIdle, nCode) = false then begin
@@ -84,14 +97,27 @@ end;
 
 procedure UnzipFiles(Ver: String);
 var
-  sComp: String;
+sComp: String;
+
 begin
-  sComp := WizardSelectedComponents(false);
-  unzippgm := ExpandConstant('{tmp}\unzip.exe');
-  if Pos('php_50', sComp) > 0 then GoUnzip(php50file, ExpandConstant('{app}\binaries\php50'));
-  if Pos('addlib50', sComp) > 0 then GoUnzip(php50exts, ExpandConstant('{app}\binaries\php50\ext'));
-  if Pos('php_51', sComp) > 0 then GoUnzip(php51file, ExpandConstant('{app}\binaries\php51'));
-  if Pos('addlib51', sComp) > 0 then GoUnzip(php51exts, ExpandConstant('{app}\binaries\php51\ext'));
+	sComp := WizardSelectedComponents(false);
+	unzippgm := ExpandConstant('{tmp}\unzip.exe');
+
+	if Pos('php_50', sComp) > 0 then GoUnzip(
+		php50file, ExpandConstant('{app}\binaries\php50')
+	);
+
+	if Pos('addlib50', sComp) > 0 then GoUnzip(
+		php50exts, ExpandConstant('{app}\binaries\php50\ext')
+	);
+
+	if Pos('php_51', sComp) > 0 then GoUnzip(
+		php51file, ExpandConstant('{app}\binaries\php51')
+	);
+
+	if Pos('addlib51', sComp) > 0 then GoUnzip(
+		php51exts, ExpandConstant('{app}\binaries\php51\ext')
+	);
 end;
 
 // Build server selection page
@@ -101,17 +127,18 @@ begin
 	// Create the page
 
 	if WB_DEBUG then begin
-		ServerPage := CreateInputOptionPage(wpSelectComponents,
-			'DEBUG (test) setup',
-			'',
+		ServerPage := CreateInputOptionPage(
+			wpSelectComponents, 'DEBUG (test) setup', '',
 			'Optional files will be copied from a local folder ignoring the option selected below.',
-			True, True);
+			True, True
+		);
 	end else begin
-		ServerPage := CreateInputOptionPage(wpSelectComponents,
-			'Setup - WinBinder',
+		ServerPage := CreateInputOptionPage(
+			wpSelectComponents, 'Setup - WinBinder',
 			'Select a server to download the additional files you requested.',
 			'Choose the server nearest to your location from one of the options below:',
-			True, True);
+			True, True
+		);
 	end
 
 	// Add items
@@ -137,7 +164,6 @@ begin
 	// Set initial values
 
 	ServerPage.SelectedValueIndex := 0;
-
 end;
 
 // Retrieve selected server
@@ -150,7 +176,7 @@ begin
 	case ServerPage.SelectedValueIndex of
 		0: ServerURL := 'puzzle';
 		1: ServerURL := 'easynews';
-		2: ServerURL := 'http://hypervisual.com/winbinder/files/';
+		2: ServerURL := 'http://dev.winbinder.org/downloads/engines/';
 		3: ServerURL := 'heanet';
 		4: ServerURL := 'kent';
 		5: ServerURL := 'optusnet';
@@ -170,28 +196,27 @@ begin
 	if(Pos('http://', ServerURL) = 0) then begin
 		ServerURL := 'http://' + ServerURL + '.dl.sourceforge.net/sourceforge/winbinder/';
 	end;
-
 end;
 
 // Download files
 
 function NextButtonClick(CurPage: Integer): Boolean;
 var
-	hWnd: Integer;
-	sComp: String;
-	sFileName: String;
+hWnd: Integer;
+sComp: String;
+sFileName: String;
+
 begin
 	Result := true;
 
-    hWnd := StrToInt(ExpandConstant('{wizardhwnd}'));
-    sComp := WizardSelectedComponents(false);
-    isxdl_ClearFiles;
+	hWnd := StrToInt(ExpandConstant('{wizardhwnd}'));
+	sComp := WizardSelectedComponents(false);
+	isxdl_ClearFiles;
 
 	// Builds the server selection page
 
 	if CurPage = wpSelectComponents then begin
-		if (Pos('php_5', sComp) > 0) or (Pos('addlib_5', sComp) > 0) or
-		   (Pos('php_51', sComp) > 0) or (Pos('addlib_51', sComp) > 0) then begin
+		if (Pos('php_5', sComp) > 0) or (Pos('addlib_5', sComp) > 0) then begin
 			BuildSelectionPage();
 		end;
 	end;
@@ -200,60 +225,76 @@ begin
 
 		// Get server
 
-		if (Pos('php_50', sComp) > 0) or (Pos('addlib_50', sComp) > 0) then begin
+		if (Pos('php_5', sComp) > 0) or (Pos('addlib_5', sComp) > 0) then begin
 			GetSelectedServer();
-			isxdl_SetOption('description', 'Server: ' + ServerURL + CRLF + 'Please wait, downloading...');
+
+			isxdl_SetOption(
+				'description',
+				'Server: ' + ServerURL + CRLF + 'Please wait, downloading...'
+			);
 		end;
 
 		// Add files
 
 		if Pos('php_50', sComp) > 0 then begin
-		  sFileName := ExpandConstant('{tmp}\' + php50file);
-		  isxdl_AddFile(ServerURL + php50file, sFileName);
-		end;
-		if Pos('php_51', sComp) > 0 then begin
-		  sFileName := ExpandConstant('{tmp}\' + php51file);
-		  isxdl_AddFile(ServerURL + php51file, sFileName);
+			sFileName := ExpandConstant('{tmp}\' + php50file);
+			isxdl_AddFile(ServerURL + php50file, sFileName);
 		end;
 
 		if Pos('addlib50', sComp) > 0 then begin
-		  sFileName := ExpandConstant('{tmp}\' + php50exts);
-		  isxdl_AddFile(ServerURL + php50exts, sFileName);
+			sFileName := ExpandConstant('{tmp}\' + php50exts);
+			isxdl_AddFile(ServerURL + php50exts, sFileName);
+		end;
+
+		if Pos('php_51', sComp) > 0 then begin
+			sFileName := ExpandConstant('{tmp}\' + php51file);
+			isxdl_AddFile(ServerURL + php51file, sFileName);
 		end;
 
 		if Pos('addlib51', sComp) > 0 then begin
-		  sFileName := ExpandConstant('{tmp}\' + php51exts);
-		  isxdl_AddFile(ServerURL + php51exts, sFileName);
+			sFileName := ExpandConstant('{tmp}\' + php51exts);
+			isxdl_AddFile(ServerURL + php51exts, sFileName);
 		end;
 
 		// Download
 
-		if (Pos('php_50', sComp) > 0) or (Pos('addlib_50', sComp) > 0) then begin
+		if (Pos('php_5', sComp) > 0) or (Pos('addlib_5', sComp) > 0) then begin
 			if WB_DEBUG then begin
-				FileCopy('R:\Download\winbinder\minimals\distros\php50_minimal.zip', ExpandConstant('{tmp}\php50_minimal.zip'), False);
-				FileCopy('R:\Download\winbinder\minimals\distros\php50_libs.zip', ExpandConstant('{tmp}\php50_libs.zip'), False);
+				if (Pos('php_50', sComp) > 0) or (Pos('addlib_50', sComp) > 0) then begin
+					FileCopy(
+						'R:\Download\winbinder\minimals\distros\php50_minimal.zip',
+						ExpandConstant('{tmp}\php50_minimal.zip'), False
+					);
+					
+					FileCopy(
+						'R:\Download\winbinder\minimals\distros\php50_libs.zip',
+						ExpandConstant('{tmp}\php50_libs.zip'), False
+					);
+				end;
+
+				if (Pos('php_51', sComp) > 0) or (Pos('addlib_51', sComp) > 0) then begin
+					FileCopy(
+						'R:\Download\winbinder\minimals\distros\php51_minimal.zip',
+						ExpandConstant('{tmp}\php51_minimal.zip'), False
+					);
+					
+					FileCopy(
+						'R:\Download\winbinder\minimals\distros\php51_libs.zip',
+						ExpandConstant('{tmp}\php51_libs.zip'), False
+					);
+				end;
 			end else begin
 				if isxdl_DownloadFiles(hWnd) = 0 then begin
-					MsgBox('Download failed. Please review your setup options or try again later.', mbError, MB_OK);
+					MsgBox(
+						'Download failed. Please review your setup options or try again later.',
+						mbError, MB_OK
+					);
+
 					Result := false;
 				end;
 			end;
 		end
-
-		if (Pos('php_51', sComp) > 0) or (Pos('addlib_51', sComp) > 0) then begin
-			if WB_DEBUG then begin
-				FileCopy('R:\Download\winbinder\minimals\distros\php51_minimal.zip', ExpandConstant('{tmp}\php51_minimal.zip'), False);
-				FileCopy('R:\Download\winbinder\minimals\distros\php51_libs.zip', ExpandConstant('{tmp}\php51_libs.zip'), False);
-			end else begin
-				if isxdl_DownloadFiles(hWnd) = 0 then begin
-					MsgBox('Download failed. Please review your setup options or try again later.', mbError, MB_OK);
-					Result := false;
-				end;
-			end;
-		end
-
 	end;
-
 end;
 
 //------------------------------------------------------------------ END OF FILE
