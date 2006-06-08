@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.4.9" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
-    http://pear.php.net/dtd/tasks-1.0.xsd
-    http://pear.php.net/dtd/package-2.0
-    http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.4.9" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.0     http://pear.php.net/dtd/package-2.0.xsd">
  <name>WinBinder</name>
  <channel>pecl.php.net</channel>
  <summary>A Native Windows Binding for PHP</summary>
@@ -19,8 +16,8 @@
   <email>stefano@rausch-e.net</email>
   <active>yes</active>
  </lead>
- <date>2006-06-05</date>
- <time>23:12:54</time>
+ <date>2006-06-09</date>
+ <time>00:04:35</time>
  <version>
   <release>0.46.0</release>
   <api>0.46.0</api>
@@ -46,7 +43,7 @@ ENHANCEMENTS:
 
 - added and optional extra parameter (usually called $lparam3) to window callback functions. This was done via wbCallUserFunction()
 
-- on windows that have the WBC_RESIZE style, $lparam3 (in the callback function) now receives the size of the client area as a LONG. Usually a call to wb_get_size($window, true) would produce the same effect, but it\&apos;s there anyway to take advantage of the new $lparam3
+- on windows that have the WBC_RESIZE style, $lparam3 (in the callback function) now receives the size of the client area as a LONG. Usually a call to wb_get_size($window, true) would produce the same effect, but it&apos;s there anyway to take advantage of the new $lparam3
 
 - Changes in make_release.phpw:
 
@@ -82,7 +79,7 @@ BUG FIXES:
 - wb_refresh() (and wbRefreshControl()):
 
 . completely rewrote the whole function
-. default value of parameter \&apos;now\&apos; was changed to TRUE
+. default value of parameter &apos;now&apos; was changed to TRUE
 . now it invalidates and redraws only a part of the screen or control when (still undocumented) xpos/ypos/width/height parameters are passed to it. Was buggy prior to this release.
 . probably a bit faster for most operations
 . if the wb_refresh() command is issued and the xpos/ypos/width/height are set, the window callback function (in PHP) receives a pointer to rectangle (About to change! Should be the area instead, and an array would be great.) as $lparam3. If wb_refresh() acts on the whole window, $lparam3 is zero.
@@ -91,11 +88,13 @@ BUG FIXES:
   as follows:
 
   $address = wb_peek($lparam3, 16);
-  $num = unpack(\&apos;L4n\&apos;, $address);
-  $xpos = $num[\&apos;n1\&apos;];
-  $ypos = $num[\&apos;n2\&apos;];
-  $width = $num[\&apos;n3\&apos;] - $xpos;
-  $height = $num[\&apos;n4\&apos;] - $ypos;
+  $num = unpack(&apos;L4n&apos;, $address);
+  $xpos = $num[&apos;n1&apos;];
+  $ypos = $num[&apos;n2&apos;];
+  $width = $num[&apos;n3&apos;] - $xpos;
+  $height = $num[&apos;n4&apos;] - $ypos;
+
+- Added handling of the official PHP 4.4.2 bug reported at http://bugs.php.net/bug.php?id=36671 and regarding the function file_get_contents in examples/welcome.phpw
 
 - Changes in make_release.phpw:
 
@@ -119,9 +118,9 @@ For further enhancements and bug fixes since the last official release 0.43.164 
  </notes>
  <contents>
   <dir baseinstalldir="WinBinder" name="/">
-   <file baseinstalldir="WinBinder" md5sum="187e649b84163f2dcb31335e932a5c53" name="binaries/php4/ext/php_winbinder.dll" role="data" />
-   <file baseinstalldir="WinBinder" md5sum="db5dd39b964797e4f3e6ff1a1bbf98cb" name="binaries/php50/ext/php_winbinder.dll" role="data" />
-   <file baseinstalldir="WinBinder" md5sum="bba7d72b45f4691e701a1e43fe20100a" name="binaries/php51/ext/php_winbinder.dll" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="805d18244548a889399b65c71a429d9d" name="binaries/php4/ext/php_winbinder.dll" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="7b13dc3d0049c64ff158484d3eef0402" name="binaries/php50/ext/php_winbinder.dll" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="c16031f69570b52ed81246e5f361b89c" name="binaries/php51/ext/php_winbinder.dll" role="data" />
    <file baseinstalldir="WinBinder" md5sum="6a9c06f624fe35e8b5c7ea29672edcad" name="csource/core/phpwb.h" role="data" />
    <file baseinstalldir="WinBinder" md5sum="ce49920f08ffce8cc16749d0743e59c6" name="csource/core/phpwb_bitmap.c" role="data" />
    <file baseinstalldir="WinBinder" md5sum="b788f6c7fd24502d3cbfb80ace161265" name="csource/core/phpwb_control.c" role="data" />
@@ -163,151 +162,507 @@ For further enhancements and bug fixes since the last official release 0.43.164 
    <file baseinstalldir="WinBinder" md5sum="f85fc5a2dddc13e5a36334363f604b42" name="csource/h_exec/h_exec.c" role="data" />
    <file baseinstalldir="WinBinder" md5sum="0e5e79ccc9f37b5dfbf3dad206923bfc" name="csource/h_exec/h_exec.rc" role="data" />
    <file baseinstalldir="WinBinder" md5sum="f978fdec036ba8457eb2a92d69ebcbcd" name="csource/h_exec/readme_h_exec.txt" role="data" />
-   <file baseinstalldir="WinBinder" md5sum="7f5120bd3c0134e96622f8d3bdf4bc78" name="docs/changelog.txt" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="3627f4125b809ed060d9207965edc8d1" name="csource/php4/readme_php4.txt" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="08a8a2b6f4647b96883e5b2a78aaf128" name="csource/php4/ext/standard/info.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="8191ee4bef2ed0bec23234dc0c0dd069" name="csource/php4/main/config.nw.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="8561c3b4b62656d0bd073ec65817d84e" name="csource/php4/main/config.w32.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="de5ea53f2dd6b9f4d9a9471b9e2cd1ba" name="csource/php4/main/fopen_wrappers.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="03d8bcf8529eb32b4e9feb743e461f7c" name="csource/php4/main/internal_functions_registry.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="5bab3c2bd8541166c7ae69031fa5bf5e" name="csource/php4/main/logos.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="f28b3ef846bcb3ffdee8f562f8235dec" name="csource/php4/main/php.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="9bee7d5bbd9204480d5f13a87996cec9" name="csource/php4/main/php3_compat.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="cf78919943f7515ea523ba7681a96674" name="csource/php4/main/php_compat.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="2fb29ef6c014220633f224bd8d034e45" name="csource/php4/main/php_content_types.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="d2bfdf75c12eafb0b7ca765f3e089eed" name="csource/php4/main/php_globals.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="df6a4a6d16385dc7ad89f855cb774de3" name="csource/php4/main/php_ini.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="304f3af725860b7779e15b313d14cb42" name="csource/php4/main/php_logos.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="9cb24809c7db9ed84ccbd2f21daf26df" name="csource/php4/main/php_main.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="32be526fab1acdcad3687dad85f0134c" name="csource/php4/main/php_memory_streams.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="f7cac80679a73e809e669aa6b216a4cc" name="csource/php4/main/php_network.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="d38eb00db090d2648fdb834d9acb2a08" name="csource/php4/main/php_open_temporary_file.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="fcc364b0328752d4f12808c485eb0429" name="csource/php4/main/php_output.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="05094b769a9ab112a788c14759205ca7" name="csource/php4/main/php_reentrancy.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="5db7b99f7cd91c4c254f03eafeab4711" name="csource/php4/main/php_regex.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="abbe7dc46efef7ce20298d0f1159838c" name="csource/php4/main/php_scandir.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="f6e187003e05c9f4b5f37047083ad852" name="csource/php4/main/php_streams.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="b387cbd311e222e75d7d445e82a8a8cf" name="csource/php4/main/php_syslog.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="440ec238f0e2827589281be986d25b5b" name="csource/php4/main/php_ticks.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="0d159e833578f8b414f63fac11742c5f" name="csource/php4/main/php_variables.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="f9f272bfcca1d547fc0a5d0e2f309fa6" name="csource/php4/main/php_version.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="d47e5928d7629ad24b0b3803c0eaf0bf" name="csource/php4/main/php_version_4.3.4.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="453d82ad9f05e2e8bb169ccce7f948a5" name="csource/php4/main/rfc1867.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="e6ea69faa22163968f5966b6f925a5c1" name="csource/php4/main/safe_mode.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="6df2658b28b516e06e5ca406503e75ea" name="csource/php4/main/sapi.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="0c2292d95b8b53e4b6f4e11f92f851d7" name="csource/php4/main/snprintf.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="33922fd8892c218d2681447fae030622" name="csource/php4/main/spprintf.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="36f2746ab8228532664223a0aa6d4e79" name="csource/php4/main/win95nt.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="752e1f21b7ecc96363c38a287a157ccc" name="csource/php4/regex/cclass.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="2a26f419c5082732d269ad8428a3ab4d" name="csource/php4/regex/cname.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="2b17aefff22e86050e3a983eb19aa596" name="csource/php4/regex/regex.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="83731e83d0da00000b9240a45c2741fc" name="csource/php4/regex/regex2.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="74132e584286b150eb70da52b3e05f95" name="csource/php4/regex/regex_extra.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="c1ec2d8ca7824c3d33077263151c3ca6" name="csource/php4/regex/utils.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="7803d38da6bbc53a1e58856725a6ed19" name="csource/php4/tsrm/acconfig.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="12422a866582502015fb5abd71a44e37" name="csource/php4/tsrm/readdir.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="61cee025a40e024d5a93cd7b8c8bf72f" name="csource/php4/tsrm/tsrm.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="a47652400baf5efd17d4b40256417d4a" name="csource/php4/tsrm/tsrm_config.nw.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="309513d40f0e3a90ab30f9400bdf1e4c" name="csource/php4/tsrm/tsrm_config.w32.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="2a11b94f98e44be3d244125e42477b25" name="csource/php4/tsrm/tsrm_config_common.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="98f753c30cf935254ee969db08c8ea1c" name="csource/php4/tsrm/tsrm_nw.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="ebf11b772d217ff9cf8d4834059f18cc" name="csource/php4/tsrm/tsrm_strtok_r.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="17df592ac8e3a81d2e7dab15f2f4353f" name="csource/php4/tsrm/tsrm_virtual_cwd.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="411ea01506914f3ea1859607bf93cf5b" name="csource/php4/tsrm/tsrm_win32.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="851dc5a49f33473759755971afe350b9" name="csource/php4/win32/crypt_win32.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="208f60535b62a93bda9f358ff909dc22" name="csource/php4/win32/flock.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="623cb5fe4dc15325edbf2d3ed73ab972" name="csource/php4/win32/glob.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="f3265d7ca4f6507ba4597167328a6e1f" name="csource/php4/win32/grp.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="e68525f3c907c901b7402ee9e7175aa1" name="csource/php4/win32/md5crypt.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="6f47a91a6dbb3a701defa908f26a476e" name="csource/php4/win32/param.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="98d9145880731e0371e2bcace04c4c74" name="csource/php4/win32/php_registry.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="d65bf613e9eababfac1d370e169cb59d" name="csource/php4/win32/pwd.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="a21bf8d607a65b4fa3ae248349c85423" name="csource/php4/win32/readdir.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="1eab4e24e91ed9f5234105766eea6b40" name="csource/php4/win32/resource.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="c5e7e140aeabc0ceb17581d90b79273f" name="csource/php4/win32/sendmail.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="bac3547788acf83bf5a8b361bfb8dcf8" name="csource/php4/win32/signal.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="1aec84d5d24fbfe6477642ae414df80c" name="csource/php4/win32/syslog.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="1612af812a923fbe540f4be91803c576" name="csource/php4/win32/time.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="8f43fa11da89e3ee0c2d07a621e73f39" name="csource/php4/win32/unistd.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="435a8fbfb727a8f488c6f4aefc5e7f28" name="csource/php4/win32/wfile.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="f23b57f8b8b6e0fb5937e053c5d0f6bc" name="csource/php4/win32/winutil.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="4eaaa8cb9868bf6522b14924bc9bd73f" name="csource/php4/zend/acconfig.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="e0e88172afa7818adf0e506c67e88f27" name="csource/php4/zend/flexlexer.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="7ac567a106284ad9ddd0a0a91c1bd478" name="csource/php4/zend/zend.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="b948953c58418f64b7a66da92cd8a03b" name="csource/php4/zend/zend_alloc.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="e673d4f39c2684f8e0b0bbbcea3436c4" name="csource/php4/zend/zend_api.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="1b4d1dddb9a5ae6b54fd7527d8dce667" name="csource/php4/zend/zend_builtin_functions.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="e6de1a96ca3ed3adf9372c80e15bc2d8" name="csource/php4/zend/zend_compile.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="3e6c1b369a4bd4755ae208411aa61b88" name="csource/php4/zend/zend_config.w32.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="a0b06536b1140ed0f165e3a071b92871" name="csource/php4/zend/zend_constants.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="137aad31486ba9442c2aaba66dec5048" name="csource/php4/zend/zend_dynamic_array.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="3e2e3eefc1ee623cca7c2aab71a98b67" name="csource/php4/zend/zend_errors.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="3be6d5907bed7247456ce79629c21ef2" name="csource/php4/zend/zend_execute.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="303b7143cf695848195d5548f3d6800a" name="csource/php4/zend/zend_execute_globals.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="c99bc189b6e615662344bd305e5e150b" name="csource/php4/zend/zend_execute_locks.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="ab5f03eb6091287760a999a777a685d3" name="csource/php4/zend/zend_extensions.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="cdbd5ad8dc81490243254ac29ccf08d1" name="csource/php4/zend/zend_fast_cache.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="e18ddff37f88bfb58cc127acc9f40e3d" name="csource/php4/zend/zend_globals.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="7f7b68e41460be50d77111a15725e69b" name="csource/php4/zend/zend_globals_macros.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="bb10e7854e199e86742977cfac17f14a" name="csource/php4/zend/zend_hash.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="6c131383d78abedfb5480e4d4d1c950c" name="csource/php4/zend/zend_highlight.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="aff5f9e9846f3bb1f7c6d949ea34606f" name="csource/php4/zend/zend_indent.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="f7ed38f83ba56cab3746cfedb4932ca5" name="csource/php4/zend/zend_ini.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="4e09cd2f645f13365428c8778b8d0a7e" name="csource/php4/zend/zend_ini_parser.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="5c2a7eefd46b02b60abe493ed66e2cdc" name="csource/php4/zend/zend_ini_scanner.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="fda89f39122420f6df6020ed38cb6ba7" name="csource/php4/zend/zend_istdiostream.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="f8c3dfbdff61093d19fcb94084cc6295" name="csource/php4/zend/zend_language_parser.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="84e376712aa60da04cdd1a84d2c21637" name="csource/php4/zend/zend_language_scanner.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="f011715e75f0127b8449cd96f5c05a58" name="csource/php4/zend/zend_list.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="076dfc0f9cfbb1e8dcf1e482f2e21d2e" name="csource/php4/zend/zend_llist.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="f9715bd4f8416f9134a2ec110a10f031" name="csource/php4/zend/zend_modules.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="671fb154fd68b0a642125b54987a6d79" name="csource/php4/zend/zend_multibyte.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="300594cd89deeed763f5f2fd95a51e54" name="csource/php4/zend/zend_multiply.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="d2c21523ee9ee849c913a7909d0378c2" name="csource/php4/zend/zend_operators.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="71b090e04f93c40ef9db1a4f79c5c5f1" name="csource/php4/zend/zend_ptr_stack.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="39ca74f16a51cac77945b751a10afb55" name="csource/php4/zend/zend_qsort.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="90fd343d349be494a534854063e54b38" name="csource/php4/zend/zend_stack.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="c4f4fab292477950a87e7b635eaf3bd8" name="csource/php4/zend/zend_static_allocator.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="17a4f2119d9e2f50dc183bf403840e91" name="csource/php4/zend/zend_types.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="9d58e49f2742d7e294d5f9a1a58179d4" name="csource/php4/zend/zend_variables.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="7b156ed37e2d252c57dfa5eec2e893d2" name="csource/php50/readme_php5.txt" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="0b781ab25083a0fa5cb0ad03b474e796" name="csource/php50/ext/standard/info.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="8764f0e99ee1053664048350102d1e63" name="csource/php50/main/config.nw.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="3539aaa0fb5cf129a1f3e26dbb2c5eff" name="csource/php50/main/config.w32.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="0cfb37bfad10fff5d43d8408360ec188" name="csource/php50/main/crtdbg.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="de8e7d3adb3540719fc238595faac5e9" name="csource/php50/main/fopen_wrappers.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="830bf19d878ae193a61863f0725a2f12" name="csource/php50/main/internal_functions_registry.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="733376a136282aa19b2cb3ead8e1870e" name="csource/php50/main/logos.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="b29bc18a740b1497301967ca32b5b375" name="csource/php50/main/php.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="971a079dbdf8a3bc810030c1cb85269a" name="csource/php50/main/php3_compat.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="229583cfe6b27b1952210105ed479441" name="csource/php50/main/php_compat.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="ec4e7e6b21fee8cc602220db09e02d94" name="csource/php50/main/php_content_types.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="61dfcc9e6ae46a924406b904762f4585" name="csource/php50/main/php_globals.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="87191a337af2555a750c024879d2d42a" name="csource/php50/main/php_ini.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="81ea9723a8641f9bde4750d892ba6399" name="csource/php50/main/php_logos.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="5363a6e45fd8622d3d80b88f21c94d55" name="csource/php50/main/php_main.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="e68107afad204d86a84a4a51b0bd1566" name="csource/php50/main/php_memory_streams.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="41eb968e8a81570caaac157a55267884" name="csource/php50/main/php_network.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="b967ef848b7f9c9c25b53ede6f5cee37" name="csource/php50/main/php_open_temporary_file.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="6f2a82b25353d46419c8151e72bc6fbe" name="csource/php50/main/php_output.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="d44e4d8669d85902b01687a5354e30d5" name="csource/php50/main/php_reentrancy.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="956ed36564992376baacfefd4b239c8d" name="csource/php50/main/php_regex.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="48d865992dd876adc09f0aaf5791e4b8" name="csource/php50/main/php_scandir.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="0c71c1a20b83f394d31092e2e9050589" name="csource/php50/main/php_streams.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="09fb636b9c6b02fcf894cec273f7b1cb" name="csource/php50/main/php_syslog.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="f5ce7b8ab2e3d61ef76d3de082939c90" name="csource/php50/main/php_ticks.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="6a2c7f7653d1eea7f3b6d66f48a472fb" name="csource/php50/main/php_variables.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="417f9595c22dd41b2583c0d59c8cedb4" name="csource/php50/main/php_version.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="417f9595c22dd41b2583c0d59c8cedb4" name="csource/php50/main/php_version_5.0.0rc2.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="6e7c59859429d0740ac02ce6be77b646" name="csource/php50/main/rfc1867.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="9d3f240803f67419c7e19922479bf775" name="csource/php50/main/safe_mode.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="3f1b5b1e6b9e47430d9db87c3173e785" name="csource/php50/main/sapi.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="1c8207e2d5cfb586b321e145e7ada41c" name="csource/php50/main/snprintf.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="1c58abe01bd978ad195e87655a75abc3" name="csource/php50/main/spprintf.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="7a40f633399844ad17679ba2c0289e0f" name="csource/php50/main/win95nt.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="0e1520b3b87f6b67136305be2054fc61" name="csource/php50/main/streams/php_streams_int.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="8806d6581e6a98a0795f65f1a0a34251" name="csource/php50/main/streams/php_stream_context.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="bda07b9e74c2a01146a20f09599da759" name="csource/php50/main/streams/php_stream_filter_api.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="90cbdaaacf060f4ed4f0f084b72dc01f" name="csource/php50/main/streams/php_stream_mmap.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="bd43deab3603e77f6461c3d19dc85552" name="csource/php50/main/streams/php_stream_plain_wrapper.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="d6a7af4195cd8bf9900943469fb7aca8" name="csource/php50/main/streams/php_stream_transport.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="9e0af3a5a126cfec0079c15b8af3bfb3" name="csource/php50/main/streams/php_stream_userspace.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="752e1f21b7ecc96363c38a287a157ccc" name="csource/php50/regex/cclass.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="f21a9d3b7e73b104b654d4d565188b32" name="csource/php50/regex/cname.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="2b17aefff22e86050e3a983eb19aa596" name="csource/php50/regex/regex.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="83731e83d0da00000b9240a45c2741fc" name="csource/php50/regex/regex2.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="74132e584286b150eb70da52b3e05f95" name="csource/php50/regex/regex_extra.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="c1ec2d8ca7824c3d33077263151c3ca6" name="csource/php50/regex/utils.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="7803d38da6bbc53a1e58856725a6ed19" name="csource/php50/tsrm/acconfig.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="12422a866582502015fb5abd71a44e37" name="csource/php50/tsrm/readdir.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="212a90e8c5e730034e9924610827bacc" name="csource/php50/tsrm/tsrm.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="8583a601214b1d3409d098966ad96661" name="csource/php50/tsrm/tsrm_config.nw.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="1d298c108983e6d98bb4497a4c4405ff" name="csource/php50/tsrm/tsrm_config.w32.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="cfee4a1a2788b8c0d81e66cdc36c4555" name="csource/php50/tsrm/tsrm_config_common.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="662e6a9e71d934416fa387072fcc77f3" name="csource/php50/tsrm/tsrm_nw.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="ebf11b772d217ff9cf8d4834059f18cc" name="csource/php50/tsrm/tsrm_strtok_r.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="9679538fb6a3d62b47ad3898fb822a8d" name="csource/php50/tsrm/tsrm_virtual_cwd.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="fbdd91724d456417e5c8c9371fbcbcfb" name="csource/php50/tsrm/tsrm_win32.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="db32274bd615da0dba70640c2e190323" name="csource/php50/win32/crypt_win32.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="8344db0e6e6f25f013e38a18973de30f" name="csource/php50/win32/flock.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="623cb5fe4dc15325edbf2d3ed73ab972" name="csource/php50/win32/glob.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="b81d6e3bb4fc58f2436ed406f3949185" name="csource/php50/win32/grp.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="cbb5515cddabe069f8271bae5b6ffdea" name="csource/php50/win32/md5crypt.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="6f47a91a6dbb3a701defa908f26a476e" name="csource/php50/win32/param.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="924c2d293818b91376444265c1a020d9" name="csource/php50/win32/php_registry.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="920d487043d20c8da58c37d420b74053" name="csource/php50/win32/pwd.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="a21bf8d607a65b4fa3ae248349c85423" name="csource/php50/win32/readdir.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="1e3e2e81517e4131cdf4d374234fd1d6" name="csource/php50/win32/resource.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="0e8e3e5075773315ff12a735c391a337" name="csource/php50/win32/select.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="37a2e11df96e30db99c36f4245fa6579" name="csource/php50/win32/sendmail.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="44c63e96faa5a68850a5818dd2b9acfd" name="csource/php50/win32/signal.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="43167c591cacd8c2681ed1124367f28d" name="csource/php50/win32/syslog.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="73e70adbbe1c3a85f98ef736261caf01" name="csource/php50/win32/time.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="8f43fa11da89e3ee0c2d07a621e73f39" name="csource/php50/win32/unistd.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="435a8fbfb727a8f488c6f4aefc5e7f28" name="csource/php50/win32/wfile.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="66a5e0f47228845ed72af980c9066789" name="csource/php50/win32/winutil.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="24884f0eeedd4c6725971afbf7c85bfa" name="csource/php50/zend/acconfig.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="a0954bd1d4f28b11926600b960900591" name="csource/php50/zend/flexlexer.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="b593c07e31770df2bf87ea0ec9291fee" name="csource/php50/zend/zend.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="7f6551c1b64d7a942fb1976f046dacaa" name="csource/php50/zend/zend_alloc.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="1f753bd4a4e1d6c9b318d79f801a528d" name="csource/php50/zend/zend_api.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="52932e06643e178ac7e0b23ed897b9ef" name="csource/php50/zend/zend_builtin_functions.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="ce172abdffac92e8b92e8b113845b036" name="csource/php50/zend/zend_compile.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="fb07150d21e9190e1b26b1bdf4acaab7" name="csource/php50/zend/zend_config.nw.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="b6df13756bcd46aee8912c81319f2f05" name="csource/php50/zend/zend_config.w32.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="75f4ae2f98627b050b45ba51a54cebdf" name="csource/php50/zend/zend_constants.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="a6d232c3a63059923751a86daae61935" name="csource/php50/zend/zend_dynamic_array.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="157a33d10024a14390a7784088d3c4e2" name="csource/php50/zend/zend_errors.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="684f0409793af61c42c9b050f8ecb1fb" name="csource/php50/zend/zend_exceptions.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="fd3d85c8ec5c53e92823a1f40473a2be" name="csource/php50/zend/zend_execute.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="938e0357f0c5dc10f0aea0bfa674edc2" name="csource/php50/zend/zend_extensions.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="56d6d4793c50dbb88811d8c22232c930" name="csource/php50/zend/zend_fast_cache.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="a22bf259966f70ad4a9dd095abb018f2" name="csource/php50/zend/zend_globals.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="bbc598a0a1bd943d2dddab3872f72f62" name="csource/php50/zend/zend_globals_macros.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="2c1153a7501ef3de57a3f458e00f7894" name="csource/php50/zend/zend_hash.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="5f7652431432f10231cdc23939537366" name="csource/php50/zend/zend_highlight.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="0564e79578cdc627a6afdc2b05d259c9" name="csource/php50/zend/zend_indent.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="f1e1ceb75b594a426645e9a647aaf6c5" name="csource/php50/zend/zend_ini.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="61d8cc26d231af9becf38ba70971cb54" name="csource/php50/zend/zend_ini_parser.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="af69c62d5326111f5108ff72360af8c6" name="csource/php50/zend/zend_ini_scanner.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="69400df5007bf5bc22eca5aa05f710f8" name="csource/php50/zend/zend_interfaces.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="af7f600abf7d5c7c6c83b4122913fac2" name="csource/php50/zend/zend_istdiostream.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="cf42335cc02d40764022ac0c6f2edd0b" name="csource/php50/zend/zend_iterators.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="6ee4eab709b1f44c4188b9be2895afbd" name="csource/php50/zend/zend_language_parser.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="689fb77087eb5f4442af82f8eef6b744" name="csource/php50/zend/zend_language_scanner.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="4521dce576418edf4e74f8e612fa8aa2" name="csource/php50/zend/zend_list.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="6157d80b32bb834b22ae672e758c2510" name="csource/php50/zend/zend_llist.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="736f131af86ed2156481d1e0e1580862" name="csource/php50/zend/zend_mm.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="69f3e8dfd1594a81edeeb74b5b6200d6" name="csource/php50/zend/zend_modules.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="5eb3000b189471d501eb302260d664b4" name="csource/php50/zend/zend_multibyte.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="8320fe755f35371e8f44f93286cfc124" name="csource/php50/zend/zend_multiply.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="efb53a5aea3c1fc1560db4b24da31f58" name="csource/php50/zend/zend_objects.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="32e33a404f2e96c05ea739b4744417ed" name="csource/php50/zend/zend_objects_api.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="6dc85d0b61e903bbe9e12ccde98c2ca6" name="csource/php50/zend/zend_object_handlers.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="03288094f49e9b3277a7ec1615346d98" name="csource/php50/zend/zend_operators.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="444b11ef2d808262fd1aaf2325a73e0d" name="csource/php50/zend/zend_ptr_stack.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="61ef9e2e39ce7913917645024ae53413" name="csource/php50/zend/zend_qsort.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="43782750ba593d77001148f5bc9cee19" name="csource/php50/zend/zend_reflection_api.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="4fe12007f19e2dccd0bccd3b6c45387b" name="csource/php50/zend/zend_stack.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="752c25c8f28f34f0ad164fd75f2cbd40" name="csource/php50/zend/zend_static_allocator.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="fd09bbe347199e67dba59230119c8c77" name="csource/php50/zend/zend_stream.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="32cf572aea07e2c11e63bafe860154cf" name="csource/php50/zend/zend_ts_hash.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="c1370b23e2191e6e19949e2bd1cde6ca" name="csource/php50/zend/zend_types.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="0c17e6cea2bb56429deef943f2fe580e" name="csource/php50/zend/zend_variables.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="7b156ed37e2d252c57dfa5eec2e893d2" name="csource/php51/readme_php5.txt" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="0b781ab25083a0fa5cb0ad03b474e796" name="csource/php51/ext/standard/info.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="8764f0e99ee1053664048350102d1e63" name="csource/php51/main/config.nw.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="5492a247ecc819afc9ee52a54959168c" name="csource/php51/main/config.w32.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="0cfb37bfad10fff5d43d8408360ec188" name="csource/php51/main/crtdbg.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="de8e7d3adb3540719fc238595faac5e9" name="csource/php51/main/fopen_wrappers.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="830bf19d878ae193a61863f0725a2f12" name="csource/php51/main/internal_functions_registry.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="e9da58ad659f7d54c391a8c645f87535" name="csource/php51/main/logos.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="32d57a4fd346198b2e420d885039fc58" name="csource/php51/main/php.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="971a079dbdf8a3bc810030c1cb85269a" name="csource/php51/main/php3_compat.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="4a051e725bf9c8ee5182169cce022f72" name="csource/php51/main/php_compat.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="50c4b30699072d33bc3858411b76f2c8" name="csource/php51/main/php_content_types.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="61dfcc9e6ae46a924406b904762f4585" name="csource/php51/main/php_globals.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="7f4a1baff55d340897df7561ac4d4df9" name="csource/php51/main/php_ini.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="81ea9723a8641f9bde4750d892ba6399" name="csource/php51/main/php_logos.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="47620c69434552ec68edd0d17fc2c9eb" name="csource/php51/main/php_main.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="093f12b758ce4aabc7f591441425df60" name="csource/php51/main/php_memory_streams.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="ab16dd727af85ced34d1c774e3180d83" name="csource/php51/main/php_network.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="b967ef848b7f9c9c25b53ede6f5cee37" name="csource/php51/main/php_open_temporary_file.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="6f2a82b25353d46419c8151e72bc6fbe" name="csource/php51/main/php_output.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="d44e4d8669d85902b01687a5354e30d5" name="csource/php51/main/php_reentrancy.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="eab0d920da7dbbbc64fee2cf27b37f61" name="csource/php51/main/php_regex.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="24f0b62d6874130ee8988d7999f56313" name="csource/php51/main/php_scandir.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="ce63bc63f934abca123f55c8dba116b8" name="csource/php51/main/php_streams.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="718ea5ad066a0dd3794d7b00dc981b89" name="csource/php51/main/php_syslog.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="f5ce7b8ab2e3d61ef76d3de082939c90" name="csource/php51/main/php_ticks.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="6a2c7f7653d1eea7f3b6d66f48a472fb" name="csource/php51/main/php_variables.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="fd9ba7a3523fe12d4e50421235db8611" name="csource/php51/main/php_version.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="417f9595c22dd41b2583c0d59c8cedb4" name="csource/php51/main/php_version_5.0.0rc2.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="6e7c59859429d0740ac02ce6be77b646" name="csource/php51/main/rfc1867.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="9d3f240803f67419c7e19922479bf775" name="csource/php51/main/safe_mode.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="019e85da2aacda17806cf9485c2c5d61" name="csource/php51/main/sapi.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="f1b1c08aef690372c1ff5dbfc7bccb26" name="csource/php51/main/snprintf.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="1c58abe01bd978ad195e87655a75abc3" name="csource/php51/main/spprintf.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="7a40f633399844ad17679ba2c0289e0f" name="csource/php51/main/win95nt.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="c4c8625cffe612cfe70d38c90494c52a" name="csource/php51/main/streams/php_streams_int.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="8806d6581e6a98a0795f65f1a0a34251" name="csource/php51/main/streams/php_stream_context.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="48038143d356e5fcd6afa9713354e669" name="csource/php51/main/streams/php_stream_filter_api.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="90cbdaaacf060f4ed4f0f084b72dc01f" name="csource/php51/main/streams/php_stream_mmap.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="f87ba1f7cfb15ac5bb6acb8885c39e5c" name="csource/php51/main/streams/php_stream_plain_wrapper.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="d6a7af4195cd8bf9900943469fb7aca8" name="csource/php51/main/streams/php_stream_transport.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="9e0af3a5a126cfec0079c15b8af3bfb3" name="csource/php51/main/streams/php_stream_userspace.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="752e1f21b7ecc96363c38a287a157ccc" name="csource/php51/regex/cclass.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="f21a9d3b7e73b104b654d4d565188b32" name="csource/php51/regex/cname.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="2b17aefff22e86050e3a983eb19aa596" name="csource/php51/regex/regex.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="83731e83d0da00000b9240a45c2741fc" name="csource/php51/regex/regex2.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="74132e584286b150eb70da52b3e05f95" name="csource/php51/regex/regex_extra.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="c1ec2d8ca7824c3d33077263151c3ca6" name="csource/php51/regex/utils.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="7803d38da6bbc53a1e58856725a6ed19" name="csource/php51/tsrm/acconfig.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="12422a866582502015fb5abd71a44e37" name="csource/php51/tsrm/readdir.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="212a90e8c5e730034e9924610827bacc" name="csource/php51/tsrm/tsrm.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="8583a601214b1d3409d098966ad96661" name="csource/php51/tsrm/tsrm_config.nw.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="1d298c108983e6d98bb4497a4c4405ff" name="csource/php51/tsrm/tsrm_config.w32.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="75f8026e1bf022e33b3dde3b382a767b" name="csource/php51/tsrm/tsrm_config_common.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="662e6a9e71d934416fa387072fcc77f3" name="csource/php51/tsrm/tsrm_nw.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="ebf11b772d217ff9cf8d4834059f18cc" name="csource/php51/tsrm/tsrm_strtok_r.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="1e0800bb13102c1784c9e687243b62e5" name="csource/php51/tsrm/tsrm_virtual_cwd.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="fbdd91724d456417e5c8c9371fbcbcfb" name="csource/php51/tsrm/tsrm_win32.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="db32274bd615da0dba70640c2e190323" name="csource/php51/win32/crypt_win32.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="8344db0e6e6f25f013e38a18973de30f" name="csource/php51/win32/flock.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="623cb5fe4dc15325edbf2d3ed73ab972" name="csource/php51/win32/glob.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="b81d6e3bb4fc58f2436ed406f3949185" name="csource/php51/win32/grp.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="cbb5515cddabe069f8271bae5b6ffdea" name="csource/php51/win32/md5crypt.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="6f47a91a6dbb3a701defa908f26a476e" name="csource/php51/win32/param.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="924c2d293818b91376444265c1a020d9" name="csource/php51/win32/php_registry.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="920d487043d20c8da58c37d420b74053" name="csource/php51/win32/pwd.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="a21bf8d607a65b4fa3ae248349c85423" name="csource/php51/win32/readdir.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="1e3e2e81517e4131cdf4d374234fd1d6" name="csource/php51/win32/resource.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="0e8e3e5075773315ff12a735c391a337" name="csource/php51/win32/select.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="14e83fce5d2b815c4f9f368d9d74c938" name="csource/php51/win32/sendmail.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="44c63e96faa5a68850a5818dd2b9acfd" name="csource/php51/win32/signal.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="43167c591cacd8c2681ed1124367f28d" name="csource/php51/win32/syslog.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="73e70adbbe1c3a85f98ef736261caf01" name="csource/php51/win32/time.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="8f43fa11da89e3ee0c2d07a621e73f39" name="csource/php51/win32/unistd.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="435a8fbfb727a8f488c6f4aefc5e7f28" name="csource/php51/win32/wfile.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="66a5e0f47228845ed72af980c9066789" name="csource/php51/win32/winutil.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="9f59eb486b53debe1dd7badb35d05d0c" name="csource/php51/zend/acconfig.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="a0954bd1d4f28b11926600b960900591" name="csource/php51/zend/flexlexer.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="0067e2dc9d803774e21001982afa3771" name="csource/php51/zend/zend.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="d0dc9f48e90b542e93c2174df2b0e894" name="csource/php51/zend/zend_alloc.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="8d349ddd6d2c52ae079a70c79d4f4804" name="csource/php51/zend/zend_api.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="81d00216becec8e2299d905e240a1075" name="csource/php51/zend/zend_builtin_functions.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="ed7be0b17cbdbe20a8098a7e3dac2be5" name="csource/php51/zend/zend_compile.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="7be636f8b3333f34e92bc8f47c2e9e13" name="csource/php51/zend/zend_config.nw.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="b6df13756bcd46aee8912c81319f2f05" name="csource/php51/zend/zend_config.w32.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="75f4ae2f98627b050b45ba51a54cebdf" name="csource/php51/zend/zend_constants.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="cd2729eb672a27c110e446c55e8e5e2d" name="csource/php51/zend/zend_dynamic_array.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="157a33d10024a14390a7784088d3c4e2" name="csource/php51/zend/zend_errors.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="a77dd627bf934288d865d16df00f573c" name="csource/php51/zend/zend_exceptions.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="2b252f1b219fb314c2854df9f9ddd499" name="csource/php51/zend/zend_execute.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="649077fa06c9ce76447295dd5a590281" name="csource/php51/zend/zend_extensions.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="56d6d4793c50dbb88811d8c22232c930" name="csource/php51/zend/zend_fast_cache.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="7e826430706489f611110519574d0f69" name="csource/php51/zend/zend_globals.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="bbc598a0a1bd943d2dddab3872f72f62" name="csource/php51/zend/zend_globals_macros.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="72e4377360e7fce4f51ef08c7bd5c7fb" name="csource/php51/zend/zend_hash.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="5f7652431432f10231cdc23939537366" name="csource/php51/zend/zend_highlight.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="0564e79578cdc627a6afdc2b05d259c9" name="csource/php51/zend/zend_indent.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="1b3a486d36ba85a96b0a7f9c354e93b6" name="csource/php51/zend/zend_ini.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="ceb36f7fb43f099d36d300755a0f94c9" name="csource/php51/zend/zend_ini_parser.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="af69c62d5326111f5108ff72360af8c6" name="csource/php51/zend/zend_ini_scanner.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="46c816ea9fc1985262315027c35fabc0" name="csource/php51/zend/zend_interfaces.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="af7f600abf7d5c7c6c83b4122913fac2" name="csource/php51/zend/zend_istdiostream.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="aea9a498f07ae3b1b3b27262b7e4dcf8" name="csource/php51/zend/zend_iterators.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="07cf9800a4d7e46e302acf3dc6ce0158" name="csource/php51/zend/zend_language_parser.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="689fb77087eb5f4442af82f8eef6b744" name="csource/php51/zend/zend_language_scanner.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="4521dce576418edf4e74f8e612fa8aa2" name="csource/php51/zend/zend_list.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="6157d80b32bb834b22ae672e758c2510" name="csource/php51/zend/zend_llist.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="ea02300ffa7b643db090113671b833cc" name="csource/php51/zend/zend_mm.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="89c06e258b98578c968e3d9f182602a2" name="csource/php51/zend/zend_modules.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="5eb3000b189471d501eb302260d664b4" name="csource/php51/zend/zend_multibyte.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="8320fe755f35371e8f44f93286cfc124" name="csource/php51/zend/zend_multiply.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="efb53a5aea3c1fc1560db4b24da31f58" name="csource/php51/zend/zend_objects.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="080f446763e47556e50fe61eef701b87" name="csource/php51/zend/zend_objects_API.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="4ad4691e58f558fd919fe352717e9116" name="csource/php51/zend/zend_object_handlers.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="5ace7ea2d0c9c6873aadf198290fee22" name="csource/php51/zend/zend_operators.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="c5645769144a87eea83a68f8781b02c5" name="csource/php51/zend/zend_ptr_stack.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="61ef9e2e39ce7913917645024ae53413" name="csource/php51/zend/zend_qsort.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="4b3940f79b2d29613417993c16468879" name="csource/php51/zend/zend_reflection_api.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="4fe12007f19e2dccd0bccd3b6c45387b" name="csource/php51/zend/zend_stack.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="752c25c8f28f34f0ad164fd75f2cbd40" name="csource/php51/zend/zend_static_allocator.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="f4b05ccc394b5003d8c76eb7ef5ccb08" name="csource/php51/zend/zend_stream.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="c3b1369796ba0c7798d51f928003d23c" name="csource/php51/zend/zend_strtod.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="32cf572aea07e2c11e63bafe860154cf" name="csource/php51/zend/zend_ts_hash.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="c1370b23e2191e6e19949e2bd1cde6ca" name="csource/php51/zend/zend_types.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="8cde1f93ef08fbe94f8a47676397e787" name="csource/php51/zend/zend_variables.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="3a79ce2ad42b0e8c0eca7600080a5294" name="csource/php51/zend/zend_vm_opcodes.h" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="8225bcd649d63a565147f7fc4eef94b8" name="docs/changelog.txt" role="doc" />
    <file baseinstalldir="WinBinder" md5sum="8e1438cab62c8f655288588dc43daaf6" name="docs/license-freeimage.txt" role="doc" />
    <file baseinstalldir="WinBinder" md5sum="059eee1eb6e42d75315e7a7266cc6e0c" name="docs/license-infozip.txt" role="doc" />
    <file baseinstalldir="WinBinder" md5sum="32c5d1b92ccc97aa26438072c97eb283" name="docs/license-innosetup.txt" role="doc" />
    <file baseinstalldir="WinBinder" md5sum="0ba5bc0ec8f637b1a0ed1596d169c281" name="docs/license-php.txt" role="doc" />
    <file baseinstalldir="WinBinder" md5sum="a3dddf7c22c18525bd61289ac0d460a6" name="docs/license.txt" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="f080c280850ad2ec818c9c136e02fba6" name="docs/release_notes.txt" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="98fdba007de05997f857c5bb37761a56" name="docs/winbinder.chm" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="9da3eeee76a9dd4a44de4ef5d17525e4" name="docs/release_notes.txt" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="6b8e057c27aeeb74ad07819032cc6252" name="docs/winbinder.chm" role="doc" />
    <file baseinstalldir="WinBinder" md5sum="f4e0b40d17c0fab0b4d37372a0ddc011" name="docs/manual/help.css" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="3c48796b744d3f3dac1c01aa444265a1" name="docs/manual/index.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="17dd9bb77eeebd8ef55e24c4322ecd61" name="docs/manual/index.html" role="doc" />
    <file baseinstalldir="WinBinder" md5sum="cc1c52f4694f83b397dc4f325658dc01" name="docs/manual/manual.wej" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="d496350cb7695c40071ad1eb7abc2a39" name="docs/manual/scratchpad.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="52c3a17cece2c18cd7f758926c95f68f" name="docs/manual/what_is.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="9eaa675fc174d297da2adca297054e17" name="docs/manual/classes/accel.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="bffde5d9f99a31e2256493927acf6383" name="docs/manual/classes/calendar.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="2dca6eaa548c14db1f02e674dc319b13" name="docs/manual/classes/checkbox.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="e8ce62a8268ae6ad64a636695997d757" name="docs/manual/classes/combobox.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="a3b0cdaf69b338dcf9e9ce4341103871" name="docs/manual/classes/editbox.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="3a70e42414537fdf96f3bf08649f06e4" name="docs/manual/classes/frame.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="a005c106db46f3964fc14a727413e821" name="docs/manual/classes/gauge.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="79ced237c118c884b47eb598cd238318" name="docs/manual/classes/htmlcontrol.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="9f0fd7e71a3d498b9304c4e41e3dbc3f" name="docs/manual/classes/hyperlink.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="e118257c0a27409e384b0a2cb935ef22" name="docs/manual/classes/imagebutton.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="c0e22756601eafb3cabae228a9e4cae8" name="docs/manual/classes/invisiblearea.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="57d45d539269f4d6de8af69bcbd84dee" name="docs/manual/classes/label.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="0a6557081439256813a7405b6820b16a" name="docs/manual/classes/listbox.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="e34e3ded83519fe1dc95aa1ecaf0eb91" name="docs/manual/classes/listview.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="8bac540d36779bb8f64e799a4dd48e59" name="docs/manual/classes/menu.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="8cf86b63f2dd6e974b41254280168ddb" name="docs/manual/classes/pushbutton.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="1a0bb2156c44fecc01591ba3acf801cc" name="docs/manual/classes/radiobutton.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="e78f3eb6d861925b4db57a08ea3956a1" name="docs/manual/classes/rtfeditbox.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="640f8deb182a8769b0a0e5fc523a8c5f" name="docs/manual/classes/scrollbar.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="ca5ab33f896de4b93634fa51439da6de" name="docs/manual/classes/slider.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="04fcc8c9f270de744f54a38b5b1395ed" name="docs/manual/classes/spinner.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="fe69e766abd5e1609539a56d81f0f156" name="docs/manual/classes/statusbar.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="ba12566a8d8418c724d9fc7aa848ae35" name="docs/manual/classes/tabcontrol.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="9b16a3e7ef561b4e538bad69ca198cdd" name="docs/manual/classes/toolbar.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="399338ff6af3bf01c0e1185555016f43" name="docs/manual/classes/treeview.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="4e3660c7eb5a87ea6a63e6960712e443" name="docs/manual/functions/wb_call_function.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="deb3ba8318b959e4052ef294d39c7889" name="docs/manual/functions/wb_create_control.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="12310cadc1c01eb7b8438cbaf5f8d003" name="docs/manual/functions/wb_create_font.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="63358cb69dd189e5d961535fa19f53bc" name="docs/manual/functions/wb_create_image.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="6a39665c4b4c330e6714e3d2fc875ca5" name="docs/manual/functions/wb_create_items.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="cdbda1e729d68fadfbcbe11835cbfa91" name="docs/manual/functions/wb_create_mask.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="ca9c226ec27db0e5e381a6eade8ee65b" name="docs/manual/functions/wb_create_timer.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="9eb7ff2418c3cf4e99fdd1ea87a91061" name="docs/manual/functions/wb_create_window.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="2c32380c2113c52199374d26d544bfc9" name="docs/manual/functions/wb_delete_items.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="e7991562cd1af4a02ded3bc408c6bfeb" name="docs/manual/functions/wb_destroy_control.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="a66f70baea970cfc1a8d010c2c762c25" name="docs/manual/functions/wb_destroy_font.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="f5a81ade07382ac9b53798db3d1369ad" name="docs/manual/functions/wb_destroy_image.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="7c49d60aa3ef3f0869b7482b3bff4485" name="docs/manual/functions/wb_destroy_timer.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="7625b3c2c297b3cb10228c588c6b4e95" name="docs/manual/functions/wb_destroy_window.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="9d01f57660c9b8595c83433c9b3555c2" name="docs/manual/functions/wb_draw_image.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="81dd85bb6150d8c75ce599df6e1eaade" name="docs/manual/functions/wb_draw_line.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="98384f0dd1ddf50f16801c4a643ff0f9" name="docs/manual/functions/wb_draw_point.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="aeebcf9c34c941bb55e1935458fd190a" name="docs/manual/functions/wb_draw_rect.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="a647c607a50ff975f09ef0950dfc6e19" name="docs/manual/functions/wb_draw_text.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="07242cc72018f202cdf3cfb659959259" name="docs/manual/functions/wb_exec.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="66a867209217df0649f43836ba19a841" name="docs/manual/functions/wb_find_file.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="13db5d645e427a004cc6b9afc38f40d4" name="docs/manual/functions/wb_get_address.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="121f3b688ac3bf74c3b9f4f1beaee38a" name="docs/manual/functions/wb_get_class.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="29d4605ad7850f9bbc780793851ae6ff" name="docs/manual/functions/wb_get_control.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="bffcc336c503e9a7a8fadc119102df7f" name="docs/manual/functions/wb_get_enabled.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="383231d15bae37e2a6273904eedcf2c2" name="docs/manual/functions/wb_get_focus.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="e48941e8e4784a40db8662cb740e65b6" name="docs/manual/functions/wb_get_function_address.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="6cc3a43ee1118c6201e241e99310e1d0" name="docs/manual/functions/wb_get_id.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="b8b73a6d33b02b1d68e377a5d6f92a87" name="docs/manual/functions/wb_get_image_data.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="16a4cc5593bf7ae20a61ed8982f6a7db" name="docs/manual/functions/wb_get_instance.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="10af511954856a4e2f7f5bed109f723e" name="docs/manual/functions/wb_get_item_count.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="82b1f39b685f38aea1958c2479981c44" name="docs/manual/functions/wb_get_item_list.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="1416d22f95e2f94182df7cd5796af993" name="docs/manual/functions/wb_get_level.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="1f3013dfbe2c1f6dcd51deed983721c3" name="docs/manual/functions/wb_get_parent.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="9cc07d613e87071a3c772269b56941ea" name="docs/manual/functions/wb_get_pixel.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="6c8bbbb079e132aa88d8369543ac7e4e" name="docs/manual/functions/wb_get_position.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="e1899fb5d8a51872c6f63eaf13fe6e2e" name="docs/manual/functions/wb_get_registry_key.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="750e23df029ac1b65960b456528c4cef" name="docs/manual/functions/wb_get_selected.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="9829c565c03e3fe377291596bbcf265d" name="docs/manual/functions/wb_get_size.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="687d5f29c85319c6d1261122fdc04c8f" name="docs/manual/functions/wb_get_state.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="5c3ff1255d618a39332e3817e98e89da" name="docs/manual/functions/wb_get_system_info.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="b3120e434cf55fb5a55d0cf1518f1306" name="docs/manual/functions/wb_get_text.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="ee1c79048905642bb27f85695d912f8d" name="docs/manual/functions/wb_get_value.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="f09cd7f17b4f8ddbc2d64039703a2fed" name="docs/manual/functions/wb_get_visible.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="f5d77fee086e1a27b2faf8d6e191f34e" name="docs/manual/functions/wb_load_image.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="56d69653c99237d8b065ca0f4549822b" name="docs/manual/functions/wb_load_library.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="5d5bfa0a801cfba0ae5a508d7668dea6" name="docs/manual/functions/wb_main_loop.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="7d0e038e0f827aaf40142b674a3a66f3" name="docs/manual/functions/wb_message_box.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="fee81aac248f6cdec3234f650b1439cc" name="docs/manual/functions/wb_peek.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="778392eb32f7dfca0f1d400b93e5bfe6" name="docs/manual/functions/wb_play_sound.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="cfc27b5385c6c91df22285d87c531a80" name="docs/manual/functions/wb_poke.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="c845acc60d443457cc6b6c83af18e61e" name="docs/manual/functions/wb_refresh.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="ba43f9df08fe869ccbd711ecb402d819" name="docs/manual/functions/wb_release_library.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="f1dcf53b6db42438d4b913f59015053f" name="docs/manual/functions/wb_save_image.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="8b538294a478b55ce54d77a4cebf698f" name="docs/manual/functions/wb_send_message.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="57ee5300e2f17d5e7214e272e7a84c30" name="docs/manual/functions/wb_set_area.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="d4c25d4d81bc205d32c35b46eb4eff2b" name="docs/manual/functions/wb_set_enabled.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="44e081bb69d09a6641dc98cd152271c5" name="docs/manual/functions/wb_set_focus.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="ec27b571491afc415c34acbb3c9b91f2" name="docs/manual/functions/wb_set_font.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="144275b132a245c95ec808d6839a029f" name="docs/manual/functions/wb_set_handler.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="73c4e09f4e04ffc7a58d286776f98add" name="docs/manual/functions/wb_set_image.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="6d8905d878c7b2526a292aec56021fbd" name="docs/manual/functions/wb_set_item_image.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="976cba2cfcebe3d96307e638f4c74e9e" name="docs/manual/functions/wb_set_location.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="4e3708c339a887972dcc95ce6316f163" name="docs/manual/functions/wb_set_position.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="f594bd152145ea74a19a4af5b138cda9" name="docs/manual/functions/wb_set_range.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="ab9464cc2c531bc778fe86f598063d82" name="docs/manual/functions/wb_set_registry_key.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="bd92a60e89702b30d4327c916fe33e85" name="docs/manual/functions/wb_set_selected.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="1f8a79d970d36480c3a0d9ec5527723e" name="docs/manual/functions/wb_set_size.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="36f1469977f6f84edd788cf66665c565" name="docs/manual/functions/wb_set_state.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="4c130da4a1a763cde110d156b965a1d0" name="docs/manual/functions/wb_set_style.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="d089c91e7d189ed72ff10fe311111820" name="docs/manual/functions/wb_set_text.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="df0d0ca5a1677f51bfc3a329582f21a5" name="docs/manual/functions/wb_set_value.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="f91206e299326c70d13161d3f9e376bc" name="docs/manual/functions/wb_set_visible.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="3f3965c045a66fd0d60b01351c35cea1" name="docs/manual/functions/wb_sort.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="2e29cf869bc8d4be1f1cbacad6a095b4" name="docs/manual/functions/wb_sys_dlg_color.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="047d4aad8b98cef96bf47e3ab8df0de4" name="docs/manual/functions/wb_sys_dlg_open.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="13b32020d49a24a6460e84ebe160fb75" name="docs/manual/functions/wb_sys_dlg_path.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="1b1b465f6a0ae5d444836b9703e78236" name="docs/manual/functions/wb_sys_dlg_save.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="dfdd15fbcec7ca995e6ef8362cc8e861" name="docs/manual/functions/wb_wait.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="9b9956b1b4a130bf2efc35ab26e3db14" name="docs/manual/functions/auxiliary/generate_ini.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="27878712fa2776739478e1cd3f317aa9" name="docs/manual/functions/auxiliary/get_folder_files.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="68fd83dcf303a6f002d99abdcb4f50fd" name="docs/manual/functions/auxiliary/parse_ini.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="cc667dc42e1de080341c5e2303fba638" name="docs/manual/functions/auxiliary/parse_rc.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="816058394601ec59461e072dcc056229" name="docs/manual/functions/db/db_close_database.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="5db0fc379cb19f42a623f2dd0e66fcb5" name="docs/manual/functions/db/db_create_field.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="1128d8e1e865983fba289d6c5640602d" name="docs/manual/functions/db/db_create_record.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="4d7307b621c475a78bd4fff753863ca7" name="docs/manual/functions/db/db_create_table.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="fd7084e2adcbb7faa948d17005e94189" name="docs/manual/functions/db/db_delete_field.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="efc12775273e50260be1932dcc63db96" name="docs/manual/functions/db/db_delete_records.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="b8f026f2a18a65f5bf301361464c631b" name="docs/manual/functions/db/db_delete_table.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="15361e589f488ef2ea4002e8faffd350" name="docs/manual/functions/db/db_edit_field.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="d8712eadfc8b734f48e1925757a28933" name="docs/manual/functions/db/db_edit_record.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="19e7e46a748c0ea41e1242807716a9bb" name="docs/manual/functions/db/db_escape_string.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="6f33284c138bdd65e6ada051c519354c" name="docs/manual/functions/db/db_fetch_array.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="a951d79cb894533db42b07f0adbdb8aa" name="docs/manual/functions/db/db_free_result.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="719b579aa51ddcff44ebd0e96f9c6a62" name="docs/manual/functions/db/db_get_data.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="26a7364fc2a61be1bedc71df7b153be3" name="docs/manual/functions/db/db_get_id.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="2675710a854449db16f1cd2d76387ce7" name="docs/manual/functions/db/db_get_info.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="8bc939d528199537ea52bacd892cdfe6" name="docs/manual/functions/db/db_get_next_free_id.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="e9db09cf302dce749806f3c74f031c00" name="docs/manual/functions/db/db_list_database_tables.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="b27925c9dc42bd366d08e231b37a15bf" name="docs/manual/functions/db/db_list_table_fields.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="02f487f2e67e83afaeaf95c436267f9f" name="docs/manual/functions/db/db_open_database.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="89e0490600ebb08ccdc1e2709daba4bc" name="docs/manual/functions/db/db_query.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="c80dcbeb18304778d788f6d117db703f" name="docs/manual/functions/db/db_rename_field.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="a7bbc98a33c7798fe2bd770653feffdd" name="docs/manual/functions/db/db_rename_table.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="210159a6fedb3d623029fa2ccad2a5b6" name="docs/manual/functions/db/db_swap_records.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="af7a43bc292d401197da80cbc1061f7e" name="docs/manual/functions/db/db_table_exists.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="174b2a66708b0c536dbd047d18a5e19b" name="docs/manual/scratchpad.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="5a82e6977b2d759d11e086b1da1a6aa7" name="docs/manual/what_is.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="8b03a77026dd1f5008f91490c25d6fac" name="docs/manual/classes/accel.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="f901397aff2eb161bcf8f3e308db25a6" name="docs/manual/classes/calendar.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="5253c2bbb351ac7cecba0d8d1f183a14" name="docs/manual/classes/checkbox.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="2a06dc83b378cf04d36bffce2364df2d" name="docs/manual/classes/combobox.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="5c4d7a8d60d4d2d4b52f3c39ad0a41e8" name="docs/manual/classes/editbox.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="b63deba9aef426ae1630d417a57d2b18" name="docs/manual/classes/frame.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="22afebcc641f137181e41820d3738df7" name="docs/manual/classes/gauge.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="76026fe3bb83f329f9ebebc5cf0c0935" name="docs/manual/classes/htmlcontrol.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="ba16d78d237d4676dd651f88f4c75290" name="docs/manual/classes/hyperlink.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="e85184aab6d9b26812056ca46f7bc720" name="docs/manual/classes/imagebutton.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="fb5960f3d31d8df1fb79180d0f9f1e16" name="docs/manual/classes/invisiblearea.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="542d5506227417ee15499d50e9e0b9c9" name="docs/manual/classes/label.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="b9787d44bbee805bb847d6a3e7e9e6e1" name="docs/manual/classes/listbox.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="76f609f71a2ee4cb74a7bb69608c5180" name="docs/manual/classes/listview.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="9f7defbb17614162ac8231b65ed85363" name="docs/manual/classes/menu.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="7434a3b22c4b770407507cee7e1dfbea" name="docs/manual/classes/pushbutton.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="f38acce5452267883332c594fae6829f" name="docs/manual/classes/radiobutton.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="67333b520df6ac792b83b1fed0b82973" name="docs/manual/classes/rtfeditbox.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="9f86f347abf26582114c80be446c165d" name="docs/manual/classes/scrollbar.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="f34316f42f228f19d20a58f42d8ba8a3" name="docs/manual/classes/slider.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="95c5ad9536d91ab87a5e4d7fccd69fd8" name="docs/manual/classes/spinner.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="4126450d357bba1b917d13c85ef3c1d7" name="docs/manual/classes/statusbar.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="73085f3085215504d00bf9c62578769a" name="docs/manual/classes/tabcontrol.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="689d804ad5887e7e47034f94179c16be" name="docs/manual/classes/toolbar.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="f57349a54611cb0a6bcb54518d48ca33" name="docs/manual/classes/treeview.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="3459a0a2d618d6523c240afac31c1d15" name="docs/manual/functions/wb_call_function.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="307c3fb0ce71c63c8af3f08875252c27" name="docs/manual/functions/wb_create_control.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="56b1a65bbf2e41c8e135fef1f4a4b1f4" name="docs/manual/functions/wb_create_font.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="d32d0ea9def1e6ddd2704724bf822dd2" name="docs/manual/functions/wb_create_image.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="6d7d765b091541051ac0f4f024586aac" name="docs/manual/functions/wb_create_items.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="ef6c890bd04cf5028198cddd089592c5" name="docs/manual/functions/wb_create_mask.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="03a4f25d88f7b22d6a3accfbc6c83ad8" name="docs/manual/functions/wb_create_timer.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="67afb39d2cc0af041160d0ee6526a2f6" name="docs/manual/functions/wb_create_window.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="353f1eb1627c5bde09a538624bff16fe" name="docs/manual/functions/wb_delete_items.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="6778b9070bd0c7f72860e48e08eb90cc" name="docs/manual/functions/wb_destroy_control.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="d4cb4601f3a0336bf77c703287a427b2" name="docs/manual/functions/wb_destroy_font.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="26f75c2de5a6f4c16e550f008ed8a2ad" name="docs/manual/functions/wb_destroy_image.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="c7b6f1876e278108d46ada031c9c3034" name="docs/manual/functions/wb_destroy_timer.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="c257753d4885336c698b9807dd21c00c" name="docs/manual/functions/wb_destroy_window.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="0ad412cf43a18da8431728d18415f85e" name="docs/manual/functions/wb_draw_image.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="3d249991d4cdb16fedec4ebed65320a4" name="docs/manual/functions/wb_draw_line.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="b730313b5f518d57a6edd77b07ea8bcf" name="docs/manual/functions/wb_draw_point.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="091d9a974185db587f2f6e6065081bf8" name="docs/manual/functions/wb_draw_rect.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="8f99c34f29e7372426ef28bcce0344a2" name="docs/manual/functions/wb_draw_text.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="3274398da485680e365822dcad989214" name="docs/manual/functions/wb_exec.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="cc8901c913124077667610cb1ba55cd0" name="docs/manual/functions/wb_find_file.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="464c2712507202445f8696ba9da12e13" name="docs/manual/functions/wb_get_address.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="9ce5922a1661e0fad255f5a0fe9f60e4" name="docs/manual/functions/wb_get_class.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="51dde6a88662dec42dfad0a5059a09ee" name="docs/manual/functions/wb_get_control.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="a1952f63d957b88a182b16eef9578a11" name="docs/manual/functions/wb_get_enabled.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="7a450f596d34760bf21ed961da72d87c" name="docs/manual/functions/wb_get_focus.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="64857d277735b739661e94a389a71ef5" name="docs/manual/functions/wb_get_function_address.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="d06b739b13c20328a80e6baa8b30af7b" name="docs/manual/functions/wb_get_id.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="1b1d16c1c849adfa713251cb34acf71e" name="docs/manual/functions/wb_get_image_data.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="c355f7e6b2f62ad18b08a774a73c5692" name="docs/manual/functions/wb_get_instance.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="106657b32623c9a14e06c236dcde9eca" name="docs/manual/functions/wb_get_item_count.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="97a4028100dfbf43306540672acf4f31" name="docs/manual/functions/wb_get_item_list.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="cefac45b2f3d0d433c023c6a5b83fe32" name="docs/manual/functions/wb_get_level.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="c52b71fdff92e0dbd7891614f5c7207d" name="docs/manual/functions/wb_get_parent.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="efd7c66c593e761552bb388805a0fc39" name="docs/manual/functions/wb_get_pixel.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="df5f199d9cfe2faf103c3716aaad1256" name="docs/manual/functions/wb_get_position.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="553b16fc159cbf34e41c68019b72db5f" name="docs/manual/functions/wb_get_registry_key.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="c7fd822ec9a0cefbecbc60f94dc49da9" name="docs/manual/functions/wb_get_selected.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="29f9feaa7d095aadd46361bb2738f4d8" name="docs/manual/functions/wb_get_size.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="6648a6de920d91c788540aebb5be5079" name="docs/manual/functions/wb_get_state.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="ff541f6d315908207237b0724924a7ae" name="docs/manual/functions/wb_get_system_info.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="1b17dbf997cbee7d58d6af51777989ea" name="docs/manual/functions/wb_get_text.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="7167d31c4ae27b2bac13942a1e75a343" name="docs/manual/functions/wb_get_value.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="d19beec59ea2a9e681787941e129ef23" name="docs/manual/functions/wb_get_visible.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="0b8756e4966c3eb874e674d9e5113910" name="docs/manual/functions/wb_load_image.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="4d10e323d90d1787511b46100124a220" name="docs/manual/functions/wb_load_library.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="11d6651aade9abf6104d0d84cdef6fc4" name="docs/manual/functions/wb_main_loop.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="6e1521ace1874a8270974247035a8ce1" name="docs/manual/functions/wb_message_box.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="844f88d82540cdfcf89561564bb9d492" name="docs/manual/functions/wb_peek.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="310aadd0fd9318d76224a60b9a2caab6" name="docs/manual/functions/wb_play_sound.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="9838f65c32097c5f43fdf126114a2eae" name="docs/manual/functions/wb_poke.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="9664f9ed3838fd3b55dfa19e022e6c15" name="docs/manual/functions/wb_refresh.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="2c4d5afb104de7450cec1cec36809ef9" name="docs/manual/functions/wb_release_library.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="be8844c9bb36cabf75e53f835b1d6a8f" name="docs/manual/functions/wb_save_image.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="8a5f1323714ba3c97bf156b5bdfe9887" name="docs/manual/functions/wb_send_message.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="c2ec71213fceb3e496603a94f11cafda" name="docs/manual/functions/wb_set_area.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="5b6b916c2390f59a7bad6335f3266d3f" name="docs/manual/functions/wb_set_enabled.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="a110eaa47fe24d08761dc89a1adb3c02" name="docs/manual/functions/wb_set_focus.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="9f4a9f2981a1e644a69aceec78c5fe56" name="docs/manual/functions/wb_set_font.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="909549a032ae58d118bfdf97a5221f8e" name="docs/manual/functions/wb_set_handler.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="445e3ea200ce8fd649b439c1038dd360" name="docs/manual/functions/wb_set_image.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="27b0a7828327f3bee4cec513f59c53ba" name="docs/manual/functions/wb_set_item_image.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="ff8d33f3d3954452dd88652c68edfcd7" name="docs/manual/functions/wb_set_location.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="96cf883de466b50d3ed58d1ff6a1e077" name="docs/manual/functions/wb_set_position.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="151c499164ae33468a9a1d526e78fcfa" name="docs/manual/functions/wb_set_range.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="c03e1879d7ebe43196bf9603f4fdc1a6" name="docs/manual/functions/wb_set_registry_key.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="8b980ba0f2caeafa268c4653e2a42fcc" name="docs/manual/functions/wb_set_selected.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="bcb3ead12b93e866cb6a3f14eab7dc8a" name="docs/manual/functions/wb_set_size.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="064fa70c83a655f934a0d944907eb841" name="docs/manual/functions/wb_set_state.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="17398edff284d45a8009fe0e9b72e356" name="docs/manual/functions/wb_set_style.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="bfddc43a29f521b63a1e884172d46497" name="docs/manual/functions/wb_set_text.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="ab0972446a10805bfa222ab7704c0187" name="docs/manual/functions/wb_set_value.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="8832af39e36616f079ad2754c2895d72" name="docs/manual/functions/wb_set_visible.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="cf269826b73987ea3554deca5fbc0812" name="docs/manual/functions/wb_sort.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="7dda6f5929841a668d1aa9ca67a7871c" name="docs/manual/functions/wb_sys_dlg_color.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="05c838f690082517a1180b4cba3d7a96" name="docs/manual/functions/wb_sys_dlg_open.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="e519be633a529ae5768b076736c8a2c8" name="docs/manual/functions/wb_sys_dlg_path.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="060941e2653b5a59b226cb327a5fac6b" name="docs/manual/functions/wb_sys_dlg_save.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="2e751f6f7c5a3e7a6491362e3a526531" name="docs/manual/functions/wb_wait.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="5f29c417fe10b176f89d8e06f3493c0a" name="docs/manual/functions/auxiliary/generate_ini.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="7018e9a738bf3e5ebb6673ef26b10a26" name="docs/manual/functions/auxiliary/get_folder_files.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="d3e20b70e0bada4441758d9de7a0665d" name="docs/manual/functions/auxiliary/parse_ini.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="c58b375fa2932af77b76e780dd4cb946" name="docs/manual/functions/auxiliary/parse_rc.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="e61c6a5eb67c17a190d4410f99f24add" name="docs/manual/functions/db/db_close_database.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="06ffc9e96b0df0b3e78dd8cd38f7030b" name="docs/manual/functions/db/db_create_field.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="40e2093bc5458607c42860bc393f7373" name="docs/manual/functions/db/db_create_record.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="1620f8b134844453674334963883abe3" name="docs/manual/functions/db/db_create_table.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="56c9536533093aedfc719dd696cea354" name="docs/manual/functions/db/db_delete_field.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="a1634beccc56855ffbb9711f6b0f745d" name="docs/manual/functions/db/db_delete_records.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="fa1467604bd2e9f272723d7b78fb8de1" name="docs/manual/functions/db/db_delete_table.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="a52d258a270165a4c430b8659bab8653" name="docs/manual/functions/db/db_edit_field.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="ca524315097185067309cae230b65c1d" name="docs/manual/functions/db/db_edit_record.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="ee0779c501d1d1892ca1f2c7328a7b4f" name="docs/manual/functions/db/db_escape_string.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="cb916b11466d5076c493d81c9a061c93" name="docs/manual/functions/db/db_fetch_array.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="3521dfb13c3d698f8dd2cf36f8a040c3" name="docs/manual/functions/db/db_free_result.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="7a0142179a64966ce708f40edb43c5b9" name="docs/manual/functions/db/db_get_data.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="35247d5f3e90306270d24ed34b9bb957" name="docs/manual/functions/db/db_get_id.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="a4789487c281d2dde39884ac6cc7aa2e" name="docs/manual/functions/db/db_get_info.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="b5d844b5095b0aed6b01a366ba3c5225" name="docs/manual/functions/db/db_get_next_free_id.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="17f7c4baebde0b2364d479f894f4dba0" name="docs/manual/functions/db/db_list_database_tables.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="06fbfba9c786ac5d10b5212554ad4503" name="docs/manual/functions/db/db_list_table_fields.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="024e54b52bad6f501f3e3736753881be" name="docs/manual/functions/db/db_open_database.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="49b282917f6e31aed47d13e0a086bf84" name="docs/manual/functions/db/db_query.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="f052be9b07c6e1c1cf9519351fd55b55" name="docs/manual/functions/db/db_rename_field.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="a625a6830c9e16e72fbb70710b072c22" name="docs/manual/functions/db/db_rename_table.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="5d59a38e28e34100d9b39236d876a15c" name="docs/manual/functions/db/db_swap_records.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="5d54f054452758fad9fb50216388466a" name="docs/manual/functions/db/db_table_exists.html" role="doc" />
    <file baseinstalldir="WinBinder" md5sum="e4df782807828b48cbf87860c2bafc0f" name="docs/manual/images/class_attrib.png" role="doc" />
    <file baseinstalldir="WinBinder" md5sum="bc2d6826c061a1bebe03a2ecc242048f" name="docs/manual/images/class_comment.png" role="doc" />
    <file baseinstalldir="WinBinder" md5sum="f8b483a1d2cb8910be0f21ce88e34233" name="docs/manual/images/class_final.png" role="doc" />
@@ -324,26 +679,26 @@ For further enhancements and bug fixes since the last official release 0.43.164 
    <file baseinstalldir="WinBinder" md5sum="89a5810d5f8108180f580ab5d30eddd4" name="docs/manual/images/icon_tip.png" role="doc" />
    <file baseinstalldir="WinBinder" md5sum="543bfa49d5cd488001268b3e2add0173" name="docs/manual/images/icon_warning.gif" role="doc" />
    <file baseinstalldir="WinBinder" md5sum="e4fd8d65f73903045a3077b151a438da" name="docs/manual/images/pixel_white_1.png" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="13fc207b2fdf5062154b1b324f336e48" name="docs/manual/overviews/applications.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="17e34020a71e4797d527949653882377" name="docs/manual/overviews/callback_functions.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="c40f8a969ae3b8d9d50dc8c5a26d7ccc" name="docs/manual/overviews/database_support.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="4566b68e375e6d9a73b2fc0c9ea58a0b" name="docs/manual/overviews/handles.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="fe58249ec185a490a7539a44b7cb2944" name="docs/manual/overviews/how_it_works.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="43e6279f72ecfa931b0befa0e8481758" name="docs/manual/overviews/main_loop.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="d30b8441a1310ad7450d6534c2c6eba5" name="docs/manual/overviews/naming_conventions.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="c9b0e56926e013fdefeaa17f067b002f" name="docs/manual/overviews/parameters_returns.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="655f7b93f9b090a6cea94b5329330fdd" name="docs/manual/overviews/running.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="eb44eb637350ae598168df246fe2a4dc" name="docs/manual/overviews/windows_messages.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="6674204f6cba67892a8b671e2e78753f" name="docs/manual/reference/classes_control.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="3dc880c75f9dd2cb29d5d0da61181b94" name="docs/manual/reference/classes_window.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="e0ae4e6a41872ad5087fbe00bf60ec30" name="docs/manual/reference/constants.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="f61ece19d2644e342143cda1c0c82ad4" name="docs/manual/reference/functions_alphabetical.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="23fed5dcf7dd8f78b34374bb5290f6c7" name="docs/manual/reference/functions_aux.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="3d8c4ff0d9a69dcbd32368fcb3e60369" name="docs/manual/reference/functions_category.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="18be3064f675d408cd0a71e96cbf89fb" name="docs/manual/reference/functions_database.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="e0f658768d3f4b2ddea67d748f791625" name="docs/manual/reference/global_variables.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="5df3f94d0d2554234da9cb1fd5a15357" name="docs/manual/reference/ooi.html" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="4ebe2d5eab3fd84846648e311b16da61" name="docs/manual/tools/building.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="fab115bd3aaa2cfaf7593e482789df05" name="docs/manual/overviews/applications.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="cc6fd008c9631fbe455b9db8dad4bb8d" name="docs/manual/overviews/callback_functions.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="ba12275d3d1a69f03d5a38fb6ab5dbcb" name="docs/manual/overviews/database_support.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="067288f9e7f52dedb18107627aac70a7" name="docs/manual/overviews/handles.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="48fb6eb5f9e12d2813460a0d6fe05036" name="docs/manual/overviews/how_it_works.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="5b2a6ce70d2dea3fb3c1ca796b716e41" name="docs/manual/overviews/main_loop.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="d2028c40efd0b42ef5549e3615a34125" name="docs/manual/overviews/naming_conventions.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="0acd6091259f763ff7a6fb1db08c19f8" name="docs/manual/overviews/parameters_returns.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="bf9995ce51ca102fa864285a406e4bd0" name="docs/manual/overviews/running.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="47500f11a9cd7680b6c689e9bdfd3a9c" name="docs/manual/overviews/windows_messages.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="da508a7852378c0d99082ee6440e7320" name="docs/manual/reference/classes_control.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="1379c82e72ee0df01b647ed8b21027a7" name="docs/manual/reference/classes_window.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="be05e773aebe4cfe10de2236523b90df" name="docs/manual/reference/constants.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="bab1c290ad9c50c7fbf043846cc0be22" name="docs/manual/reference/functions_alphabetical.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="d229d6de1ed90e680022c2f8f344bee5" name="docs/manual/reference/functions_aux.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="e8ea35703ba8b502a7560e4d96f42408" name="docs/manual/reference/functions_category.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="2595a4f35d620eb19bd23648c0add509" name="docs/manual/reference/functions_database.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="7f8205a4a649e386d26cda93421c7957" name="docs/manual/reference/global_variables.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="19cb6ab810066ebde97a81b00728c1e8" name="docs/manual/reference/ooi.html" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="9b31295486127c8dd3af4172dbab92d0" name="docs/manual/tools/building.html" role="doc" />
    <file baseinstalldir="WinBinder" md5sum="accc6720b804d8644ab3e898e87313b2" name="phpcode/examples/accel.phpw" role="doc" />
    <file baseinstalldir="WinBinder" md5sum="e63d0e947cb5f13582463157f2cb23cd" name="phpcode/examples/borderless.phpw" role="doc" />
    <file baseinstalldir="WinBinder" md5sum="7f113e0256befb3bea76c05fa4ca1f05" name="phpcode/examples/calc.phpw" role="doc" />
@@ -361,7 +716,7 @@ For further enhancements and bug fixes since the last official release 0.43.164 
    <file baseinstalldir="WinBinder" md5sum="2affa5c42f0d4b967bff340a119b9ade" name="phpcode/examples/hello.phpw" role="doc" />
    <file baseinstalldir="WinBinder" md5sum="a604cbf70fde804847d44d68df0ceeb1" name="phpcode/examples/hello_oo.phpw" role="doc" />
    <file baseinstalldir="WinBinder" md5sum="d63a40a5a75b7e11edd76fc4451f443d" name="phpcode/examples/html_control.phpw" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="96eeb13e6d53c8de991d29adf2390cc1" name="phpcode/examples/hyperlink.phpw" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="5079da002daa338acec2a01a512acff3" name="phpcode/examples/hyperlink.phpw" role="doc" />
    <file baseinstalldir="WinBinder" md5sum="44e7b8c7396a780801cfb96ce2ce250c" name="phpcode/examples/images.phpw" role="doc" />
    <file baseinstalldir="WinBinder" md5sum="1d8834172deb298f02e5430acd2bda94" name="phpcode/examples/invisible.phpw" role="doc" />
    <file baseinstalldir="WinBinder" md5sum="338c50f73696f8ea9e3e80b36eeb1d32" name="phpcode/examples/leaks.phpw" role="doc" />
@@ -401,7 +756,7 @@ For further enhancements and bug fixes since the last official release 0.43.164 
    <file baseinstalldir="WinBinder" md5sum="ccaa60dd99b3e6b94d6b23725aba0481" name="phpcode/examples/treeview.phpw" role="doc" />
    <file baseinstalldir="WinBinder" md5sum="a460c1f287a627058ac914cadffa9e2d" name="phpcode/examples/ttfreader.phpw" role="doc" />
    <file baseinstalldir="WinBinder" md5sum="cb9eedcd08cd302f9d2ee851ae02c124" name="phpcode/examples/wait.phpw" role="doc" />
-   <file baseinstalldir="WinBinder" md5sum="92253101e5fcdd239e35712339d45890" name="phpcode/examples/welcome.phpw" role="doc" />
+   <file baseinstalldir="WinBinder" md5sum="0496700d42b8847602bfbb29aaf38e6d" name="phpcode/examples/welcome.phpw" role="doc" />
    <file baseinstalldir="WinBinder" md5sum="718afa961201522d02352e9b7bbf401b" name="phpcode/examples/window_tutorial.phpw" role="doc" />
    <file baseinstalldir="WinBinder" md5sum="934c68cb530828675e8eb2ae5ce55f36" name="phpcode/examples/db/db_test.phpw" role="doc" />
    <file baseinstalldir="WinBinder" md5sum="97483d841162b2d569887698bae1416d" name="phpcode/examples/db/sqlite_db_check.db" role="doc" />
@@ -557,9 +912,9 @@ For further enhancements and bug fixes since the last official release 0.43.164 
    <file baseinstalldir="WinBinder" md5sum="f5ce345c176a5d65278d2cc0146b1eac" name="tools/info-zip/cmd.php" role="data" />
    <file baseinstalldir="WinBinder" md5sum="6240c7c139c756bff60b7ad1bfc7f57f" name="tools/info-zip/release_zipme.txt" role="data" />
    <file baseinstalldir="WinBinder" md5sum="0b9bf2a5700985445c83a82677e6231b" name="tools/info-zip/release_zipmenot.txt" role="data" />
-   <file baseinstalldir="WinBinder" md5sum="9d632b8728a60404eea34c870dcca420" name="tools/inno_setup/wb_setup.iss" role="data" />
-   <file baseinstalldir="WinBinder" md5sum="cc018daf819747d91d3e6d193969b92b" name="tools/inno_setup/wb_setup.pas" role="data" />
-   <file baseinstalldir="WinBinder" md5sum="0e090719a17c412cb94898d4d0f166d6" name="tools/inno_setup/wb_setup_log.txt" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="74cc2db98035e43b7b27ba27789d18ee" name="tools/inno_setup/wb_setup.iss" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="697293d7637063ea0346438aec706f54" name="tools/inno_setup/wb_setup.pas" role="data" />
+   <file baseinstalldir="WinBinder" md5sum="a925a295c6a3092e0bd5d1e1038c5b36" name="tools/inno_setup/wb_setup_log.txt" role="data" />
    <file baseinstalldir="WinBinder" md5sum="c367ae5fe89f0858e9ac5ce6f6a45042" name="tools/lcc-win32/readme_lccwin32.txt" role="data" />
    <file baseinstalldir="WinBinder" md5sum="b9f03bea58911c0c4ae6ad523e2b61d5" name="tools/lcc-win32/c/Makefile" role="data" />
    <file baseinstalldir="WinBinder" md5sum="860b07bc44158bfa4bd5fdb9ab72b22a" name="tools/lcc-win32/c/winbinder_c.prj" role="data" />
@@ -633,7 +988,7 @@ For further enhancements and bug fixes since the last official release 0.43.164 
     <release>alpha</release>
     <api>alpha</api>
    </stability>
-   <date>2006-06-05</date>
+   <date>2006-06-09</date>
    <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License</license>
    <notes>This is the last maintenance release of the alpha branch. WinBinder now does fully support the following PHP versions: 4.3.10 up to 4.4.2 and 5.0.3 up to 5.1.4.
 
@@ -651,7 +1006,7 @@ ENHANCEMENTS:
 
 - added and optional extra parameter (usually called $lparam3) to window callback functions. This was done via wbCallUserFunction()
 
-- on windows that have the WBC_RESIZE style, $lparam3 (in the callback function) now receives the size of the client area as a LONG. Usually a call to wb_get_size($window, true) would produce the same effect, but it\&apos;s there anyway to take advantage of the new $lparam3
+- on windows that have the WBC_RESIZE style, $lparam3 (in the callback function) now receives the size of the client area as a LONG. Usually a call to wb_get_size($window, true) would produce the same effect, but it&apos;s there anyway to take advantage of the new $lparam3
 
 - Changes in make_release.phpw:
 
@@ -687,7 +1042,7 @@ BUG FIXES:
 - wb_refresh() (and wbRefreshControl()):
 
 . completely rewrote the whole function
-. default value of parameter \&apos;now\&apos; was changed to TRUE
+. default value of parameter &apos;now&apos; was changed to TRUE
 . now it invalidates and redraws only a part of the screen or control when (still undocumented) xpos/ypos/width/height parameters are passed to it. Was buggy prior to this release.
 . probably a bit faster for most operations
 . if the wb_refresh() command is issued and the xpos/ypos/width/height are set, the window callback function (in PHP) receives a pointer to rectangle (About to change! Should be the area instead, and an array would be great.) as $lparam3. If wb_refresh() acts on the whole window, $lparam3 is zero.
@@ -696,11 +1051,13 @@ BUG FIXES:
   as follows:
 
   $address = wb_peek($lparam3, 16);
-  $num = unpack(\&apos;L4n\&apos;, $address);
-  $xpos = $num[\&apos;n1\&apos;];
-  $ypos = $num[\&apos;n2\&apos;];
-  $width = $num[\&apos;n3\&apos;] - $xpos;
-  $height = $num[\&apos;n4\&apos;] - $ypos;
+  $num = unpack(&apos;L4n&apos;, $address);
+  $xpos = $num[&apos;n1&apos;];
+  $ypos = $num[&apos;n2&apos;];
+  $width = $num[&apos;n3&apos;] - $xpos;
+  $height = $num[&apos;n4&apos;] - $ypos;
+
+- Added handling of the official PHP 4.4.2 bug reported at http://bugs.php.net/bug.php?id=36671 and regarding the function file_get_contents in examples/welcome.phpw
 
 - Changes in make_release.phpw:
 
