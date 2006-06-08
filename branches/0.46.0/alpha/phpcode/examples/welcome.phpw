@@ -43,6 +43,7 @@ define("ID_FORUM",		110);
 define("ID_PHPDOC",		111);
 define("ID_PHPVER",		112);
 define("ID_PHPDL",		113);
+define("ID_FEDITOR",	114);
 
 define("APPNAME",		"Welcome to WinBinder");			// Application name
 define("HELP_FILE",		PATH_DOC . "winbinder.chm");		// Help file
@@ -80,8 +81,8 @@ wb_create_control($mainwin, ToolBar, array(
 	array(ID_RELNOTES,	NULL, "&Release notes",			0),
 	array(ID_CHANGELOG,	NULL, "&Changelog",				23),
 	null,
-  	array(ID_HELP,		NULL, "WinBinder manual ", 		13),
-  	array(ID_WEBSITE,	NULL, "Web site", 				11),
+	array(ID_HELP,		NULL, "WinBinder manual ", 		13),
+	array(ID_WEBSITE,	NULL, "Web site", 				11),
 	null,
 	array(ID_ABOUT, 	NULL, "About this application",	19),
 ), 0, 0, 16, 15, 0, 0, PATH_RES . "toolbar.bmp");
@@ -103,7 +104,8 @@ $buttons = array(
 	array(ID_FORUM,		"WinBinder Forum"),
 	array(ID_PHPDOC,	"PHP documentation"),
 	array(ID_PHPVER,	"Check PHP version"),
-	array(ID_PHPDL,		"PHP download page")
+	array(ID_PHPDL,		"PHP download page"),
+	array(ID_FEDITOR,	"Form Editor (FE)")
 );
 
 $nbuttons = count($buttons);
@@ -177,7 +179,7 @@ function process_main($window, $id)
 
 			// Thanks to Stefano for the code below
 
-			$file = file_get_contents(PHP_DOWNLOAD_URL);
+			$file = PHP_VERSION > '4.4.2' ? file_get_contents(PHP_DOWNLOAD_URL) : 'PHP 4.4.2 zip package';
 
 			if(preg_match('/PHP (' . substr(PHP_VERSION, 0, 2) . '\d\.\d) zip package/', $file, $match)) {
 				if($match[1] > PHP_VERSION)
@@ -192,6 +194,14 @@ function process_main($window, $id)
 		case ID_PHPDL:
 			if(!wb_exec(PHP_DOWNLOAD_URL))
 				wb_message_box($window, WEB_ERROR);
+			break;
+
+		case ID_FEDITOR:
+			$formEditor = realpath(PATH_SCRIPT . "../form_editor/fe_main.phpw");
+
+			if(!wb_exec("php-win.exe", $formEditor))
+				wb_message_box($window, "The new Form Editor (FE) can not be launched." . PHP_EOL
+					. "Please check your WinBinder installation.", null, WBC_WARNING);
 			break;
 
 		case ID_ABOUT:
